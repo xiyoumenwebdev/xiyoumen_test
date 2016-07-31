@@ -14,7 +14,7 @@ from flask import session, jsonify, redirect
 from flask_restful import Resource, fields
 
 from xiyoumenapp import webapp, db
-from xiyoumenapp.models import Classroom, Users
+from xiyoumenapp.models import Classroom, Users, Users_Classroom
 from xiyoumenapp.conference import Conference
 
 
@@ -53,9 +53,17 @@ class ClassRoom(Resource):
                     os.path.join("frontend", fname)))
             if ('classid' in session) and (
                     'userid' in session):
-                print(session['classid'])
-                print(session['userid'])
-                return webapp.send_static_file('\classroom\classroom.html')
+                classid = session['classid']
+                userid = session['userid']
+
+                users = Users.query.filter_by(id=userid).all()
+                roleid = users[0].roleid
+
+                if roleid == 1:
+                    return webapp.send_static_file('classroom_teacher.html')
+                elif roleid == 2:
+                    return webapp.send_static_file('classroom_student.html')
+
                 # return webapp.send_static_file(fpath)
             else:
                 # return redirect(fields.url_for('login_ep'))
@@ -109,8 +117,32 @@ class Info(Resource):
                 classname = classroom[0].name
                 users = Users.query.filter_by(id=userid).all()
                 username = users[0].name
-                userinfo["classname"] = classname
-                userinfo["username"] = username
+                userrole = users[0].roleid
+                if userrole == 1:
+                    uc = Users_Classroom.query.filter_by(classid=classid).all()
+                    tid_list = [ti.id for ti in uc if (ti.id != userid)]
+                    
+                    users = Users.query.filter_by(roleid=2).all()
+                    stu_list = []
+                    for stu in users:
+                        if stu.id in tid_list:
+                            stu_list.append(stu.name)
+
+                    userinfo["classname"] = classname
+                    userinfo["username"] = username
+                    userinfo["student"] = stu_list
+                elif userrole == 2:
+                    uc = Users_Classroom.query.filter_by(classid=classid).all()
+                    tid_list = [ti.id for ti in uc]
+                    teacher = Users.query.filter_by(roleid=1).all()
+                    for i in teacher:
+                        if i.id in tid_list:
+                            tea_name = i.name
+                            break
+
+                    userinfo["classname"] = classname
+                    userinfo["username"] = username
+                    userinfo["teacher"] = tea_name
                 return userinfo 
             else:
                 return userinfo 
