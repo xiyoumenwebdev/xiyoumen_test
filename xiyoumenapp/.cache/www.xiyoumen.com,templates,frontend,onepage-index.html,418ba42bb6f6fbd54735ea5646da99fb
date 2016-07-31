@@ -1,0 +1,575 @@
+status: 200
+content-location: http://www.xiyoumen.com/templates/frontend/onepage-index.html
+etag: W/"25483-1469869338000"
+date: Sat, 30 Jul 2016 16:24:01 GMT
+accept-ranges: bytes
+connection: keep-alive
+content-length: 25483
+server: nginx/1.6.3
+access-control-allow-origin: *
+content-type: text/html;charset=UTF-8
+last-modified: Sat, 30 Jul 2016 09:02:18 GMT
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 3.4
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest (the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="zh-CN">
+	<!--<![endif]-->
+
+	<!-- Head BEGIN -->
+	<head>
+		<meta charset="utf-8">
+		<title>西友们</title>
+
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<meta content="Metronic Shop UI description" name="description">
+		<meta content="Metronic Shop UI keywords" name="keywords">
+		<meta content="keenthemes" name="author">
+
+		<meta property="og:site_name" content="-CUSTOMER VALUE-">
+		<meta property="og:title" content="-CUSTOMER VALUE-">
+		<meta property="og:description" content="-CUSTOMER VALUE-">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="-CUSTOMER VALUE-">
+		<!-- link to image for socio -->
+		<meta property="og:url" content="-CUSTOMER VALUE-">
+
+		<link rel="shortcut icon" href="../../assets/frontend/onepage/img/logo/logo.ico">
+		<!-- Fonts START -->
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Pathway+Gothic+One|PT+Sans+Narrow:400+700|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+		<!-- Fonts END -->
+		<!-- Global styles BEGIN -->
+		<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="../../assets/global/plugins/slider-revolution-slider/rs-plugin/css/settings.css" rel="stylesheet">
+		<!-- Global styles END -->
+		<!-- Page level plugin styles BEGIN -->
+		<link href="../../assets/global/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
+		<!-- Page level plugin styles END -->
+		<!-- Theme styles BEGIN -->
+		<link href="../../assets/global/css/components.css" rel="stylesheet">
+		<link href="../../assets/frontend/onepage/css/style.css" rel="stylesheet">
+		<link href="../../assets/frontend/onepage/css/style-responsive.css" rel="stylesheet">
+		<link href="../../assets/frontend/onepage/css/themes/red.css" rel="stylesheet" id="style-color">
+		<link href="../../assets/frontend/onepage/css/custom.css" rel="stylesheet">
+		<!-- Theme styles END -->
+	</head>
+	<!--DOC: menu-always-on-top class to the body element to set menu on top -->
+	<body>
+		<!-- BEGIN STYLE CUSTOMIZER -->
+		<div class="color-panel">
+			<div class="color-mode-icons icon-color"></div>
+			<div class="color-mode-icons icon-color-close"></div>
+			<div class="color-mode">
+				<p>
+					THEME COLOR
+				</p>
+				<ul class="inline">
+					<li class="color-red current color-default" data-style="red"></li>
+					<li class="color-blue" data-style="blue"></li>
+					<li class="color-green" data-style="green"></li>
+					<li class="color-orange" data-style="orange"></li>
+					<li class="color-gray" data-style="gray"></li>
+					<li class="color-turquoise" data-style="turquoise"></li>
+				</ul>
+				<p>
+					MENU POSITION
+				</p>
+				<select class="menu-pos form-control">
+					<option value="bottom">Bottom</option>
+					<option value="top">Top</option>
+				</select>
+			</div>
+		</div>
+		
+		<!-- END BEGIN STYLE CUSTOMIZER -->
+
+		<!-- Header BEGIN -->
+		<div class="header header-mobi-ext">
+			<!--<div class="container">-->
+			<div class="row" style="margin-right: 30px;margin-left: 30px">
+				<!-- Logo BEGIN -->
+				<div class="col-md-2 col-sm-2">
+					<a class="scroll site-logo" href="#promo-block"><img src="../../assets/frontend/onepage/img/logo/blue.png" alt="Metronic One Page"></a>
+				</div>
+				<!-- Logo END -->
+				<a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+				<!-- Navigation BEGIN -->
+				<div class="col-md-10 pull-right">
+					<ul class="header-navigation">
+						<li class="current">
+							<a href="#promo-block">首页</a>
+						</li>
+						<li>
+							<a href="#about">网站介绍</a>
+						</li>
+						<li>
+							<a href="#team">我们的团队</a>
+						</li>
+						<li>
+							<a href="#benefits">课程介绍</a>
+						</li>
+						<li>
+							<a href="#contact">联系我们</a>
+						</li>
+					</ul>
+				</div>
+				<!-- Navigation END -->
+			</div>
+			<!--</div>-->
+		</div>
+		<!-- Header END -->
+		<!-- Promo block BEGIN -->
+		<div class="promo-block" id="promo-block">
+			<div class="tp-banner-container">
+				<div class="tp-banner" >
+					<ul>
+						<li data-transition="fade" data-slotamount="5" data-masterspeed="700" data-delay="9400" class="slider-item-1">
+							<img src="../../assets/frontend/onepage/img/silder/slide1.jpg" alt="background" data-bgfit="cover" style="opacity:0 !important ;" data-bgposition="center center" data-bgrepeat="no-repeat">
+							<div class="tp-caption large_text customin customout start"
+							data-x="center"
+							data-hoffset="0"
+							data-y="center"
+							data-voffset="80"
+							data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+							data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+							data-speed="1000"
+							data-start="500"
+							data-easing="Back.easeInOut"
+							data-endspeed="300">
+								<!--<div class="promo-like-text">-->
+								<!--<h3>你可以从这里进行</h3>-->
+								<div class="promo-like-text">
+									<a href="page-reg-page.html"><em>
+									<p>
+										注册
+									</p>
+									<p>
+										Registro
+									</p></em></a>
+								</div>
+								<div class="promo-like-text">
+									<a href="/login.html">
+									<p>
+										登录
+									</p>
+									<p>										
+									   Login
+									</p></a>
+								</div>
+								<!--</div>-->
+							</div>
+							<div class="tp-caption large_bold_white fade"
+							data-x="center"
+							data-y="center"
+							data-hoffset="30"
+							data-voffset="-30"
+							data-speed="300"
+							data-start="100"
+							data-easing="Power4.easeOut"
+							data-endspeed="500"
+							data-endeasing="Power1.easeIn"
+							data-captionhidden="off"
+							style="z-index: 6">
+								<div class="text-center">
+									<span>西友们</span> ，你的西班牙语专属学习网站
+								</div>
+								<div class="text-center text2-uppercase font-weight ">
+									<p>Amigos， estamos aquí para mejorar el español</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- Promo block END -->
+		<!-- About block BEGIN -->
+		<div class="about-block content content-center" id="about">
+			<div class="container">
+				<h2><strong>网站介绍</strong></h2>
+				<h4><span>西友们</span> 为您推开一扇西语之窗</h4>
+				<div class="ab-trio">
+					<!--<img src="../../assets/frontend/onepage/img/trio_bg.png" alt="" class="img-responsive-bg">-->
+					<img src="../../assets/frontend/onepage/img/trio.png" alt="" class="img-responsive"/>
+               
+					<div class="ab-circle ab-circle-center">
+							<p>西友们</p>
+							<strong>召唤你的专属老师</strong>
+						</div>
+	
+					<div class="ab-circle ab-circle-blue">
+							<i class="fa fa-user"></i> 
+							<strong>授课专业</strong>
+						</div>
+					<div class="ab-circle ab-circle-red">
+							<i class="fa fa-eye"></i>
+							<strong>国际视野</strong>
+						</div>
+					<div class="ab-circle ab-circle-green">
+							<i class="fa fa-book"></i>
+							<strong>课程丰富</strong>
+						</div>
+					<div class="ab-circle ab-circle-yellow">
+                     <i class="fa fa-facebook"></i>
+							<i>交流园地</i>
+						</div>
+				</div>
+			</div>
+		</div>
+			<!-- About block END -->
+			<!-- Services block BEGIN -->
+			<div class="services-block content content-center" id="services">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-xs-12 item">
+							<i class="fa fa-heart"></i>
+							<h3>悉心帮助</h3>
+							<p class="text-justify">
+								专业的高校教师团队，面对面的辅导为西友们扫除西语学习的障碍。
+							</p>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 item">
+							<i class="fa fa-pencil"></i>
+							<h3>西语推广</h3>
+							<p class="text-justify">
+								联手西语教师，打造精品西语课程，推广西语文化。
+							</p>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 item">
+							<i class="fa fa-headphones"></i>
+							<h3>学习交流</h3>
+							<p class="text-justify">
+								为全世界西语爱好者、西语从业者提供交流、学习、讨论 和共同进步的平台。
+							</p>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 item">
+							<i class="fa fa-gears"></i>
+							<h3>技术支持</h3>
+							<p class="text-justify">
+								专业的网络开发和维护团队，致力于智能网络教育平台的开发与应用。
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Services block END -->
+			<!--&lt;!&ndash; Message block BEGIN &ndash;&gt;-->
+			<!--<div class="message-block content content-center valign-center" id="message-block">-->
+			<!--<div class="valign-center-elem">-->
+			<!--<h2>The details are not the details <strong>They make the design</strong></h2>-->
+			<!--<em>KEEN THEMES</em>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--&lt;!&ndash; Message block END &ndash;&gt;-->
+			<!-- Team block BEGIN -->
+			<div class="team-block content content-center margin-bottom-40" id="team">
+				<div class="container">
+					<h2><strong>我们的团队</strong></h2>
+					<h4 class="text-center">我们的团队由各大高校西班牙语教师和西语爱好者组成，致力于西班牙语和西语文化在中国的传播</h4>
+					<div class="row">
+						<div class="col-md-4 item">
+							<img src="../../assets/frontend/onepage/img/people/ourteacher.jpg" alt="Marcus Doe" class="img-responsive">
+							<h3>我们的教师</h3>
+							<em>Nuestros profesores</em>
+							<p class="text-justify">
+								来自各大高校的西语专业教师、西班牙语专职人员和西班牙籍外教。
+							</p>
+							<!--
+							<div class="tb-socio">
+								<a href="javascript:void(0);" class="fa fa-facebook"></a>
+								<a href="javascript:void(0);" class="fa fa-twitter"></a>
+								<a href="javascript:void(0);" class="fa fa-google-plus"></a>
+							</div>
+							-->
+						</div>
+						<div class="col-md-4 item">
+							<img src="../../assets/frontend/onepage/img/people/ourgroup.jpg" alt="Elena Taylor" class="img-responsive">
+							<h3>我们的团队</h3>
+							<em>Nuestro equipo</em>
+							<p class="text-justify">
+								教师团队、技术团队和管理团队的密切合作，为西友们保驾护航
+							</p>
+							<!--
+							<div class="tb-socio">
+								<a href="javascript:void(0);" class="fa fa-facebook"></a>
+								<a href="javascript:void(0);" class="fa fa-twitter"></a>
+								<a href="javascript:void(0);" class="fa fa-google-plus"></a>
+							</div>
+							-->
+						</div>
+						<div class="col-md-4 item">
+							<img src="../../assets/frontend/onepage/img/people/ourorganization.jpg" alt="Cris Nilson" class="img-responsive">
+							<h3>我们的组织</h3>
+							<em>Nuestra organización</em>
+							<p class="text-justify">
+								我们的网站属于正规的网络教育机构，立足中国，面向世界
+							</p>
+							<!--
+							<div class="tb-socio">
+								<a href="javascript:void(0);" class="fa fa-facebook"></a>
+								<a href="javascript:void(0);" class="fa fa-twitter"></a>
+								<a href="javascript:void(0);" class="fa fa-google-plus"></a>
+							</div>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Team block END -->
+			<!-- Choose us block BEGIN -->
+			<div class="choose-us-block content text-center margin-bottom-40" id="benefits">
+				<div class="container">
+					<h2><strong>课程介绍</strong></h2>
+					<!--
+					<h4>Lorem ipsum dolor sit amet, <a href="javascript:void(0);">consectetuer adipiscing</a> elit, sed diam nonummy
+					<br>
+					nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</h4>
+					-->
+					<h4 class="text-center">
+						我们的课程得到了来自各大高校专业西班牙语老师的鼎力支持，无论你在哪里，都可以面对面的跟随名校教师学习西班牙语。					
+					</h4>
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12 text-left">
+							<img src="../../assets/frontend/onepage/img/choose-us.png" alt="Why to choose us" class="img-responsive">
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12 text-left">
+							<div class="panel-group" id="accordion1">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_1">基础西班牙语课程</a></h5>
+									</div>
+									<div id="accordion1_1" class="panel-collapse collapse in">
+										<div class="panel-body text-justify">
+											<p>
+												基础西班牙语课程针对无语言基础的人群，使其掌握日常对话、初级阅读和书写能力， 学习内容包括西班牙语语音，入门词汇、句法、语法知识，日常生活用语，培养基本的西班牙语听、说、读、写能力。
+											</p>	
+											<p>
+												面向零基础的西语爱好者，有意向赴西语国家留学、旅游、移民或从事商贸工作的人士。
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_2">商贸西班牙语课程</a></h5>
+									</div>
+									<div id="accordion1_2" class="panel-collapse collapse">
+										<div class="panel-body text-justify">
+											<p>
+												商贸西班牙语课程针对有一定西语语言基础的人群，提高其商务洽谈能力和商务文本的翻译与写作能力， 学习如何正确使用西班牙语商贸专业词汇，了解西班牙及拉丁美洲国家的文化，经济，商贸等知识，在商务场合正确使用西语。
+											</p>											
+											<p>
+												面向有一定西语基础的学生以及与西语国家有商贸往来的商务人士。
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_3">西班牙留学培训课程</a></h5>
+									</div>
+									<div id="accordion1_3" class="panel-collapse collapse">
+										<div class="panel-body text-justify">
+											<p>
+												西班牙留学培训课程为有意赴西班牙或拉丁美洲留学的人士开设，帮助其快速掌握基础西语，通过入学考试或者申请签证所要求的西班牙语考核和考试，有针对性的培训专业西语课程，并提供相关西班牙留学咨询服务。
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_4">西班牙语等级考试培训课程</a></h5>
+									</div>
+									<div id="accordion1_4" class="panel-collapse collapse">
+										<div class="panel-body text-justify">
+											<p>
+												西班牙语等级考试培训课程包括了全国西班牙语四级考试、八级考试和DELE等各级考试的考前针对性辅导培训，剖析考试的重点和难点，详解考试的各种技巧和能力，帮助各位考生顺利通过考试，争取满意的成绩。																								
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_5">西班牙语职前培训课程</a></h5>
+									</div>
+									<div id="accordion1_5" class="panel-collapse collapse">
+										<div class="panel-body text-justify">
+											<p>
+												西班牙语职前培训课程主要是为了帮助在西语国家开展业务的公司，进行员工西语专业培训，使其在西语国家顺利拓展业务。 
+											</p>										
+										</div>
+									</div>
+								</div>
+								<!--
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_6">Ut enem magana sed dolore</a></h5>
+									</div>
+									<div id="accordion1_6" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim minim veniam quis nostrud exercitation dolore magna ullamco.
+											</p>
+											<p>
+												Ut enim ad minim veniam, quis nostrud exercitation ullamco sed eiusmod tempor ut labore et dolore.
+											</p>
+										</div>
+									</div>									
+								</div>
+								-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Choose us block END -->
+
+			<!-- Partners block BEGIN -->
+			<div class="partners-block" >
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<span> 友情链接：</span>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<a href="http://wgyxy.ncu.edu.cn/" title="南昌大学外国语学院" target="_blank">
+								<img src="../../assets/frontend/onepage/img/partners/ncu.png" alt="南昌大学外国语学院">
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<a href="http://wy.blcu.edu.cn/lanmu/xue-bu/xifang.html" title="北京语言大学西方语言文化学院" target="_blank">
+								<img src="../../assets/frontend/onepage/img/partners/blcu.png" alt="北京语言大学西方语言文化学院">
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<a href="http://yyxy.bjtu.edu.cn//" title="北京交通大学语言与传播学院" target="_blank">
+								<img src="../../assets/frontend/onepage/img/partners/bju.png" alt="北京交通大学">
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<a href="http://pekin.cervantes.es/cn/default.shtm" title="北京塞万提斯学院" target="_blank">
+								<img src="../../assets/frontend/onepage/img/partners/bic.png" alt="北京塞万提斯学院">
+							</a>
+						</div>
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<a href="http://www.uclm.es/" title="卡斯蒂利亚 拉曼查大学" target="_blank">
+								<img src="../../assets/frontend/onepage/img/partners/uclm2.png" alt="卡斯蒂利亚 拉曼查大学">
+							</a>
+						</div>
+						<!--
+						<div class="col-md-2 col-sm-3 col-xs-6">
+							<img src="../../assets/frontend/onepage/img/partners/vimeo.png" alt="vimeo">
+						</div>
+						-->
+					</div>
+				</div>
+			</div>
+			<!-- Partners block END -->
+			<!-- BEGIN PRE-FOOTER -->
+			<div class="pre-footer" id="contact">
+				<div class="container">
+					<div class="row">
+						<!-- BEGIN BOTTOM ABOUT BLOCK -->
+						<div class="col-md-4 col-sm-6 pre-footer-col">
+							<h2>关于我们</h2>
+							<p>
+								“西友们”网站（www.xiyoumen .com）是西班牙语学习、交流、咨询和文化推广的网络平台，是国内唯一一家通过实时在线网络授课方式进行西班牙语教学的教育服务机构，具有高校背景的专业教学服务团队和网站运维团队保证了高质量的教学质量。
+							<p>
+								我们与西语国家高校保持着长期合作关系，旨在提供最合理最优质最权威的留学咨询服务和教学服务，并且借助互联网的力量，让西友们直接面对来自西语国家权威的教学资源。我们希望通过“西友们”网站聚集广大西友，共同推广西班牙语，拉近与西班牙、拉丁美洲等西语国家的文化距离和商贸距离，也为西友们提供了一个学习、交流和展示自我的平台。
+						</div>
+						<!-- END BOTTOM ABOUT BLOCK -->
+						
+						<!-- BEGIN TWITTER BLOCK -->
+						
+						<div class="col-md-4 col-sm-6 pre-footer-col">
+							<h2 class="margin-bottom-0">工业与信息化部网站备案</h2>
+							<p>
+								备案/许可证编号：赣ICP备16006467号
+							</p>
+						</div>
+
+						<!-- END TWITTER BLOCK -->
+                        <div class="col-md-4 col-sm-6 pre-footer-col">
+                            <!-- BEGIN BOTTOM CONTACTS -->
+                            <h2>联系方式</h2>
+                            <address class="margin-bottom-20">
+                                中国，江西
+                                <br>
+                                南昌市 青山湖区 南京东路 923号
+                                <br>
+                                电话号码: 0086-0791-88100320
+                                <br>
+                                Email: <a href="mailto:info@xiyoumen.com">xiyoumen.com@outlook.com</a>
+                                <br>
+                                QQ群: <a href="skype:metronic">305045479</a>
+                                <br>
+                                微信公众号: <a href="skype:metronic">xiyoumen</a>
+                            </address>
+                            <!-- END BOTTOM CONTACTS -->
+                        </div>
+
+					</div>
+				</div>
+			</div>
+			<!-- END PRE-FOOTER -->
+			<!-- BEGIN FOOTER -->
+			<div class="footer">
+				<div class="container">
+					<div class="row">
+						<!-- BEGIN COPYRIGHT -->
+						<div class="col-md-6 col-sm-6">
+							<div class="copyright">
+								2015 ©  江西赛万提斯教育投资咨询有限公司 XIYOUMEN.COM 版权所有 
+							</div>
+						</div>
+						<!-- END COPYRIGHT -->
+					</div>
+				</div>
+			</div>
+			<!-- END FOOTER -->
+			<!--[if lt IE 9]>
+			<script src="../../assets/global/plugins/respond.min.js"></script>
+			<![endif]-->
+			<!-- Load JavaScripts at the bottom, because it will reduce page load time -->
+			<!-- Core plugins BEGIN (For ALL pages) -->
+			<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+			<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+			<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+			<!-- Core plugins END (For ALL pages) -->
+			<!-- BEGIN RevolutionSlider -->
+			<script src="../../assets/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js" type="text/javascript"></script>
+			<script src="../../assets/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js" type="text/javascript"></script>
+			<script src="../../assets/frontend/onepage/scripts/revo-ini.js" type="text/javascript"></script>
+			<!-- END RevolutionSlider -->
+			<!-- Core plugins BEGIN (required only for current page) -->
+			<script src="../../assets/global/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
+			<script src="../../assets/global/plugins/jquery.easing.js"></script>
+			<script src="../../assets/global/plugins/jquery.parallax.js"></script>
+			<script src="../../assets/global/plugins/jquery.scrollTo.min.js"></script>
+			<script src="../../assets/frontend/onepage/scripts/jquery.nav.js"></script>
+			<!-- Core plugins END (required only for current page) -->
+			<!-- Global js BEGIN -->
+			<script src="../../assets/frontend/onepage/scripts/layout.js" type="text/javascript"></script>
+			<script>
+				$(document).ready(function() {
+					Layout.init();
+				});
+			</script>
+			<!-- Global js END -->
+	</body>
+</html>
