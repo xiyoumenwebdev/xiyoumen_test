@@ -128,6 +128,11 @@ class JsonManage():
                     db.session.commit()
                     print("Success to save new student {0}".format(username))
 
+                myid = str(uuid.uuid4())
+                uc_info = Users_Classroom(myid, userid, classid)
+                db.session.add(uc_info)
+                db.session.commit()
+
     def fetch_classinfo(self):
         """
         # fetch new class info from json of xiyoumen.com

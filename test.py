@@ -54,10 +54,10 @@ if __name__ == '__main__':
     # test module models
 
     # test module jsonapp
-    """
+    
     ins_json = JsonManage()
     ins_json.save_classinfo()
-    """
+    
 
     # test module env
     """
@@ -74,6 +74,7 @@ if __name__ == '__main__':
     """
 
     # test module conference
+    """
     wrongid_list = ['cl000', 'stu000']
     rightid_list = ['d53d9c6a-a64f-4171-b788-ecb959e68fb0',
             '20390363-6f26-4bec-91eb-f2318a9e6935']
@@ -87,3 +88,4 @@ if __name__ == '__main__':
     mytoken = ins_confright.get_accesstoken("Mr. Right")
     print(myca)
     print(mytoken)
+    """
