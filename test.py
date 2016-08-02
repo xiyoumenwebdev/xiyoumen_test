@@ -23,10 +23,10 @@ from xiyoumenapp.conference import Conference
 if __name__ == '__main__':
 # test package mysite
     # test module settings
-    """
+    
     print("Settings includes {0}, {1}, {2}, {3}".format(settings.BASE_DIR,
         settings.HOST, settings.PORT, settings.DEBUG))
-    """
+    
     # test module conf_twilio
     """
     print("conf_twilio includes {0}, {1}, {2}, {3}, {4}".format(
@@ -54,10 +54,10 @@ if __name__ == '__main__':
     # test module models
 
     # test module jsonapp
-    
+    """
     ins_json = JsonManage()
     ins_json.save_classinfo()
-    
+    """
 
     # test module env
     """
