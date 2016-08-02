@@ -18,6 +18,21 @@ from xiyoumenapp.models import Classroom, Users, Users_Classroom
 from xiyoumenapp.conference import Conference
 
 
+class Test(Resource):
+    """
+    # Class Test test the connection of website
+    """
+    def get(self):
+        """
+        # function get response http GET
+        """
+        try:
+            notice_resp = "wellcome to xiyoumen.com"
+            return notice_resp 
+        except Exception as err:
+            print(err)
+
+
 class Login(Resource):
     """
     # Class Login check access to link into ClassRoom and build session

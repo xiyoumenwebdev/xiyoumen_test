@@ -9,10 +9,12 @@ Module runserver starts web server of flask
 :license: 
 """
 from xiyoumenapp import webapp
-from xiyoumenapp.apps import loginapi_bp, classapi_bp, tokenapi_bp, infoapi_bp
+from xiyoumenapp.apps import testapi_bp, loginapi_bp, classapi_bp, tokenapi_bp, infoapi_bp
 from mysite import settings
 
 if __name__ == '__main__':
+    # Register api into blueprint
+    webapp.register_blueprint(testapi_bp, url_prefix='/test')
     # Register api into blueprint
     webapp.register_blueprint(loginapi_bp, url_prefix='/classroom')
     # Register api into blueprint

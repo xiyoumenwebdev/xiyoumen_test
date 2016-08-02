@@ -12,7 +12,16 @@ from flask import Blueprint
 from flask_restful import Api
 
 from xiyoumenapp import webapp
-from xiyoumenapp.views import Login, ClassRoom, Token, Info
+from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info
+
+
+# define api into Blueprint
+testapi_bp = Blueprint('testapi', __name__)
+testapi = Api(testapi_bp)
+# add webapp resource into api
+testapi.add_resource(Test, '/', endpoint='test_ep')
+# Register api into blueprint
+# webapp.register_blueprint(testapi_bp, url_prefix='/test')
 
 
 # define api into Blueprint
