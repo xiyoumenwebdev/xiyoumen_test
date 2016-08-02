@@ -21,27 +21,25 @@ testapi = Api(testapi_bp)
 # add webapp resource into api
 testapi.add_resource(Test, '/', endpoint='test_ep')
 # Register api into blueprint
-# webapp.register_blueprint(testapi_bp, url_prefix='/test')
+webapp.register_blueprint(testapi_bp, url_prefix='/test')
 
 
 # define api into Blueprint
 loginapi_bp = Blueprint('loginapi', __name__)
 loginapi = Api(loginapi_bp)
 # add webapp resource into api
-loginapi.add_resource(Login, '/<classid>/<userid>',
-                          endpoint='login_ep')
+loginapi.add_resource(Login, '/<classid>/<userid>', endpoint='login_ep')
 # Register api into blueprint
-# webapp.register_blueprint(loginapi_bp, url_prefix='/classroom')
+webapp.register_blueprint(loginapi_bp, url_prefix='/classroom')
 
 
 # define api into Blueprint
 classapi_bp = Blueprint('classapi', __name__)
 classapi = Api(classapi_bp)
 # add webapp resource into api
-classapi.add_resource(ClassRoom, '/',
-                          endpoint='class_ep')
+classapi.add_resource(ClassRoom, '/', endpoint='class_ep')
 # Register api into blueprint
-# webapp.register_blueprint(classapi_bp, url_prefix='/class')
+webapp.register_blueprint(classapi_bp, url_prefix='/class')
 
 
 # define api into Blueprint
@@ -50,7 +48,7 @@ tokenapi = Api(tokenapi_bp)
 # add webapp resource into api
 tokenapi.add_resource(Token, '/', endpoint='token_ep')
 # Register api into blueprint
-# webapp.register_blueprint(tokenapi_bp, url_prefix='/token')
+webapp.register_blueprint(tokenapi_bp, url_prefix='/token')
 
 
 # define api into Blueprint
@@ -59,4 +57,4 @@ infoapi = Api(infoapi_bp)
 # add webapp resource into api
 infoapi.add_resource(Info, '/', endpoint='info_ep')
 # Register api into blueprint
-# webapp.register_blueprint(infoapi_bp, url_prefix='/info')
+webapp.register_blueprint(infoapi_bp, url_prefix='/info')
