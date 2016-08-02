@@ -118,34 +118,31 @@ class Info(Resource):
                 users = Users.query.filter_by(id=userid).all()
                 username = users[0].name
                 userrole = users[0].roleid
+
+                uc = Users_Classroom.query.filter_by(classid=classid).all()
+                tid_list = [ti.userid for ti in uc if (ti.id != userid)]
+                print(tid_list) 
+
                 if userrole == 1:
-                    uc = Users_Classroom.query.filter_by(classid=classid).all()
-                    tid_list = [ti.userid for ti in uc if (ti.id != userid)]
-                    print(tid_list) 
-                    users = Users.query.filter_by(roleid=2).all()
+                    students = Users.query.filter_by(roleid=2).all()
                     stu_list = []
-                    for stu in users:
+                    for stu in students:
                         if stu.id in tid_list:
                             stu_list.append(stu.name)
-
                     print(stu_list)
                     userinfo["classname"] = classname
                     userinfo["username"] = username
                     userinfo["student"] = stu_list
                 elif userrole == 2:
-                    uc = Users_Classroom.query.filter_by(classid=classid).all()
-                    tid_list = [ti.userid for ti in uc]
-                    print(tid_list)
-                    teacher = Users.query.filter_by(roleid=1).all()
-                    print([t1.id for t1 in teacher])
-                    for i in teacher:
-                        if i.id in tid_list:
-                            tea_name = i.name
-                            break
-                    print(tea_name)
+                    teachers = Users.query.filter_by(roleid=1).all()
+                    tea_list = []
+                    for tea in teachers:
+                        if tea.id in tid_list:
+                            tea_list.append(tea.name)
+                    print(tea_list)
                     userinfo["classname"] = classname
                     userinfo["username"] = username
-                    userinfo["teacher"] = tea_name
+                    userinfo["teacher"] = tea_list
                 return userinfo 
             else:
                 return userinfo 

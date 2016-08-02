@@ -21,8 +21,7 @@ $.getJSON('/info/',function(data){
     console.log(classname)
 	$("title").text(classname)
 	$("#username").text(username)
-	for
-	$("")
+
 })
 
 $.getJSON('/token/', function(data) {
@@ -55,9 +54,7 @@ function clientConnected() {
     // Bind button to create conversation
     document.getElementById('button-invite').onclick = function () {
         // var inviteTo = document.getElementById('invite-to').value;
-			var stu_x;        
-        for (stu_x in stu_list){
-        var inviteTo = stu_x;
+
         console.log(inviteTo+'0');
         
         if (activeConversation) {
@@ -73,13 +70,13 @@ function clientConnected() {
             console.log(inviteTo + '2');
 	
             conversationsClient.inviteToConversation(inviteTo, options).then(
-              conversationStarted,                        
-              function (error) {
+            conversationStarted,                        
+            function (error) {
                 log('Unable to create conversation');
                 console.error('Unable to create conversation', error);
             });
         }
-    };};
+    };
 }
 
 // Conversation is live
