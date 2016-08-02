@@ -6,6 +6,7 @@ var identity;
 var token;
 var classname;
 var username;
+var tea_list;
 
 // Check for WebRTC
 if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
@@ -15,6 +16,8 @@ if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
 $.getJSON('/info/',function(data){
 	classname = data.classname;
 	username = data.username;
+	tea_list = data.teacher;
+	
     console.log(classname)
 	$("title").text(classname)
 	$("#username").text(username)
@@ -23,6 +26,7 @@ $.getJSON('/info/',function(data){
 $.getJSON('/token/', function(data) {
     identity = data.identity;
     token = data.token;
+    
     var accessManager = new Twilio.AccessManager(token=data.token);
 
     // Check the browser console to see your generated identity. 
@@ -49,29 +53,31 @@ function clientConnected() {
 
     // Bind button to create conversation
     document.getElementById('button-invite').onclick = function () {
-        var inviteTo = document.getElementById('invite-to').value;
-        console.log(inviteTo+'0');
-        
-        if (activeConversation) {
-            // Add a participant
-            console.log(inviteTo + '1');           
+        //var inviteTo = document.getElementById('invite-to').value;
+			var inviteTo;
+        var tea_i;
+        for (tea_i in tea_list){
+        	inviteTo = tea_list[tea_i];
+        	console.log(tea_list);
+        	console.log(tea_i)
+        	console.log(inviteTo);
+        	if (activeConversation) {
+            // Add a participant          
             activeConversation.invite(inviteTo);
             } else {
-            // Create a conversation
-            var options = {};
-            if (previewMedia) {
-                options.localMedia = previewMedia;
-            }
-            console.log(inviteTo + '2');
+            	// Create a conversation
+            	var options = {};
+            	if (previewMedia) {
+                	options.localMedia = previewMedia;
+            	}
 	
-            conversationsClient.inviteToConversation(inviteTo, options).then(
-              conversationStarted,                        
-              function (error) {
-                log('Unable to create conversation');
-                console.error('Unable to create conversation', error);
+            	conversationsClient.inviteToConversation(inviteTo, options).then(
+              	conversationStarted, function (error) {
+                	log('Unable to create conversation');
+                	console.error('Unable to create conversation', error);
             });
         }
-    };
+    };};
 }
 
 // Conversation is live

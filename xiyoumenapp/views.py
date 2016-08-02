@@ -16,8 +16,14 @@ from flask_restful import Resource, fields
 from xiyoumenapp import webapp, db
 from xiyoumenapp.models import Classroom, Users, Users_Classroom
 from xiyoumenapp.conference import Conference
+from xiyoumenapp.jsonapp import JsonManage
 
+pagepath = os.path.join(os.path.join("theme", "templates"), "frontend")
+webpage_teacher = os.path.join(pagepath, "webinar_teacher.html")
+webpage_student = os.path.join(pagepath, "webinar_student.html")
 
+page_teacher = os.path.join("classroom", "classroom_teacher.html")
+page_student = os.path.join("classroom", "classroom_student.html")
 class Test(Resource):
     """
     # Class Test test the connection of website
@@ -43,7 +49,10 @@ class Login(Resource):
         """
         try:
             notice_err = "You have no available for this class"
+            ins_json = JsonManage()
+            ins_json.save_classinfo()
             ins_con = Conference(classid, userid)
+
             if ins_con.check_access() is None:
                 return notice_err
             else:
@@ -63,9 +72,6 @@ class ClassRoom(Resource):
         # function get response http GET with classroom.html
         """
         try:
-            fname = "webinar_teacher.html"
-            fpath = os.path.join("theme", os.path.join("templates",
-                    os.path.join("frontend", fname)))
             if ('classid' in session) and (
                     'userid' in session):
                 classid = session['classid']
@@ -75,9 +81,13 @@ class ClassRoom(Resource):
                 roleid = users[0].roleid
 
                 if roleid == 1:
-                    return webapp.send_static_file('classroom_teacher.html')
+                    return webapp.send_static_file("classroom_teacher.html")
+                    # return webapp.send_static_file(page_teacher)
+                    # return webapp.send_static_file(webpage_teacher)
                 elif roleid == 2:
-                    return webapp.send_static_file('classroom_student.html')
+                    return webapp.send_static_file("classroom_student.html")
+                    # return webapp.send_static_file(page_student)
+                    # return webapp.send_static_file(webpage_student)
 
                 # return webapp.send_static_file(fpath)
             else:

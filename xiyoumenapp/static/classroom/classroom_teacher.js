@@ -6,6 +6,7 @@ var identity;
 var token;
 var classname;
 var username;
+var stu_list;
 
 // Check for WebRTC
 if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
@@ -20,8 +21,7 @@ $.getJSON('/info/',function(data){
     console.log(classname)
 	$("title").text(classname)
 	$("#username").text(username)
-	for
-	$("")
+
 })
 
 $.getJSON('/token/', function(data) {
@@ -53,7 +53,8 @@ function clientConnected() {
 
     // Bind button to create conversation
     document.getElementById('button-invite').onclick = function () {
-        var inviteTo = document.getElementById('invite-to').value;
+        // var inviteTo = document.getElementById('invite-to').value;
+
         console.log(inviteTo+'0');
         
         if (activeConversation) {
@@ -69,8 +70,8 @@ function clientConnected() {
             console.log(inviteTo + '2');
 	
             conversationsClient.inviteToConversation(inviteTo, options).then(
-              conversationStarted,                        
-              function (error) {
+            conversationStarted,                        
+            function (error) {
                 log('Unable to create conversation');
                 console.error('Unable to create conversation', error);
             });
