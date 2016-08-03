@@ -24,6 +24,8 @@ webpage_student = os.path.join(pagepath, "webinar_student.html")
 
 page_teacher = os.path.join("classroom", "classroom_teacher.html")
 page_student = os.path.join("classroom", "classroom_student.html")
+
+
 class Test(Resource):
     """
     # Class Test test the connection of website

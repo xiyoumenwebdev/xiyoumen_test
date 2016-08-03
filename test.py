@@ -54,10 +54,8 @@ if __name__ == '__main__':
     # test module models
 
     # test module jsonapp
-    """
     ins_json = JsonManage()
     ins_json.save_classinfo()
-    """
 
     # test module env
     """

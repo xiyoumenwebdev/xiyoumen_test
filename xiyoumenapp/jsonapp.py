@@ -98,40 +98,48 @@ class JsonManage():
                 class_info = Classroom(classid, classname, datetime_now, comment, sid, statusid)
                 db.session.add(class_info)
                 db.session.commit()
-                print("Success to save new classroom {0}".format(classname))
+                print("Success to save new classroom {0} into Table info_classroom".format(classname))
+            else:
+                print("Fail to save new classroom {0} into Table info_classroom".format(classname))
 
             userid = classroom['teacherID']
             username = classroom['teacherName']
             roleid = 1
-            ds_all = db.session.query(Users).all()
-            dsid_list = [di.id for di in ds_all]
-            if userid not in dsid_list:
+            du_all = db.session.query(Users).all()
+            duid_list = [di.id for di in du_all]
+            if userid not in duid_list:
                 user_info = Users(userid, username, datetime_now, comment, roleid)
                 db.session.add(user_info)
                 db.session.commit()
-                print("Success to save new teacher {0}".format(username))
+                print("Success to save new teacher {0} into Table info_users".format(username))
+            else:
+                print("Fail to save new teacher {0} into Table info_users".format(username))
             
             myid = str(uuid.uuid4())
             uc_info = Users_Classroom(myid, userid, classid)
             db.session.add(uc_info)
             db.session.commit()
+            print("Success to save new selection {0} into Table info_uc".format(username))
             for uitem in citem['students']:
-                ds_all = db.session.query(Users).all()
-                dsid_list = [di.id for di in ds_all]
                 userid = uitem['id']
                 username = uitem['name']
                 roleid = 2
+                du_all = db.session.query(Users).all()
+                duid_list = [di.id for di in du_all]
                 print("username is {0}".format(username))
-                if userid not in dsid_list and username is not None:
+                if userid not in duid_list and username is not None:
                     user_info = Users(userid, username, datetime_now, comment, roleid)
                     db.session.add(user_info)
                     db.session.commit()
-                    print("Success to save new student {0}".format(username))
+                    print("Success to save new student {0} into Table info_users".format(username))
+                else:
+                    print("Fail to save new student {0} into Table info_users".format(username))
 
                 myid = str(uuid.uuid4())
                 uc_info = Users_Classroom(myid, userid, classid)
                 db.session.add(uc_info)
                 db.session.commit()
+                print("Success to save new selection {0} into Table info_uc".format(username))
 
     def fetch_classinfo(self):
         """

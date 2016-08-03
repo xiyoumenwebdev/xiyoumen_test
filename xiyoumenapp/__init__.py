@@ -17,6 +17,7 @@ from flask_sqlalchemy import SQLAlchemy
 from xiyoumenapp import settings
 
 webapp = Flask(__name__)
+webapp.permanent = True
 webapp.config.from_object(settings)
 
 db = SQLAlchemy(webapp)
