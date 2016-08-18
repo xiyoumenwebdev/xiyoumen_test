@@ -13,6 +13,7 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
 
 from xiyoumenapp import settings
 
@@ -21,6 +22,8 @@ webapp.permanent = True
 webapp.config.from_object(settings)
 
 db = SQLAlchemy(webapp)
+
+webadmin = Admin(webapp, name="XIYOUMEN", template_mode="bootstrap3")
 
 
 from xiyoumenapp import models

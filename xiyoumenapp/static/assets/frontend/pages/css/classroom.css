@@ -1,0 +1,64 @@
+div#coursewarebox {height: 410px;}
+div#preview {height:400px; border:1px solid #cececc}
+div#remote {height:400px; }
+div.media-switch {text-align: center;}
+div#local-media video {max-width:100%;max-height:100%;border:none}
+/*
+div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-width:27%!important;background-color:#272726;background-repeat:no-repeat}
+*/
+div#log {height:50px; border:1px solid #cececc}
+
+.student-list {overflow-y:scroll; height:550px}
+.service-box-v1 {height:130px; font-size: 50px; border:1px solid #cececc}
+.remote-media {max-height:100%; max-width: 100%; height:70px}
+
+.chatbox {height: 200px;}
+div#chat-input  {height: 180px; border:1px solid #cececc}
+div#chat-room  {height: 180px; border:1px solid #cececc}
+div#chat-send {text-align: center;}
+
+
+
+
+
+
+#messages {
+  background-color:#232323;
+  padding:10px;
+  height:100%;
+  width:800px;
+  margin:0 auto;
+  overflow-y:auto;
+}
+
+#messages p {
+  margin:5px 0;
+  padding:0;
+}
+
+.info {
+  margin:5px 0;
+  font-style:italic;
+}
+
+.message-container {
+  margin:5px 0;
+  color:#fff;
+}
+
+.message-container .username {
+  display:inline-block;
+  margin-right:5px;
+  font-weight:bold;
+  color:#849091;
+}
+
+.me, .username.me {
+  font-weight:bold;
+  color:cyan;
+}
+
+.message-container .username.me {
+  display:inline-block;
+  margin-right:5px;
+}

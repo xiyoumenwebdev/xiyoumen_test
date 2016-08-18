@@ -9,16 +9,19 @@ Settings of tellhowapp is configured in this module
 :license: 
 """
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 db_dir = os.path.dirname(os.path.abspath(__file__))
 db_file = os.path.join(db_dir, 'app.sqlite')
+t = datetime.utcnow()
+strsecret = t.strftime('%Y%m%d')
+# strsecret = "secret_key_for_gunicorn"
 
 # Flask settings
-# SECRET_KEY = str(uuid.uuid4())
-SECRET_KEY = "secret_key_for_gunicorn"
+SECRET_KEY = strsecret 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///'+db_file
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 CSRF_ENABLED = True
 PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
-
+# USE_X_SENDFILE = True 
+# UPLOAD_FOLDER = os.path.join(os.path.join(db_dir, "templates"), "theme")

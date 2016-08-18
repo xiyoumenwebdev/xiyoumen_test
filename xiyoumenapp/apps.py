@@ -8,6 +8,9 @@ apps of webpage is builded in this module
 :copyright: (c) 2016 by ERIC ZHAO.
 :license: 
 """
+
+import os
+
 from flask import Blueprint
 from flask_restful import Api
 
@@ -34,15 +37,6 @@ webapp.register_blueprint(loginapi_bp, url_prefix='/classroom')
 
 
 # define api into Blueprint
-classapi_bp = Blueprint('classapi', __name__)
-classapi = Api(classapi_bp)
-# add webapp resource into api
-classapi.add_resource(ClassRoom, '/', endpoint='class_ep')
-# Register api into blueprint
-webapp.register_blueprint(classapi_bp, url_prefix='/class')
-
-
-# define api into Blueprint
 tokenapi_bp = Blueprint('tokenapi', __name__)
 tokenapi = Api(tokenapi_bp)
 # add webapp resource into api
@@ -58,3 +52,15 @@ infoapi = Api(infoapi_bp)
 infoapi.add_resource(Info, '/', endpoint='info_ep')
 # Register api into blueprint
 webapp.register_blueprint(infoapi_bp, url_prefix='/info')
+
+
+# sfolder = os.path.join("static", "assets")
+# tfolder = os.path.join("templates", "frontend")
+# define api into Blueprint
+# classapi_bp = Blueprint('classapi', __name__, static_folder=sfolder, template_folder=tfolder)
+classapi_bp = Blueprint('classapi', __name__)
+classapi = Api(classapi_bp)
+# add webapp resource into api
+classapi.add_resource(ClassRoom, '/', endpoint='class_ep')
+# Register api into blueprint
+webapp.register_blueprint(classapi_bp, url_prefix='/class')

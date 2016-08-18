@@ -8,7 +8,9 @@ Module models define the structure of tables in database.
 :copyright: (c) 2016 by ERIC ZHAO.
 :license:
 """
+
 from xiyoumenapp import db
+from flask_user import UserMixin
 
 
 class Subaccount(db.Model):
@@ -71,6 +73,7 @@ class Classroom(db.Model):
     users = db.relationship('Users', secondary='info_uc',
             backref=db.backref('classroom', lazy='dynamic'))
     connections = db.relationship('Connection', backref='classroom', lazy='dynamic')
+    users_classroom = db.relationship('Users_Classroom', backref='classroom', lazy='dynamic')
 
     def __init__(self, id, name, createtime, comment, subaccountid, statusid):
         self.id = id
@@ -104,6 +107,7 @@ class Users(db.Model):
     roleid = db.Column(db.Integer, nullable=False)
 
     connections = db.relationship('Connection', backref='users', lazy='dynamic')
+    users_classroom = db.relationship('Users_Classroom', backref='users', lazy='dynamic')
 
     def __init__(self, id, name, createtime, comment, roleid):
         self.id = id
@@ -117,6 +121,7 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<user {0}> with name {1}'.format(self.id, self.name)
+
 
 class Users_Classroom(db.Model):
     """
@@ -207,3 +212,82 @@ class Description(db.Model):
 
     def __repr__(self):
         return '<user {0}> with name {1}'.format(self.id, self.name)
+
+
+class AdminUsers(db.Model):
+    """
+    # Class Users of Admim  define data model of users for Admin
+    """
+    __tablename__ = 'info_adminusers'
+    # id create as integer
+    id = db.Column(db.Integer(), primary_key=True)
+
+    # additional information
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    confirmed_at = db.Column(db.DateTime())
+
+
+    # user information
+    is_enabled = db.Column(db.Boolean(), nullable=False, default=False)
+    first_name = db.Column(db.String(50), nullable=False, default='')
+    last_name = db.Column(db.String(50), nullable=False, default='')
+
+    users_auth = db.relationship('AdminUsersAuth', backref='adminusers', lazy='dynamic')
+    users_roles = db.relationship('AdminUsers_Roles', backref='adminusers', lazy='dynamic')
+
+    def is_active(self):
+        return self.is_enabled
+
+    def __repr__(self):
+        return '<adminuser {0}> with email {1}'.format(self.id, self.email)
+
+
+class AdminUsersAuth(db.Model, UserMixin):
+    """
+    # Class UsersAuth of Admim  define data model of usersAuth for Admin
+    """
+    __tablename__ = 'info_adminusersauth'
+    # id create as integer
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey("info_adminusers.id"))
+    
+    # basic information
+    username = db.Column(db.String(64), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False, default='')
+    reset_password_token = db.Column(db.String(100), nullable=False, default='')
+
+    def __repr__(self):
+        return '<adminuserauth{0}> with username {1}'.format(self.id, self.username)
+
+
+class AdminRoles(db.Model):
+    """
+    # Class Roles of Admim  define data model of Role for Admin
+    """
+    __tablename__ = 'info_adminroles'
+    # id create as integer
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(64), nullable=False, unique=True)
+
+    users_roles = db.relationship('AdminUsers_Roles', backref='adminroles', lazy='dynamic')
+
+    def __repr__(self):
+        return '<adminrole{0}> with name {1}'.format(self.id, self.name)
+
+
+class AdminUsers_Roles(db.Model):
+    """
+    # Class Users_Roles of Admin define data model of info_adminusersroles
+    """
+    __tablename__ = 'info_adminusersroles'
+    # id create as integer
+    id = db.Column(db.Integer(), primary_key=True)
+
+    # basic information
+    user_id = db.Column(db.Integer(), db.ForeignKey("info_adminusers.id"))
+    role_id = db.Column(db.Integer(), db.ForeignKey("info_adminroles.id"))
+
+    def __repr__(self):
+        return '<AdminUsers_Roles> is user_id {0} with role_id {1}'.format(
+                self.user_id, self.role_id)
+

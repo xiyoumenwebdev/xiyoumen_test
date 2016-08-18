@@ -1,0 +1,248 @@
+{% extends "webinar_base.html" %}
+{% block main %}
+ <!-- BEGIN MAIN -->
+  <div class="main">
+    <div class="container">
+      <div class="row">
+      
+      
+        <!-- BEGIN LEFT SIDEBAR & MAIN BLOCK -->
+        <div class="col-md-8">
+        							
+          <!-- BEGIN COURSEWARE BLOCK -->
+          <div id="coursewarebox" class="row">
+            <div class="col-md-12 tab-style-1 padding-top-10">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1">LIVE</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2">PPT</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3">TEXT</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-4">SOUNDTRACK</a></li>                    
+                    <li class=""><a data-toggle="tab" href="#tab-5">VIDEO</a></li>
+                  </ul>
+                  <div class="tab-content">
+                  
+                  <!--  BEGIN TAB-1 -->
+                    <div id="tab-1" class="tab-pane row fade active in">  
+                                      
+                      <!-- BEGIN LIVE BLOCK -->
+				          <div class="row">	
+				           <!-- BEGIN LIVE -->
+				           	
+				            <!-- BEGIN LOCAL MEDIA -->			          			
+				              <div id="preview" class="col-md-6 margin-bottom-20">									
+								   <div class="row">									   
+								   <!-- BEGIN MEDIA CONTROL -->							
+										<div id="" class="media-switch padding-top-10 margin-bottom-10 col-md-12">
+    										<input id="camera-preview" type="checkbox" class="switch" 
+    											data-on-text="<i class='fa fa-camera color-white'></i> <span> OPEN</span>" 
+    											data-off-text="<i class='fa fa-camera color-grey'></i><span> CLOSE</span>"
+    											data-on-color="success"
+    											data-off-color="default" checked>
+										</div>									
+									<!-- MEDIA CONTROL END -->	
+									<!-- BEGIN MEDIA -->									
+										<div id="local-media" class="col-md-12 margin-bottom-10 padding-top-10"></div>
+									<!-- MEDIA END -->										
+								   </div>
+								  </div>
+								<!-- LOCAL MEDIA END -->
+								
+								<!-- BEGIN REMOTE MEDIA -->			          			
+				            <div id="remote" class="col-md-6 pull-right margin-bottom-20">	
+				             <div class="row">
+				             
+					          </div>								
+								</div>
+								<!-- REMOTE MEDIA END -->	
+									
+				           <!-- END LIVE --> 
+				            
+
+				          </div>
+				          <!-- LIVE BLOCK END -->
+				          
+                    </div>
+                   <!--  TAB-1 END -->
+                   
+                  <!--  BEGIN TAB-2 -->                                      
+                    <div id="tab-2" class="tab-pane row fade">
+                    <!-- BEGIN CAROUSELL SLIDE-->
+		              <div class="testimonials-v1 testimonials-v1-another-color col-md-12 margin-bottom-40">
+		                   <div id="stu-list" class="carousel slide">
+		                    <!-- Carousel items -->
+		                    <div class="carousel-inner">
+		
+		                      <div class="active item">
+		                        <blockquote><p>Denim you probably haven't heard of. Lorem ipsum dolor met consectetur adipisicing sit amet, consectetur adipisicing elit, of them jean shorts sed magna aliqua. Lorem ipsum dolor met consectetur adipisicing sit amet do eiusmod dolore.</p></blockquote>
+		                        <div class="carousel-info">
+		                          <img class="pull-left" src="../../assets/frontend/pages/img/people/img1-small.jpg" alt="">
+		                          <div class="pull-left">
+		                            <span class="testimonials-name">Lina Mars</span>
+		                            <span class="testimonials-post">Commercial Director</span>
+		                          </div>
+		                        </div>
+		                      </div>
+		
+		                      <div class="item">
+		                        <blockquote><p>Raw denim you Mustache cliche tempor, williamsburg carles vegan helvetica probably haven't heard of them jean shorts austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.</p></blockquote>
+		                        <div class="carousel-info">
+		                          <img class="pull-left" src="../../assets/frontend/pages/img/people/img5-small.jpg" alt="">
+		                          <div class="pull-left">
+		                            <span class="testimonials-name">Kate Ford</span>
+		                            <span class="testimonials-post">Commercial Director</span>
+		                          </div>
+		                        </div>
+		                      </div>
+		
+		                      <div class="item">
+		                        <blockquote><p>Reprehenderit butcher stache cliche tempor, williamsburg carles vegan helvetica.retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid Aliquip placeat salvia cillum iphone.</p></blockquote>
+		                        <div class="carousel-info">
+		                          <img class="pull-left" src="../../assets/frontend/pages/img/people/img2-small.jpg" alt="">
+		                          <div class="pull-left">
+		                            <span class="testimonials-name">Jake Witson</span>
+		                            <span class="testimonials-post">Commercial Director</span>
+		                          </div>
+		                        </div>
+		                      </div>
+		
+		                    </div>
+		
+		                    <!-- Carousel nav -->
+		                    <a class="left-btn" href="#stu-list" data-slide="prev"></a>
+		                    <a class="right-btn" href="#stu-list" data-slide="next"></a>
+		                  </div> 
+		              </div> 
+		              <!-- CAROUSEL SLIDE END -->   
+		              
+                    </div>
+                  <!-- TAB-2 END -->              
+
+                  <!--  BEGIN TAB-3 -->                    
+                    <div id="tab-3" class="tab-pane fade">
+                      <div class="col-md-9">
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
+                      </div>
+                      <div class="col-md-3">
+                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../assets/temp/pics/img2-large.jpg">
+                          <img alt="" src="../../assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
+                        </a>
+                      </div>                     
+                    </div>
+                  <!--  TAB-3 END -->                  
+ 
+                  <!--  BEGIN TAB-4 -->                   
+                    <div id="tab-4" class="tab-pane row fade">
+                      <div class="col-md-9">
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
+                      </div>
+                      <div class="col-md-3">
+                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../assets/temp/pics/img2-large.jpg">
+                          <img alt="" src="../../assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
+                        </a>
+                      </div>
+                    </div>
+                  <!-- TAB-4 END -->                   
+                    
+                  <!--  BEGIN TAB-5 -->                  
+                   <div id="tab-5" class="tab-pane row fade">
+                      <div class="col-md-9">
+                      	<iframe height="300" allowfullscreen="" style="width:100%; border:0" src="http://player.vimeo.com/video/56974716?portrait=0" class="margin-bottom-10"></iframe>		              
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
+                      </div>
+                      <div class="col-md-3">
+                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../assets/temp/pics/img2-large.jpg">
+                          <img alt="" src="../../assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
+                        </a>
+                      </div>
+                    </div>                    
+                   <!--  BEGIN TAB-5 -->                   
+                    
+                  </div>
+            </div>            
+          </div>
+          <!-- COURSEWARE BLOCK END -->       
+        
+        
+			 <!-- BEGIN CHAT ROOM -->
+			 	<div class="row chatbox col-md-12">			            
+					<div id="chat-room" class="col-md-6 margin-bottom-10">
+						<p>&gt;&nbsp;<span id="log-content">CHAT ROOM</span>...</p>
+					</div> 
+					<div id="chat-input" class="col-md-6 margin-bottom-10 ">
+						<p>&gt;&nbsp;<span id="log-content">INPUT TEXT</span>...</p>
+						<button id="chat-send" class="btn btn-primary" type="button">SEND</button>					
+					</div>
+				</div>	             
+		    <!-- CHAT ROOM END -->
+		    
+			 <!-- BEGIN LOG -->				            
+				<div id="log" class="col-md-12 margin-bottom-10">
+					<p>&gt;&nbsp;<span id="log-content">Preparing to listen</span>...</p>
+				</div>              
+			 <!-- LOG END -->		    	    
+		    
+        </div>
+        <!-- LEFT SIDERBAR & MAIN BLOCK END -->
+
+
+        <!--BEGIN RIGHT SIDERBAR & STUDENT LIST-->
+        <div class="col-md-4 pull-right padding-top-20">
+          <div class="student-list col-md-12">
+          
+   				 <!-- BEGIN STUDENT CONTROL --> 
+                   <div class="row">
+                  
+                    <div class="col-md-6 margin-bottom-10">
+							<div class="media-switch padding-top-10 margin-bottom-10 col-md-12">
+ 								<input id="remote-volume-all" type="checkbox" class="switch" 
+ 										data-on-text="<i class='fa fa-volume-up color-white'></i> <span> </span>" 
+ 										data-off-text="<i class='fa fa-volume-off color-grey'></i><span> </span>" 										
+ 										data-on-color="success"
+ 										data-off-color="default">
+							</div>
+                    </div>
+
+                    <div class="col-md-6 margin-bottom-10">
+							<div class="media-switch padding-top-10 margin-bottom-10 col-md-12">
+ 								<input id="remote-conn-all" type="checkbox" class="switch" 
+ 										data-on-text="<i class='fa fa-link color-white'></i> <span> </span>" 
+ 										data-off-text="<i class='fa fa-unlink color-grey'></i><span> </span>"
+ 										data-on-color="success"
+ 										data-off-color="default" checked>
+							</div>
+                    </div>
+                    
+                  </div>   				   				 
+   				 <!-- STUDENT CONTROL END --> 
+   				       
+                <!-- BEGIN STUDENT LIST --> 
+
+                  <div id="studentlist" class="row">
+                  
+                    <div class="col-md-6 margin-bottom-10">
+                      <div class="service-box-v1">
+                        <div id="" class="remote-media"><i class="fa fa-user color-grey"></i></div>
+                        <h4 id="" class="color-grey">Solnh mateore</h4>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 margin-bottom-10">
+                      <div class="service-box-v1">
+                        <div id='' class="list-video"><i class="fa fa-user color-grey"></i></div>
+                        <h4 id='' class='color-grey'>Solnh mateore</h4>
+                      </div>
+                    </div>
+                    
+                  </div> 
+
+                <!-- STUDENT LIST END --> 
+          </div>                
+        </div>  
+        <!--RIGHT SIDERBAR & STUDENT LIST END-->
+        
+      </div>
+    </div>
+  </div>
+  <!-- MAIN END -->
+
+{% endblock %}
