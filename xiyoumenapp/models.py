@@ -74,6 +74,7 @@ class Classroom(db.Model):
             backref=db.backref('classroom', lazy='dynamic'))
     connections = db.relationship('Connection', backref='classroom', lazy='dynamic')
     users_classroom = db.relationship('Users_Classroom', backref='classroom', lazy='dynamic')
+    chatroom = db.relationship('Chatroom', backref='classroom', lazy='dynamic')
 
     def __init__(self, id, name, createtime, comment, subaccountid, statusid):
         self.id = id
@@ -108,6 +109,7 @@ class Users(db.Model):
 
     connections = db.relationship('Connection', backref='users', lazy='dynamic')
     users_classroom = db.relationship('Users_Classroom', backref='users', lazy='dynamic')
+    chatroom = db.relationship('Chatroom', backref='users', lazy='dynamic')
 
     def __init__(self, id, name, createtime, comment, roleid):
         self.id = id
@@ -143,6 +145,36 @@ class Users_Classroom(db.Model):
     def __repr__(self):
         return '<Users_Classroom> is userid {0} in classid {1}'.format(self.userid,
                 self.classid)
+
+
+class Chatroom(db.Model):
+    """
+    # Class Chatroom define data model of chat in class
+    """
+    __tablename__ = 'log_chat'
+    # id create as uuid4
+    id = db.Column(db.String(36), nullable=False, primary_key=True)
+
+    # basic information
+    name = db.Column(db.String(64), nullable=False)
+    createtime = db.Column(db.DateTime(), nullable=False)
+    comment = db.Column(db.String(256), nullable=False)
+
+    # additional information
+    userid = db.Column(db.String(36), db.ForeignKey('info_users.id'))
+    classid = db.Column(db.String(36), db.ForeignKey('info_classroom.id'))
+
+    def __init__(self, id, name, createtime, comment, userid, classid):
+        self.id = id
+        self.name = name
+        self.createtime = createtime
+        self.comment = comment
+        self.userid = userid
+        self.classid = classid
+
+    def __repr__(self):
+        return '<Chatroom {0}> with name {1} in class {2}'.format(self.id,
+                self.name, self.classid)
 
 
 class Connection(db.Model):

@@ -19,6 +19,7 @@ strsecret = t.strftime('%Y%m%d')
 
 # Flask settings
 SECRET_KEY = strsecret 
+WTF_CSRF_SECRET_KEY = strsecret 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///'+db_file
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 CSRF_ENABLED = True

@@ -118,7 +118,7 @@ License: You must have a valid license purchased only from themeforest (the abov
       
       
         <!-- BEGIN LEFT SIDEBAR & MAIN BLOCK -->
-        <div class="col-md-12">
+        <div class="col-md-10 col-md-offset-1">
         							
           <!-- BEGIN COURSEWARE BLOCK -->
           <div id="coursewarebox" class="row">
@@ -140,7 +140,7 @@ License: You must have a valid license purchased only from themeforest (the abov
 				           <!-- BEGIN LIVE -->
 				           	
 				            <!-- BEGIN LOCAL MEDIA -->			          			
-				              <div id="preview" class="col-md-8 margin-bottom-10">									
+				              <div id="preview" class="col-md-6 margin-bottom-10">									
 								   <div class="row">									   
 
 									<!-- BEGIN MEDIA -->	
@@ -162,7 +162,7 @@ License: You must have a valid license purchased only from themeforest (the abov
 								<!-- LOCAL MEDIA END -->
 								
 								<!-- BEGIN CHAT ROOM -->
-								 	<div id="chatbox" class="col-md-4 margin-bottom-10 ">	
+								 	<div id="chatbox" class="col-md-6 margin-bottom-10 ">	
 								 		<div id="chat-room" class="row">		            
 												<div id="chat-content" class="col-md-12  padding-top-10 margin-bottom-10">
 												

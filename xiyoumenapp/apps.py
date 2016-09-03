@@ -15,7 +15,7 @@ from flask import Blueprint
 from flask_restful import Api
 
 from xiyoumenapp import webapp
-from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info
+from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList
 
 
 # define api into Blueprint
@@ -43,6 +43,15 @@ tokenapi = Api(tokenapi_bp)
 tokenapi.add_resource(Token, '/', endpoint='token_ep')
 # Register api into blueprint
 webapp.register_blueprint(tokenapi_bp, url_prefix='/token')
+
+
+# define api into Blueprint
+chatlistapi_bp = Blueprint('chatlistapi', __name__)
+chatlistapi = Api(chatlistapi_bp)
+# add webapp resource into api
+chatlistapi.add_resource(ChatList, '/', endpoint='chatlist_ep')
+# Register api into blueprint
+webapp.register_blueprint(chatlistapi_bp, url_prefix='/chatlist')
 
 
 # define api into Blueprint
