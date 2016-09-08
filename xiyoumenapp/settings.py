@@ -23,6 +23,6 @@ WTF_CSRF_SECRET_KEY = strsecret
 SQLALCHEMY_DATABASE_URI = 'sqlite:///'+db_file
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 CSRF_ENABLED = True
-PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
+# PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
 # USE_X_SENDFILE = True 
 # UPLOAD_FOLDER = os.path.join(os.path.join(db_dir, "templates"), "theme")

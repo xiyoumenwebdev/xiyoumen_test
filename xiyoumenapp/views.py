@@ -167,6 +167,8 @@ class Info(Resource):
         # function post response http POST teastatus with info
         """
         try:
+            print('Begin to post')
+            print(session)
             args = parser.parse_args()
             if ('classid' in session) and ('userid' in session):
                 if ('username' not in session):
@@ -181,7 +183,7 @@ class Info(Resource):
                     session['classname'] = classname
                     session['username'] = username
                     session['userrole'] = userrole
-                    
+                    print(session) 
                     uc = Users_Classroom.query.filter_by(classid=classid).all()
                     tid_list = [ti.userid for ti in uc]
                     print(tid_list) 
@@ -207,6 +209,7 @@ class Info(Resource):
 
                         session['teastatus_dict'] = teastatus_dict
                         session['stustatus_dict'] = stustatus_dict
+                        print(session)
                 else:
                     userrole = session['userrole']
                     username = session['username']

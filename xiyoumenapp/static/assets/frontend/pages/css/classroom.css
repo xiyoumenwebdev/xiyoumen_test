@@ -2,13 +2,19 @@ body {
   font-family: "Source Han Sans Simplified Chinese";
 }
 
+#myCanvas {
+	cursor: crosshair;
+    position: fixed;
+    border:1px solid #cececc;
+}
+
 div#coursewarebox {height: 500px;}
 div#preview {height:500px}
 
 /* div#remote {height:400px} */
 
 div#media-area {height: 430px; text-align: center; border:1px solid #cececc}
-h4#memo-text {padding-top: 30%}
+div#button-area {padding-top: 20%; height:100%}
 div#local-media {height:285px; }
 div#remote-media {height: 100px; border-top:1px solid #cececc}
 video {max-width: 100%; max-height: 100%}
@@ -22,10 +28,29 @@ div#log {height:70px; padding-top:10px ;border:1px solid #cececc}
 div#studentlist {max-height: 350px}
 div#teacherlist {max-height: 150px}
 div#controllist {max-height: 300px}
-div#teacher-control-row {padding-bottom: 20px;border-bottom: 1px solid #cececc}
-div#student-control-row {border-bottom: 1px solid #cececc}
 
-.service-box-v1 {height:130px; font-size: 60px; border:1px solid #cececc}
+div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padding-top: 10px; border-top: 1px solid #cececc; }
+
+.service-box-tea {height:130px; text-align: center; background: #fff; font-size: 55px; border:1px solid #cececc}
+.service-box-tea span {font-size: 11px}
+.service-box-stu:hover {background: #d73d04}
+.service-box-stu:hover i,
+.service-box-stu:hover p,
+.service-box-stu:hover h4 {
+  color: #fff;
+}
+
+/*button# span {font-size: 12px}*/
+
+.service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
+.service-box-stu span {font-size: 11px}
+.service-box-stu:hover {background: #d73d04}
+.service-box-stu:hover i,
+.service-box-stu:hover p,
+.service-box-stu:hover h4 {
+  color: #fff;
+}
+
 /*
 .service-box-v1:visited {
   background: #d73d04;

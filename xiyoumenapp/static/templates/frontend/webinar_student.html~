@@ -118,7 +118,7 @@ License: You must have a valid license purchased only from themeforest (the abov
       
       
         <!-- BEGIN LEFT SIDEBAR & MAIN BLOCK -->
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
         							
           <!-- BEGIN COURSEWARE BLOCK -->
           <div id="coursewarebox" class="row">
@@ -126,9 +126,7 @@ License: You must have a valid license purchased only from themeforest (the abov
                   <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-1">LIVE</a></li>
                     <li class=""><a data-toggle="tab" href="#tab-2">PPT</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3">TEXT</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4">SOUNDTRACK</a></li>                    
-                    <li class=""><a data-toggle="tab" href="#tab-5">VIDEO</a></li>
+                  
                   </ul>
                   <div class="tab-content">
                   
@@ -140,14 +138,18 @@ License: You must have a valid license purchased only from themeforest (the abov
 				           <!-- BEGIN LIVE -->
 				           	
 				            <!-- BEGIN LOCAL MEDIA -->			          			
-				              <div id="preview" class="col-md-6 margin-bottom-10">									
+				              <div id="preview" class="col-md-8 margin-bottom-10">									
 								   <div class="row">									   
 
 									<!-- BEGIN MEDIA -->	
-									<div id="media-area" class="col-md-12 padding-top-10 margin-bottom-10">
-										<h4 id="memo-text">VIDEO AREA</h4>								
-										<!-- <div id="local-media" class="col-md-12 margin-bottom-10"></div>							
-										<div id="remote-media" class="col-md-12 margin-bottom-10"></div> -->
+									<div id="media-area" class="col-md-12 padding-top-10 margin-bottom-10 ">
+										<div class="row">
+										<div id="button-area" class="col-md-6 col-md-offset-3 ">
+											<button id="btn-student-ready" type="button" class="btn btn-info btn-block" data-loading-text="Waiting for teacher" > 
+												<span>Click to Take Class</span>
+											</button>
+										</div>			
+										</div>					
 									</div>	
 									<!-- MEDIA END -->
 
@@ -162,7 +164,7 @@ License: You must have a valid license purchased only from themeforest (the abov
 								<!-- LOCAL MEDIA END -->
 								
 								<!-- BEGIN CHAT ROOM -->
-								 	<div id="chatbox" class="col-md-6 margin-bottom-10 ">	
+								 	<div id="chatbox" class="col-md-4 margin-bottom-10 ">	
 								 		<div id="chat-room" class="row">		            
 												<div id="chat-content" class="col-md-12  padding-top-10 margin-bottom-10">
 												
@@ -212,96 +214,13 @@ License: You must have a valid license purchased only from themeforest (the abov
                     <div id="tab-2" class="tab-pane row fade">
                     <!-- BEGIN CAROUSELL SLIDE-->
 		              <div class="testimonials-v1 testimonials-v1-another-color col-md-12 margin-bottom-40">
-		                   <div id="stu-list" class="carousel slide">
-		                    <!-- Carousel items -->
-		                    <div class="carousel-inner">
-		
-		                      <div class="active item">
-		                        <blockquote><p>Denim you probably haven't heard of. Lorem ipsum dolor met consectetur adipisicing sit amet, consectetur adipisicing elit, of them jean shorts sed magna aliqua. Lorem ipsum dolor met consectetur adipisicing sit amet do eiusmod dolore.</p></blockquote>
-		                        <div class="carousel-info">
-		                          <img class="pull-left" src="../../static/assets/frontend/pages/img/people/img1-small.jpg" alt="">
-		                          <div class="pull-left">
-		                            <span class="testimonials-name">Lina Mars</span>
-		                            <span class="testimonials-post">Commercial Director</span>
-		                          </div>
-		                        </div>
-		                      </div>
-		
-		                      <div class="item">
-		                        <blockquote><p>Raw denim you Mustache cliche tempor, williamsburg carles vegan helvetica probably haven't heard of them jean shorts austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.</p></blockquote>
-		                        <div class="carousel-info">
-		                          <img class="pull-left" src="../../static/assets/frontend/pages/img/people/img5-small.jpg" alt="">
-		                          <div class="pull-left">
-		                            <span class="testimonials-name">Kate Ford</span>
-		                            <span class="testimonials-post">Commercial Director</span>
-		                          </div>
-		                        </div>
-		                      </div>
-		
-		                      <div class="item">
-		                        <blockquote><p>Reprehenderit butcher stache cliche tempor, williamsburg carles vegan helvetica.retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid Aliquip placeat salvia cillum iphone.</p></blockquote>
-		                        <div class="carousel-info">
-		                          <img class="pull-left" src="../../static/assets/frontend/pages/img/people/img2-small.jpg" alt="">
-		                          <div class="pull-left">
-		                            <span class="testimonials-name">Jake Witson</span>
-		                            <span class="testimonials-post">Commercial Director</span>
-		                          </div>
-		                        </div>
-		                      </div>
-		
-		                    </div>
-		
-		                    <!-- Carousel nav -->
-		                    <a class="left-btn" href="#stu-list" data-slide="prev"></a>
-		                    <a class="right-btn" href="#stu-list" data-slide="next"></a>
-		                  </div> 
+
 		              </div> 
 		              <!-- CAROUSEL SLIDE END -->   
 		              
                     </div>
                   <!-- TAB-2 END -->              
-
-                  <!--  BEGIN TAB-3 -->                    
-                    <div id="tab-3" class="tab-pane fade">
-                      <div class="col-md-9">
-                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
-                      </div>
-                      <div class="col-md-3">
-                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../static/assets/temp/pics/img2-large.jpg">
-                          <img alt="" src="../../static/assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
-                        </a>
-                      </div>                     
-                    </div>
-                  <!--  TAB-3 END -->                  
- 
-                  <!--  BEGIN TAB-4 -->                   
-                    <div id="tab-4" class="tab-pane row fade">
-                      <div class="col-md-9">
-                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
-                      </div>
-                      <div class="col-md-3">
-                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../static/assets/temp/pics/img2-large.jpg">
-                          <img alt="" src="../../static/assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
-                        </a>
-                      </div>
-                    </div>
-                  <!-- TAB-4 END -->                   
-                    
-                  <!--  BEGIN TAB-5 -->                  
-                   <div id="tab-5" class="tab-pane row fade">
-                      <div class="col-md-9">
-                      	<!--
-                      	<iframe height="300" allowfullscreen="" style="width:100%; border:0" src="http://player.vimeo.com/video/56974716?portrait=0" class="margin-bottom-10"></iframe>		              
-								-->                        
-                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
-                      </div>
-                      <div class="col-md-3">
-                        <a data-rel="fancybox-button" title="Image Title" class="fancybox-button" href="../../static/assets/temp/pics/img2-large.jpg">
-                          <img alt="" src="../../static/assets/frontend/pages/img/pics/img2-large.jpg" class="img-responsive">
-                        </a>
-                      </div>
-                    </div>                    
-                   <!--  BEGIN TAB-5 -->                   
+                 
                     
                   </div>
             </div>            
@@ -353,8 +272,10 @@ License: You must have a valid license purchased only from themeforest (the abov
   <!-- END CORE PLUGINS -->
   
   <!-- BEGIN ADOBE FONTS-->
+	<!--
 	<script src="https://use.typekit.net/irx1ruj.js"></script>
 	<script>try{Typekit.load({ async: true });}catch(e){}</script>
+	-->
   <!-- ADOBE FONTS END-->
 
   <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->	 	 
@@ -364,8 +285,8 @@ License: You must have a valid license purchased only from themeforest (the abov
     <script type="text/javascript">
         jQuery(document).ready(function() {
         		//Metronic.init(); // init metronic core componets
-            Layout.init();    
-            Layout.initTwitter();
+            //Layout.init();    
+            //Layout.initTwitter();
         });
     </script>
   <!-- END PAGE LEVEL JAVASCRIPTS -->
