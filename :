@@ -12,9 +12,9 @@ import json, os, uuid, datetime
 
 from flask import session, jsonify, redirect, render_template, safe_join, g
 from flask_restful import Resource, fields, reqparse
-from redis import Redis
 
-from xiyoumenapp import webapp, db
+
+from xiyoumenapp import webapp, db, redis_store
 from xiyoumenapp.models import Classroom, Users, Users_Classroom, Chatroom
 from xiyoumenapp.conference import Conference
 from xiyoumenapp.jsonapp import JsonManage
@@ -29,7 +29,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('txt')
 parser.add_argument('teastatus')
 parser.add_argument('stustatus')
-redis_store = Redis(charset='utf-8', decode_responses=True)
+
 
 class Test(Resource):
     """
@@ -74,10 +74,6 @@ class Login(Resource):
                 session['roleid'] = roleid
                 session['classid'] = classid
                 session['userid'] = userid
-                redis_store.delete('tea_list:' + classid)
-                redis_store.delete('stu_list:' + classid)
-                redis_store.delete('teastatus_dict:' + classid)
-                redis_store.delete('stustatus_dict:' + classid)
                 return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
             print(err)
@@ -151,37 +147,25 @@ class Info(Resource):
             if ('classid' in session) and (
                     'userid' in session):
                 print("Begin to get /info/")
-                # print(session)
+                print(session)
                 userinfo["classname"] = session['classname'] 
                 userinfo["username"] = session['username'] 
                 userinfo["roleid"] = session['roleid'] 
+                
                 classid = session['classid']
-
-                stu_list = redis_store.lrange('stu_list:'+classid, 0, -1)
-                tea_list = redis_store.lrange('tea_list:'+classid, 0, -1)
-                # print(stu_list)
-                # print(tea_list)
+                stu_bytelist = redis_store.get('stu_list:'+classid)
+                tea_bytelist = redis_store.get('tea_list:'+classid)
+                stu_list = stu_bytelist.decode()
+                tea_list = tea_bytelist.decode()
+                print(stu_list)
+                print(tea_list)
                 
-                teastatus_hash = redis_store.hgetall('teastatus_dict:'+classid)
-                stustatus_hash = redis_store.hgetall('stustatus_dict:'+classid)
-                # print(teastatus_hash)
-                
-                teastatus_dict = {"0":[], "1":[], "2":[], "3":[]}
-                stustatus_dict = {"0":[], "1":[], "2":[], "3":[]}
+                teastatus_hash = redis_store.get('teastatus_dict:'+classid)
+                stustatus_hash = redis_store.get('stustatus_dict:'+classid)
+                teastatus_dict = teastatus_hash.decode() 
+                stustatus_dict = stustatus_hash.decode()
+                print(teastatus_dict)
 
-                for (k,v) in teastatus_hash.items():
-                    for ni in range(4):
-                        if v == str(ni):
-                            teastatus_dict[str(ni)].append(k)
-                            break
-                # print(teastatus_dict)
-                        
-                for (k,v) in stustatus_hash.items():
-                    for ni in range(4):
-                        if v == str(ni):
-                            stustatus_dict[str(ni)].append(k)
-                            break
-                # print(stustatus_dict)
 
                 if session['roleid'] == 1:
                     userinfo["teacher"] = tea_list 
@@ -191,8 +175,7 @@ class Info(Resource):
                     userinfo["stustatuslist"] = stustatus_dict
                 elif session['roleid'] == 2:
                     userinfo["teastatuslist"] = teastatus_dict 
-                print (userinfo)
-                print ('Success to get userinfo')
+
                 return userinfo 
             else:
                 return userinfo 
@@ -232,31 +215,46 @@ class Info(Resource):
                         if tea.id in tid_list:
                             tea_list.append(tea.name)
 
-                    for ti in tea_list:
-                        redis_store.lpush("tea_list:"+classid, ti)
-                        redis_store.hset('teastatus_dict:'+classid, ti, 0)
+                    redis_store.set("tea_list:"+classid, tea_list)
+                    redis_store.set("stu_list:"+classid, stu_list)
 
-                    for si in stu_list:
-                        redis_store.lpush("stu_list:"+classid, si)
-                        redis_store.hset('stustatus_dict:'+classid, si, 0)
+                    stustatus_dict = {"0":stu_list, "1":[], "2":[], "3":[]}
+                    teastatus_dict = {"0":tea_list, "1":[], "2":[], "3":[]}
+
+                    redis_store.set('teastatus_dict:'+classid, teastatus_dict)
+                    redis_store.set('stustatus_dict:'+classid, stustatus_dict)
+                    print(session)
 
                 else:
                     classid = session['classid']
                     userid = session['userid']
                     username = session['username']
                     roleid = session['roleid']
+                    teastatus_hash = redis_store.get('teastatus_dict:'+classid)
+                    stustatus_hash = redis_store.get('stustatus_dict:'+classid)
+                    print(type(stustatus_hash))
+                    teastatus_dict = teastatus_hash.decode() 
+                    stustatus_dict = stustatus_hash.decode()
+                    print(type(stustatus_dict))
+                    print(stustatus_dict) 
                     if roleid == 1:
                         teastatus = args['teastatus']
-                        print("Teacher status changes to {0}".format(str(teastatus)))
-                        redis_store.hset('teastatus_dict:'+classid, username, teastatus)
+                        print(str(teastatus))
+                        for ni in range(4):
+                            if username in teastatus_dict[str(ni)]:
+                                teastatus_dict[str(ni)].remove(username)
+                        teastatus_dict[str(teastatus)].append(username)
+                        redis_store.set('teastatus_dict:'+classid, teastatus_dict)
                     elif roleid == 2:
                         stustatus = args['stustatus']
-                        print("Student status changes to {0}".format(str(stustatus)))
-                        redis_store.hset('stustatus_dict:'+classid, username, stustatus)
+                        for ni in range(4):
+                            if username in stustatus_dict[str(ni)]:
+                                stustatus_dict[str(ni)].remove(username)
+                        stustatus_dict[str(stustatus)].append(username)
+                        redis_store.set('stustatus_dict:'+classid, stustatus_dict)
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:
-                print("You have no right to do this")
                 return "You have no right to do this"
         except Exception as err:
             print("Fail to update status")

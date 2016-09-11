@@ -23,9 +23,38 @@ function timeit(){
 }
 window.setInterval('timeit()', 1000);
 
-$(document).ready(function () {
+$(document).ready(function () {	
 	$.post("/info/", {stustatus:0});
-	$("button#btn-student-ready").button("reset");
+	$.getJSON('/info/',function(data){
+		classname = data.classname;
+		username = data.username;	
+		//teastatus_dict = data.teastatuslist;
+		//stustatus_dict = data.stustatuslist;
+		
+	   console.log(classname);
+		$("title").text(classname);
+		$("span#classname").text(classname);
+		$("span#username").text(username);
+		//$("#chat-ask").attr({title:username});
+		
+	 $.getJSON('/token/', function(data) {
+	    identity = data.identity;
+	    token = data.token;
+	    var accessManager = new Twilio.AccessManager(token=data.token);
+	
+	    // Check the browser console to see your generated identity. 
+	    // Send an invite to yourself if you want! 
+	    
+		 console.log(token);
+	    // Create a Conversations Client and connect to Twilio
+	    conversationsClient = new Twilio.Conversations.Client(accessManager);  
+	    console.log(conversationsClient.identity);
+	    conversationsClient.listen().then(clientConnected, function (error) {
+	        log('Could not connect to Twilio: ' + error.message);
+	        $.post("/info/", {teastatus:0});
+    	 });
+	  });
+	});
 });
 
 
@@ -57,9 +86,11 @@ $(function ()
 function insertmessage(chatname, chattime, chatmessage, chatrole){
 	var roleicon;
 	if (chatrole=="teacher"){
-		roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';	
+		//roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
+		roleicon = 'style="text-shadow: black 5px;color:0ec9b6"';	
 	}else {
-		roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';	
+		//roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
+		roleicon = 'style="text-shadow: black 5px;color:#bdccb7"';	
 	}
 	var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="glyphicon glyphicon-user" ' + roleicon + '> </i><a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
 	console.log(inserthtml);	
@@ -68,8 +99,8 @@ function insertmessage(chatname, chattime, chatmessage, chatrole){
 
 function updatemessage(){
 	$.getJSON("/chatlist/", function (data) {
-		console.log(data.classname);
-		console.log(data.chatcontent);
+		//console.log(data.classname);
+		//console.log(data.chatcontent);
 		listmessage = data.chatcontent;
 		num_chatitem = listmessage.length;
 		listoldmessage = $("#chat-message-list").children();
@@ -78,14 +109,14 @@ function updatemessage(){
 		//console.log(num_chatolditem);
 		
 		for (item in listmessage){
-			console.log(item);
+			//console.log(item);
 			if (num_chatolditem <= item){
-			chat_item = listmessage[item];
-			chatname = chat_item.username;
-			chattime = chat_item.createtime;
-			chatmessage = chat_item.question;
-			chatrole = chat_item.rolename;
-			insertmessage(chatname, chattime, chatmessage, chatrole);
+				chat_item = listmessage[item];
+				chatname = chat_item.username;
+				chattime = chat_item.createtime;
+				chatmessage = chat_item.question;
+				chatrole = chat_item.rolename;
+				insertmessage(chatname, chattime, chatmessage, chatrole);
 			}
 		}		
 	});

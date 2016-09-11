@@ -32,12 +32,12 @@ class AdminView(BaseView):
 
 
 class LoginModelView(ModelView):
-    can_create = True 
-    can_edit = True
-    can_delete = True 
+    # can_create = True 
+    # can_edit = True
+    # can_delete = True 
     can_view_details = True
-    create_modal = True
-    edit_modal = True
+    # create_modal = True
+    # edit_modal = True
     page_size = 10
     column_display_pk = True
     
@@ -51,13 +51,13 @@ class LoginModelView(ModelView):
 
 
 class ClassroomModelView(ModelView):
-    can_create = True 
-    can_edit = True
-    can_delete = True 
+    # can_create = True 
+    # can_edit = True
+    # can_delete = True 
     can_view_details = True
     can_export = True
-    create_modal = True
-    edit_modal = True
+    # create_modal = True
+    # edit_modal = True
     page_size = 10
     column_display_pk = True
     
@@ -71,13 +71,13 @@ class ClassroomModelView(ModelView):
 
 
 class DescModelView(ModelView):
-    can_create = True 
-    can_edit = True
-    can_delete = True 
-    can_view_details = True
-    can_export = True
-    create_modal = True
-    edit_modal = True
+    # can_create = True 
+    # can_edit = True
+    # can_delete = True 
+    # can_view_details = True
+    # can_export = True
+    # create_modal = True
+    # edit_modal = True
     page_size = 10
     form_base_class = SecureForm
     column_display_pk = True
@@ -100,7 +100,7 @@ class DescModelView(ModelView):
 class LogModelView(ModelView):
     can_create = False 
     can_edit = False
-    can_delete = True
+    # can_delete = True
     can_view_details = True
     can_export = True
     page_size = 20

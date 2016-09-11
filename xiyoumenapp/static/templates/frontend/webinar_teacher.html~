@@ -208,13 +208,13 @@ License: You must have a valid license purchased only from themeforest (the abov
                   <!--  BEGIN TAB-2 -->                                      
                     <div id="tab-2" class="tab-pane row fade">
                     <!-- BEGIN CAROUSELL SLIDE-->
-                    <iframe frameborder='0'  width='240' height='210'  title='AÑADIDO - JIANGXI' src='http://online.slidehtml5.com/xxes/ctuj/#p=1' type='text/html' allowfullscreen='true' scrolling='no' marginwidth='0' marginheight='0'></iframe>		              
-		              <div class="testimonials-v1 testimonials-v1-another-color col-md-12 margin-bottom-40">
-		              	<canvas id="myCanvas">
-								Sorry, your browser does not support HTML5 canvas technology.
-							</canvas>     
+                    <div class="testimonials-v1 testimonials-v1-another-color col-md-12 margin-bottom-40">
+   
 		 
 		              </div> 
+		              		           	<canvas id="myCanvas">
+								Sorry, your browser does not support HTML5 canvas technology.
+							</canvas>  
 		              <!-- CAROUSEL SLIDE END -->   
 		              
                     </div>

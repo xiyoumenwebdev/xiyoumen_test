@@ -14,6 +14,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_cache import Cache
 
 from xiyoumenapp import settings
 
@@ -24,7 +25,7 @@ webapp.config.from_object(settings)
 db = SQLAlchemy(webapp)
 
 webadmin = Admin(webapp, name="XIYOUMEN", template_mode="bootstrap3")
-
+webcache = Cache(webapp, config={'CACHE_TYPE': 'simple'})
 
 from xiyoumenapp import models
 if not os.path.isfile(settings.SQLALCHEMY_DATABASE_URI):

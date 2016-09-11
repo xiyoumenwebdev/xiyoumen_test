@@ -26,15 +26,11 @@ function timeit(){
 }
 window.setInterval('timeit()', 1000);
 
+/*
 $(document).ready(function () {
-	$.post("/info/", {teastatus:0}).then(function () {
-		$.getJSON("/info/", function (data) {
-			classname = data.classname;
-			username = data.username;	
-		});		
-	});
-
+	$.post("/info/", {teastatus:0});
 });
+*/
 
 $.fn.bootstrapSwitch.defaults.state = true;
 $(".switch").bootstrapSwitch();
@@ -119,9 +115,11 @@ $(function ()
 function insertmessage(chatname, chattime, chatmessage, chatrole){
 	var roleicon;
 	if (chatrole=="teacher"){
-		roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';	
+		//roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
+		roleicon = 'style="text-shadow: black 5px;color:0ec9b6"';	
 	}else {
-		roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';	
+		//roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
+		roleicon = 'style="text-shadow: black 5px;color:#bdccb7"';
 	}
 	var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="glyphicon glyphicon-user" ' + roleicon + '> </i><a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
 	console.log(inserthtml);	
@@ -140,7 +138,7 @@ function updatemessage(){
 		num_chatolditem = listoldmessage.length;
 		//console.log(num_chatitem);
 		//console.log(num_chatolditem);
-		var classdatetime = new Date();
+		//var classdatetime = new Date();
 		
 		for (item in listmessage){
 			//console.log(item);
@@ -166,6 +164,9 @@ function postmessage() {
 }
 
 $(document).ready(function () {
+	$.post("/info/", {teastatus:0}).then(function () {
+		
+
 	$.getJSON('/info/',function(data){
 		classname = data.classname;
 		username = data.username;
@@ -173,12 +174,41 @@ $(document).ready(function () {
 		tea_list = data.teacher;	
 		teastatus_dict = data.teastatuslist;
 		stustatus_dict = data.stustatuslist;
+		console.log(teastatus_dict);
+		console.log(tea_list);
 		
 	   console.log(classname);
 		$("title").text(classname);
 		$("span#classname").text(classname);
 		$("span#username").text(username);
-		//$("#chat-ask").attr({title:username});
+		
+		var num_alltea = tea_list.length;
+	   var num_allstu = stu_list.length;
+	   var num_readytea = teastatus_dict["1"].length;
+	   var num_readystu = stustatus_dict["1"].length;
+	   var num_onlinetea = teastatus_dict["2"].length;
+	   var num_onlinestu = stustatus_dict["2"].length;
+	   
+	   $("span#num_teainfo").text(num_readytea + " / " + num_onlinetea + " / " + num_alltea);
+	   $("span#num_stuinfo").text(num_readystu + " / " +num_onlinestu + " / " + num_allstu);
+	   
+	   $.getJSON('/token/', function(data) {
+	    	identity = data.identity;
+	    	token = data.token;
+	    	var accessManager = new Twilio.AccessManager(token=data.token);
+	
+	    	// Check the browser console to see your generated identity. 
+	    	// Send an invite to yourself if you want! 
+	    
+		 	console.log(token);
+	    	// Create a Conversations Client and connect to Twilio
+	    	conversationsClient = new Twilio.Conversations.Client(accessManager);  
+	    	console.log(conversationsClient.identity);
+	    	conversationsClient.listen().then(clientConnected, function (error) {
+	        log('Could not connect to Twilio: ' + error.message);
+	        $.post("/info/", {teastatus:0});
+    	 	});
+		});
 	
 	    var newstudentEl;
 	    for (si in stu_list) {
@@ -299,17 +329,8 @@ $(document).ready(function () {
 					}
 	        });
 	    }
-	    
-	    teastatus_dict = data.teastatuslist;
-		 stustatus_dict = data.stustatuslist;    
-		 var num_alltea = tea_list.length;
-	    var num_allstu = stu_list.length;
-	    var num_readytea = teastatus_dict["1"].length;
-	    var num_readystu = stustatus_dict["1"].length;
-	    var num_onlinetea = teastatus_dict["2"].length;
-	    var num_onlinestu = stustatus_dict["2"].length;
-	    $("span#num_teainfo").text(num_readytea + " / " + num_onlinetea + " / " + num_alltea);
-	    $("span#num_stuinfo").text(num_readystu + " / " +num_onlinestu + " / " + num_allstu);
+	       
+		});
 	 
 	   // $(function () { $('#collapseOne').collapse('show')});
 	   // $(function () { $('#collapseTwo').collapse('')});
@@ -317,23 +338,7 @@ $(document).ready(function () {
 	 
 	 });
 		
-	 $.getJSON('/token/', function(data) {
-	    identity = data.identity;
-	    token = data.token;
-	    var accessManager = new Twilio.AccessManager(token=data.token);
-	
-	    // Check the browser console to see your generated identity. 
-	    // Send an invite to yourself if you want! 
-	    
-		 console.log(token);
-	    // Create a Conversations Client and connect to Twilio
-	    conversationsClient = new Twilio.Conversations.Client(accessManager);  
-	    console.log(conversationsClient.identity);
-	    conversationsClient.listen().then(clientConnected, function (error) {
-	        log('Could not connect to Twilio: ' + error.message);
-	        $.post("/info/", {teastatus:0});
-    	 });
-	});
+
 });
 
 function createTeaIconEl(user_info){
@@ -425,7 +430,7 @@ function createStuIconEl(user_info){
 $()
 
 
-
+/*
 function buttontoggle() {
 	
 	if ($(this).hasClass('active')){
@@ -441,7 +446,7 @@ function buttontoggle() {
 	}
 	console.log($(this).text);
 };	
-		
+*/		
 
 function updateClassInfo() {
 	$.getJSON('/info/',function(data){	
@@ -708,88 +713,3 @@ function createMediaEl(id_name){
 function log(message) {
     document.getElementById('log-content').innerHTML = message;
 }
-
-window.onload = function() {
-	var myCanvas = document.getElementById("myCanvas");
-	var ctx = myCanvas.getContext("2d");
-    
-    // Fill Window Width and Height
-    myCanvas.width = window.innerWidth;
-	myCanvas.height = window.innerHeight;
-	
-	// Set Background Color
-    ctx.fillStyle="#fff";
-    ctx.fillRect(0,0,myCanvas.width,myCanvas.height);
-	
-    // Mouse Event Handlers
-	if(myCanvas){
-		var isDown = false;
-		var canvasX, canvasY;
-		ctx.lineWidth = 5;
-		
-		$(myCanvas)
-		.mousedown(function(e){
-			isDown = true;
-			ctx.beginPath();
-			canvasX = e.pageX - myCanvas.offsetLeft;
-			canvasY = e.pageY - myCanvas.offsetTop;
-			ctx.moveTo(canvasX, canvasY);
-		})
-		.mousemove(function(e){
-			if(isDown !== false) {
-				canvasX = e.pageX - myCanvas.offsetLeft;
-				canvasY = e.pageY - myCanvas.offsetTop;
-				ctx.lineTo(canvasX, canvasY);
-				ctx.strokeStyle = "#000";
-				ctx.stroke();
-			}
-		})
-		.mouseup(function(e){
-			isDown = false;
-			ctx.closePath();
-		});
-	}
-	
-	// Touch Events Handlers
-	draw = {
-		started: false,
-		start: function(evt) {
-
-			ctx.beginPath();
-			ctx.moveTo(
-				evt.touches[0].pageX,
-				evt.touches[0].pageY
-			);
-
-			this.started = true;
-
-		},
-		move: function(evt) {
-
-			if (this.started) {
-				ctx.lineTo(
-					evt.touches[0].pageX,
-					evt.touches[0].pageY
-				);
-
-				ctx.strokeStyle = "#000";
-				ctx.lineWidth = 5;
-				ctx.stroke();
-			}
-
-		},
-		end: function(evt) {
-			this.started = false;
-		}
-	};
-	
-	// Touch Events
-	myCanvas.addEventListener('touchstart', draw.start, false);
-	myCanvas.addEventListener('touchend', draw.end, false);
-	myCanvas.addEventListener('touchmove', draw.move, false);
-	
-	// Disable Page Move
-	document.body.addEventListener('touchmove',function(evt){
-		evt.preventDefault();
-	},false);
-};
