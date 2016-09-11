@@ -668,6 +668,10 @@ function conversationStarted(conversation) {
     });
 }
 
+function createMediaEl(id_name){
+	return "<div id='" + id_name + "'class='margin-bottom-10'></div>"
+}
+
 //  Local video preview
 $('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) {	
   	if (!state){
@@ -705,9 +709,7 @@ $('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) 
 
 });
 
-function createMediaEl(id_name){
-	return "<div id='" + id_name + "'class='margin-bottom-10'></div>"
-}
+
 
 // Activity log
 function log(message) {

@@ -29,7 +29,9 @@ parser = reqparse.RequestParser()
 parser.add_argument('txt')
 parser.add_argument('teastatus')
 parser.add_argument('stustatus')
+
 redis_store = Redis(charset='utf-8', decode_responses=True)
+
 
 class Test(Resource):
     """
@@ -69,6 +71,7 @@ class Login(Resource):
                 username = users[0].name
                 roleid = users[0].roleid
                     
+                session = {}
                 session['classname'] = classname
                 session['username'] = username
                 session['roleid'] = roleid
@@ -78,7 +81,14 @@ class Login(Resource):
                 redis_store.delete('stu_list:' + classid)
                 redis_store.delete('teastatus_dict:' + classid)
                 redis_store.delete('stustatus_dict:' + classid)
-                return redirect(fields.url_for('classapi.class_ep'))
+                
+                if roleid == 1:
+                    # return render_template(page_teacher)
+                    return webapp.send_static_file(page_teacher)
+                elif roleid == 2:
+                    # return render_template(page_student)
+                    return webapp.send_static_file(page_student)
+                # return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
             print(err)
 
@@ -214,7 +224,7 @@ class Info(Resource):
             roleid = session['roleid']
             
             if ('classid' in session) and ('userid' in session):
-                if (not redis_store.exists("stu_list:"+classid)):
+                if (not redis_store.exists("stu_list:"+classid) and roleid == 1):
                     print(session) 
                     uc = Users_Classroom.query.filter_by(classid=classid).all()
                     tid_list = [ti.userid for ti in uc]

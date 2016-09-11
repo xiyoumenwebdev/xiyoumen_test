@@ -19,6 +19,8 @@ div#local-media {height:285px; }
 div#remote-media {height: 100px; border-top:1px solid #cececc}
 video {max-width: 100%; max-height: 100%}
 
+h4#memo-text {padding-top: 30%}
+
 
 /*
 div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-width:27%!important;background-color:#272726;background-repeat:no-repeat}

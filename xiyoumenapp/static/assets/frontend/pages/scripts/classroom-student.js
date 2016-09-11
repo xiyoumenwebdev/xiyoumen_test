@@ -51,7 +51,7 @@ $(document).ready(function () {
 	    console.log(conversationsClient.identity);
 	    conversationsClient.listen().then(clientConnected, function (error) {
 	        log('Could not connect to Twilio: ' + error.message);
-	        $.post("/info/", {teastatus:0});
+	        $.post("/info/", {stustatus:0});
     	 });
 	  });
 	});
@@ -131,18 +131,20 @@ function postmessage() {
 		updatemessage();
 }
 
+
 function updateTeaEl() {
 	$('div#media-area').empty();
 	var btnMediaAreaEl = '<button id="btn-student-ready" type="button" class="btn btn-info" data-loading-text="Waiting for teacher" > <span>Ready To Begin Class</span></button>';
   	$('div#media-area').append(btnMediaAreaEl)
 }
 
+
 $("button#btn-student-ready").on("click",function () {
 	$.post("/info/", {stustatus:1});
 	$(this).button("loading");
 });
 
-
+/*
 $.getJSON('/token/', function(data) {
     identity = data.identity;
     token = data.token;
@@ -159,7 +161,7 @@ $.getJSON('/token/', function(data) {
         log('Could not connect to Twilio: ' + error.message);
     });
 });
-
+*/
 
 // Successfully connected!
 function clientConnected() {
@@ -229,7 +231,7 @@ function conversationStarted(conversation) {
     conversation.on('participantConnected', function (participant) {
         log("Participant '" + participant.identity + "' connected");
         console.log("Participant '" + participant.identity + "' connected");
-        participant.media.attach('#media_'+participant.identity);
+        participant.media.attach('#remote_media');
     });
     
     conversation.on('participantFailed', function(participant) {
