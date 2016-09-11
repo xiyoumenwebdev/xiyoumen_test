@@ -71,7 +71,8 @@ class Login(Resource):
                 username = users[0].name
                 roleid = users[0].roleid
                     
-                session = {}
+                webapp.config["SECRET_KEY"] = userid
+                session.clear()
                 session['classname'] = classname
                 session['username'] = username
                 session['roleid'] = roleid
