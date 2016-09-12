@@ -24,36 +24,37 @@ function timeit(){
 window.setInterval('timeit()', 1000);
 
 $(document).ready(function () {	
-	$.post("/info/", {stustatus:0});
-	$.getJSON('/info/',function(data){
-		classname = data.classname;
-		username = data.username;	
-		//teastatus_dict = data.teastatuslist;
-		//stustatus_dict = data.stustatuslist;
+	$.post("/info/", {stustatus:0}).then(function () {			
+		$.getJSON('/info/',function(data){
+			classname = data.classname;
+			username = data.username;	
+			//teastatus_dict = data.teastatuslist;
+			//stustatus_dict = data.stustatuslist;
+			
+		   console.log(classname);
+			$("title").text(classname);
+			$("span#classname").text(classname);
+			$("span#username").text(username);
+			//$("#chat-ask").attr({title:username});
+		});
+					
+		$.getJSON('/token/', function(data) {
+		    identity = data.identity;
+		    token = data.token;
+		    var accessManager = new Twilio.AccessManager(token=data.token);
 		
-	   console.log(classname);
-		$("title").text(classname);
-		$("span#classname").text(classname);
-		$("span#username").text(username);
-		//$("#chat-ask").attr({title:username});
-		
-	 $.getJSON('/token/', function(data) {
-	    identity = data.identity;
-	    token = data.token;
-	    var accessManager = new Twilio.AccessManager(token=data.token);
-	
-	    // Check the browser console to see your generated identity. 
-	    // Send an invite to yourself if you want! 
-	    
-		 console.log(token);
-	    // Create a Conversations Client and connect to Twilio
-	    conversationsClient = new Twilio.Conversations.Client(accessManager);  
-	    console.log(conversationsClient.identity);
-	    conversationsClient.listen().then(clientConnected, function (error) {
-	        log('Could not connect to Twilio: ' + error.message);
-	        $.post("/info/", {stustatus:0});
-    	 });
-	  });
+		    // Check the browser console to see your generated identity. 
+		    // Send an invite to yourself if you want! 
+		    
+			 console.log(token);
+		    // Create a Conversations Client and connect to Twilio
+		    conversationsClient = new Twilio.Conversations.Client(accessManager);  
+		    console.log(conversationsClient.identity);
+		    conversationsClient.listen().then(clientConnected, function (error) {
+		        log('Could not connect to Twilio: ' + error.message);
+		        $.post("/info/", {stustatus:0});
+	    	 });
+		 });
 	});
 });
 

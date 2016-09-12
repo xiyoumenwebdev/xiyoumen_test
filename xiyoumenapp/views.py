@@ -71,25 +71,17 @@ class Login(Resource):
                 username = users[0].name
                 roleid = users[0].roleid
                     
-                webapp.config["SECRET_KEY"] = userid
-                session.clear()
-                session['classname'] = classname
-                session['username'] = username
-                session['roleid'] = roleid
                 session['classid'] = classid
                 session['userid'] = userid
+                redis_store.set('classname:'+classid, classname)
+                redis_store.set('username:'+userid, username)
+                redis_store.set('roleid:'+userid, roleid)
                 redis_store.delete('tea_list:' + classid)
                 redis_store.delete('stu_list:' + classid)
                 redis_store.delete('teastatus_dict:' + classid)
                 redis_store.delete('stustatus_dict:' + classid)
-                
-                if roleid == 1:
-                    # return render_template(page_teacher)
-                    return webapp.send_static_file(page_teacher)
-                elif roleid == 2:
-                    # return render_template(page_student)
-                    return webapp.send_static_file(page_student)
-                # return redirect(fields.url_for('classapi.class_ep'))
+
+                return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
             print(err)
 
@@ -103,20 +95,14 @@ class ClassRoom(Resource):
         # function get response http GET with classroom.html
         """
         try:
-            if ('classid' in session) and (
-                    'userid' in session):
-                classid = session['classid']
+            if ('classid' in session) and ('userid' in session):
                 userid = session['userid']
-                roleid = session['roleid']
-
+                roleid = int(redis_store.get("roleid:"+userid))
                 if roleid == 1:
-                    # return render_template(page_teacher)
                     return webapp.send_static_file(page_teacher)
                 elif roleid == 2:
-                    # return render_template(page_student)
                     return webapp.send_static_file(page_student)
             else:
-                # return redirect(fields.url_for('login_ep'))
                 return "There are some problems"
         except Exception as err:
             print("Fail to get classroom info")
@@ -132,8 +118,7 @@ class Token(Resource):
         # function get response http GET with token json
         """
         try:
-            if ('classid' in session) and (
-                    'userid' in session):
+            if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 userid = session['userid']
                 ins_conference = Conference(classid, userid)
@@ -159,14 +144,14 @@ class Info(Resource):
         """
         try:
             userinfo = {}
-            if ('classid' in session) and (
-                    'userid' in session):
+            if ('classid' in session) and ('userid' in session):
                 print("Begin to get /info/")
-                # print(session)
-                userinfo["classname"] = session['classname'] 
-                userinfo["username"] = session['username'] 
-                userinfo["roleid"] = session['roleid'] 
+                print(session)
                 classid = session['classid']
+                userid = session['userid']
+                userinfo["classname"] = redis_store.get("classname:"+classid)
+                userinfo["username"] = redis_store.get("username:"+userid)
+                userinfo["roleid"] = int(redis_store.get("roleid:"+userid)) 
 
                 stu_list = redis_store.lrange('stu_list:'+classid, 0, -1)
                 tea_list = redis_store.lrange('tea_list:'+classid, 0, -1)
@@ -194,14 +179,14 @@ class Info(Resource):
                             break
                 # print(stustatus_dict)
 
-                if session['roleid'] == 1:
+                if userinfo['roleid'] == 1:
                     userinfo["teacher"] = tea_list 
                     userinfo["student"] = stu_list 
                     
                     userinfo["teastatuslist"] = teastatus_dict 
                     userinfo["stustatuslist"] = stustatus_dict
-                elif session['roleid'] == 2:
-                    userinfo["teastatuslist"] = teastatus_dict 
+                # elif userinfo['roleid'] == 2:
+                    # userinfo["teastatuslist"] = teastatus_dict 
                 print (userinfo)
                 print ('Success to get userinfo')
                 return userinfo 
@@ -222,7 +207,8 @@ class Info(Resource):
             args = parser.parse_args()
             classid = session['classid']
             userid = session['userid']
-            roleid = session['roleid']
+            roleid = int(redis_store.get("roleid:"+userid))
+            print(roleid)
             
             if ('classid' in session) and ('userid' in session):
                 if (not redis_store.exists("stu_list:"+classid) and roleid == 1):
@@ -254,8 +240,8 @@ class Info(Resource):
                 else:
                     classid = session['classid']
                     userid = session['userid']
-                    username = session['username']
-                    roleid = session['roleid']
+                    username = redis_store.get('username:'+userid)
+                    roleid = int(redis_store.get('roleid:'+userid))
                     if roleid == 1:
                         teastatus = args['teastatus']
                         print("Teacher status changes to {0}".format(str(teastatus)))
