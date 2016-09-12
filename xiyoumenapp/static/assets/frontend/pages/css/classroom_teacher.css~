@@ -33,7 +33,7 @@ div#controllist {max-height: 300px}
 
 div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padding-top: 10px; border-top: 1px solid #cececc; }
 
-.service-box-tea {text-align: center; background: #fff; font-size: 55px; border:1px solid #cececc}
+.service-box-tea {height:130px; text-align: center; background: #fff; font-size: 55px; border:1px solid #cececc}
 .service-box-tea span {font-size: 11px}
 .service-box-stu:hover {background: #d73d04}
 .service-box-stu:hover i,

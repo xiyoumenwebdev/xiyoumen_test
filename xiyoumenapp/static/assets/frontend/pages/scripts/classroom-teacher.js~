@@ -212,7 +212,7 @@ $(document).ready(function () {
 		    var newstudentEl;
 		    for (si in stu_list) {
 		        newstudentEl = createStuIconEl(stu_list[si])
-		        $("#studentlist").append(newstudentEl).then(function () {
+		        $("#studentlist").append(newstudentEl);
 		        	
 			        	$("#btn-sound-" + stu_list[si]).on("click",function () {
 			        		if ($(this).hasClass('active')){
@@ -276,16 +276,14 @@ $(document).ready(function () {
 					             		console.error('Unable to create conversation', error);
 					         		});}	
 								}
-						  });
-		        	
-		        });        
+						  });       
 
 		    }
 		    
 		    var newteacherEl;
 		    for (ti in tea_list) {
 		        newteacherEl = createTeaIconEl(tea_list[ti])        
-		        $("#teacherlist").append(newteacherEl).then(function () {
+		        $("#teacherlist").append(newteacherEl);
 		        	
 			        $("#btn-media-" + tea_list[ti]).on("click", function () {
 			        		console.log("teacher media control");
@@ -321,9 +319,6 @@ $(document).ready(function () {
 								}  						
 							}
 			        });
-		        });
-		        
-
 		    }
 		       
 			});
@@ -338,7 +333,7 @@ $(document).ready(function () {
 });
 
 function createTeaIconEl(user_info){
-	var iconContainer = '<div class="col-md-6 margin-bottom-10"> </div>';
+	var iconContainer = '<div class="col-md-6"> </div>';
 	var serviceBoxV1 = 	'<div class="service-box-tea"> </div>';
 	var localMedia = '<div id="" class="local-media"> <i class="fa fa-user color-grey"></i></div>';
 	var userH = '<h4 id="" class="color-grey"></h4>';
@@ -487,8 +482,10 @@ function setTeaConnectedEl(userinfo) {
 	console.log("#media-" + userinfo);
 	//$("#media-" + userinfo).css("background", "#d9edf7");
 	$("#media-" + userinfo).css("background", "green");
+	($("#media-" + userinfo).parent()).css("background", "green");
 	$("#media-" + userinfo +" i").css("color", "#fff");
 	$("#media-" + userinfo +" p").css("color", "#fff");
+	($("#media-" + userinfo).next()).css("color", "#fff");
 	$("#media-" + userinfo + " h4").css("color", "#fff");
 }
 
@@ -496,8 +493,10 @@ function setStuConnectedEl(userinfo) {
 	console.log("#media-" + userinfo);
 	//$("#media-" + userinfo).css("background", "##dff0d8");
 	$("#media-" + userinfo).css("background", "green");
+	($("#media-" + userinfo).parent()).css("background", "green");
 	$("#media-" + userinfo +" i").css("color", "#fff");
 	$("#media-" + userinfo +" p").css("color", "#fff");
+	($("#media-" + userinfo).next()).css("color", "#fff");
 	$("#media-" + userinfo + " h4").css("color", "#fff");
 	//$("#btn-video-" + userinfo).show();
 	$("#btn-sound-" + userinfo).show();
@@ -509,8 +508,10 @@ function setStuConnectedEl(userinfo) {
 
 function setDisconnectedEl(userinfo) {
 	$("#media-" + userinfo).css("background", "");
+	($("#media-" + userinfo).parent()).css("background", "");
 	$("#media-" + userinfo +" i").css("color", "");
 	$("#media-" + userinfo +" p").css("color", "");
+	($("#media-" + userinfo).next()).css("color", "#fff");
 	$("#media-" + userinfo + " h4").css("color", "");
 	console.log("button hided"+ " #btn-sound-" + userinfo);
 	//$("#btn-video-" + userinfo).hide();
@@ -520,8 +521,10 @@ function setDisconnectedEl(userinfo) {
 
 function setReadyEl(userinfo) {
 	$("#media-" + userinfo).css("background", "#d73d04");
+	($("#media-" + userinfo).parent()).css("background", "#d73d04");
 	$("#media-" + userinfo +" i").css("color", "#fff");
 	$("#media-" + userinfo +" p").css("color", "#fff");
+	($("#media-" + userinfo).next()).css("color", "#fff");
 	$("#media-" + userinfo + " h4").css("color", "#fff");
 	//$("#btn-video-" + userinfo).show();
 	$("#btn-sound-" + userinfo).show();
