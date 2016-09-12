@@ -557,7 +557,7 @@ function clientConnected() {
          	});
          } else {
          	// Create a conversation
-         	options = {localMedia:localMedia};
+         	options = {};
          	/*if (previewMedia) {
         			options.localMedia = previewMedia;
       		}else {
