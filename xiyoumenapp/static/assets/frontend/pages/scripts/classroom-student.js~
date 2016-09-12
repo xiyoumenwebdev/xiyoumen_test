@@ -171,7 +171,7 @@ function conversationStarted(conversation) {
 	 //VideoAreaEl = $(videoarea);
 	 
     $('div#media-area').empty();
-    $('div#media-area').append(MediaAreaEl).then(function () {
+    $('div#media-area').append(MediaAreaEl);
     	    	
 	    $("div#local-media").slimScroll({
 		    width: '100%',
@@ -220,6 +220,7 @@ function conversationStarted(conversation) {
     conversation.on('participantConnected', function (participant) {
         log("Participant '" + participant.identity + "' connected");
         console.log("Participant '" + participant.identity + "' connected");
+        console.log(participant)
         participant.media.attach('div#remote-media');
         $.post("/info/", {stustatus:2});
     });
@@ -260,7 +261,7 @@ function conversationStarted(conversation) {
         $.post("/info/", {stustatus:0});
         
     });
-   });
+
 }
 
 

@@ -146,7 +146,7 @@ License: You must have a valid license purchased only from themeforest (the abov
 										<div class="row">
 										<div id="button-area" class="col-md-6 col-md-offset-3 ">
 											<button id="btn-student-ready" type="button" class="btn btn-info btn-block" data-loading-text="Waiting for teacher" autocomplete="off"> 
-												<span>Click to Take Class</span>
+												<h4 id="memo-text">Click to Take Class</h4>
 											</button>
 										</div>			
 										</div>					

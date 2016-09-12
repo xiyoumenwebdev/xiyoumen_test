@@ -171,7 +171,7 @@ function conversationStarted(conversation) {
 	 //VideoAreaEl = $(videoarea);
 	 
     $('div#media-area').empty();
-    $('div#media-area').append(MediaAreaEl).then(function () {
+    $('div#media-area').append(MediaAreaEl);
     	    	
 	    $("div#local-media").slimScroll({
 		    width: '100%',
@@ -261,7 +261,7 @@ function conversationStarted(conversation) {
         $.post("/info/", {stustatus:0});
         
     });
-   });
+
 }
 
 
