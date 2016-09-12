@@ -164,179 +164,175 @@ function postmessage() {
 }
 
 $(document).ready(function () {
-	$.post("/info/", {teastatus:0}).then(function () {
-		
+	$.post("/info/", {teastatus:0}).then(function () {	
 
-	$.getJSON('/info/',function(data){
-		classname = data.classname;
-		username = data.username;
-		stu_list = data.student;
-		tea_list = data.teacher;	
-		teastatus_dict = data.teastatuslist;
-		stustatus_dict = data.stustatuslist;
-		console.log(teastatus_dict);
-		console.log(tea_list);
+		$.getJSON('/info/',function(data){
+			classname = data.classname;
+			username = data.username;
+			stu_list = data.student;
+			tea_list = data.teacher;	
+			teastatus_dict = data.teastatuslist;
+			stustatus_dict = data.stustatuslist;
+			console.log(teastatus_dict);
+			console.log(tea_list);			
+		   console.log(classname);
+		   
+			$("title").text(classname);
+			$("span#classname").text(classname);
+			$("span#username").text(username);
+			
+			var num_alltea = tea_list.length;
+		   var num_allstu = stu_list.length;
+		   var num_readytea = teastatus_dict["1"].length;
+		   var num_readystu = stustatus_dict["1"].length;
+		   var num_onlinetea = teastatus_dict["2"].length;
+		   var num_onlinestu = stustatus_dict["2"].length;
+		   
+		   $("span#num_teainfo").text(num_readytea + " / " + num_onlinetea + " / " + num_alltea);
+		   $("span#num_stuinfo").text(num_readystu + " / " +num_onlinestu + " / " + num_allstu);
+		   
+		   $.getJSON('/token/', function(data) {
+		    	identity = data.identity;
+		    	token = data.token;
+		    	var accessManager = new Twilio.AccessManager(token=data.token);
 		
-	   console.log(classname);
-		$("title").text(classname);
-		$("span#classname").text(classname);
-		$("span#username").text(username);
+		    	// Check the browser console to see your generated identity. 
+		    	// Send an invite to yourself if you want! 
+		    
+			 	console.log(token);
+		    	// Create a Conversations Client and connect to Twilio
+		    	conversationsClient = new Twilio.Conversations.Client(accessManager);  
+		    	console.log(conversationsClient.identity);
+		    	conversationsClient.listen().then(clientConnected, function (error) {
+		        log('Could not connect to Twilio: ' + error.message);
+		        $.post("/info/", {teastatus:0});
+	    	 	});
+			});
 		
-		var num_alltea = tea_list.length;
-	   var num_allstu = stu_list.length;
-	   var num_readytea = teastatus_dict["1"].length;
-	   var num_readystu = stustatus_dict["1"].length;
-	   var num_onlinetea = teastatus_dict["2"].length;
-	   var num_onlinestu = stustatus_dict["2"].length;
-	   
-	   $("span#num_teainfo").text(num_readytea + " / " + num_onlinetea + " / " + num_alltea);
-	   $("span#num_stuinfo").text(num_readystu + " / " +num_onlinestu + " / " + num_allstu);
-	   
-	   $.getJSON('/token/', function(data) {
-	    	identity = data.identity;
-	    	token = data.token;
-	    	var accessManager = new Twilio.AccessManager(token=data.token);
-	
-	    	// Check the browser console to see your generated identity. 
-	    	// Send an invite to yourself if you want! 
-	    
-		 	console.log(token);
-	    	// Create a Conversations Client and connect to Twilio
-	    	conversationsClient = new Twilio.Conversations.Client(accessManager);  
-	    	console.log(conversationsClient.identity);
-	    	conversationsClient.listen().then(clientConnected, function (error) {
-	        log('Could not connect to Twilio: ' + error.message);
-	        $.post("/info/", {teastatus:0});
-    	 	});
-		});
-	
-	    var newstudentEl;
-	    for (si in stu_list) {
-	        newstudentEl = createStuIconEl(stu_list[si])
-	        $("#studentlist").append(newstudentEl);
-	        /*
-	        $("#btn-video-" + stu_list[si]).on("click",function () {
-	        		if ($(this).hasClass('active')){
-						console.log($(this).button('reset'));
-												
-					}else{
-						console.log($(this).button('complete'));
-						
-					}
-	        });
-	        */
-	        $("#btn-sound-" + stu_list[si]).on("click",function () {
-	        		if ($(this).hasClass('active')){
-						console.log($(this).button('reset'));
-						// mute;
-						if (activeConversation){
-							activeConversation.on('participantConnected', function (participant) {
-								log("Participant '" + participant.identity + "' muted");
-			        			console.log("Participant '" + participant.identity + "' muted");
-			        			participant.media.detach();
-			        			participant.on('trackAdded',function (track) {
-			        				if (track.kind=='video'){
-										track.attach('#media-'+participant.identity);        				
-			        				}	
-			        			});				
-							}); 	  		
-		 	  			} 							
-					}else{
-						console.log($(this).button('complete')); 	  		
-						//unmute;
-			 	  		if (activeConversation){
-							activeConversation.on('participantConnected', function (participant) {
-								log("Participant '" + participant.identity + "' unmuted");
-			        			console.log("Participant '" + participant.identity + "' unmuted");
-			        			participant.media.detach();
-			        			participant.media.attach('#media-'+participant.identity);
-							
-							});}
-					}
-	        });
-	        
-	        $("#btn-link-" + stu_list[si]).on("click",function () {
-	        		if ($(this).hasClass('active')){
-	        			//unlink;
-						console.log($(this).button('reset'));
-					 	if (activeConversation){
-	 	  					activeconversation.disconnect().then(conversationStarted,function(error){
-	             			log('Unable to disable conversation');
-	             			console.error('Unable to disable conversation', error); 	  			
- 	  					});} 							
-					}else{
-						//link;
-						console.log($(this).button('complete'));
-						var inviteTo = stu_list[si];
-			 	  		var options = {audio:false};
-			     		if (activeConversation) {
-			         	// Add a participant          
-			         	activeConversation.invite(inviteTo, options).then(conversationStarted,
-			         	function (error) {
-			             		log('Fail to invite');
-			             		console.error('Fail to invite', error);         		
-			         	});
-			         } else {
-			         	// Create a conversation
-			         	if (previewMedia) {
-			        			options.localMedia = previewMedia;
-			      		}
-			        		conversationsClient.inviteToConversation(inviteTo, options).then(conversationStarted,                        
-			         		function (error) {
-			             		log('Unable to create conversation');
-			             		console.error('Unable to create conversation', error);
-			         		});}	
-								}
-				        });
-	    }
-	    
-	    var newteacherEl;
-	    for (ti in tea_list) {
-	        newteacherEl = createTeaIconEl(tea_list[ti])        
-	        $("#teacherlist").append(newteacherEl);
-	        $("#btn-media-" + tea_list[ti]).on("click", function () {
-	        		console.log("teacher media control");
-	        		if ($(this).hasClass('active')){
-						console.log($(this).button('reset'));
-						if (previewMedia){
-				     		previewMedia.detach();   		
-				   		previewMedia.stop();
-				   		previewMedia = null;
-				   		$('div#media-area').empty();
-				   		$('div#media-area').append("<h4 id='memo-text'>Ready to Take Class</h4>");
-						}						
-					}else{
-						console.log($(this).button('complete'));
-						if (!previewMedia){
-				 			previewMedia = new Twilio.Conversations.LocalMedia();	
-				  			myLocalMedia = Twilio.Conversations.getUserMedia().then(function (mediaStream) {
-					  			$('div#media-area').empty();
-					  			$('div#media-area').append(createMediaEl('local-media'));
-					  			$('div#media-area').append(createMediaEl('remote-media'));
-					  			previewMedia.addStream(mediaStream);
-								$('div#local-media').append(previewMedia.attach());
+		    var newstudentEl;
+		    for (si in stu_list) {
+		        newstudentEl = createStuIconEl(stu_list[si])
+		        $("#studentlist").append(newstudentEl).then(function () {
+		        	
+			        	$("#btn-sound-" + stu_list[si]).on("click",function () {
+			        		if ($(this).hasClass('active')){
+								console.log($(this).button('reset'));
+								// mute;
+								if (activeConversation){
+									activeConversation.on('participantConnected', function (participant) {
+										log("Participant '" + participant.identity + "' muted");
+					        			console.log("Participant '" + participant.identity + "' muted");
+					        			participant.media.detach();
+					        			participant.on('trackAdded',function (track) {
+					        				if (track.kind=='video'){
+												track.attach('#media-'+participant.identity);        				
+					        				}	
+					        			});				
+									}); 	  		
+				 	  			} 							
+							}else{
+								console.log($(this).button('complete')); 	  		
+								//unmute;
+					 	  		if (activeConversation){
+									activeConversation.on('participantConnected', function (participant) {
+										log("Participant '" + participant.identity + "' unmuted");
+					        			console.log("Participant '" + participant.identity + "' unmuted");
+					        			participant.media.detach();
+					        			participant.media.attach('#media-'+participant.identity);
+									
+									});}
 							}
-				  		,function (error) {
-				         	console.error('Unable to access local media', error);
-				            log('Unable to access Camera and Microphone'); 			
-				  		});} else {
-				 			$('div#media-area').empty();
-				  			$('div#media-area').append(createMediaEl('local-media'));
-				  			$('div#media-area').append(createMediaEl('remote-media'));
-				  			previewMedia.addStream(mediaStream);
-							$('div#local-media').append(previewMedia.attach());
-						}  						
-					}
-	        });
-	    }
-	       
-		});
-	 
-	   // $(function () { $('#collapseOne').collapse('show')});
-	   // $(function () { $('#collapseTwo').collapse('')});
-	   // $(function () { $('#collapseThree').collapse('toggle')});
-	 
-	 });
+			         });
+			         
+				      $("#btn-link-" + stu_list[si]).on("click",function () {
+			        		if ($(this).hasClass('active')){
+			        			//unlink;
+								console.log($(this).button('reset'));
+							 	if (activeConversation){
+			 	  					activeconversation.disconnect().then(conversationStarted,function(error){
+			             			log('Unable to disable conversation');
+			             			console.error('Unable to disable conversation', error); 	  			
+		 	  					});} 							
+							}else{
+								//link;
+								console.log($(this).button('complete'));
+								var inviteTo = stu_list[si];
+					 	  		var options = {audio:false};
+					     		if (activeConversation) {
+					         	// Add a participant          
+					         	activeConversation.invite(inviteTo, options).then(conversationStarted,
+					         	function (error) {
+					             		log('Fail to invite');
+					             		console.error('Fail to invite', error);         		
+					         	});
+					         } else {
+					         	// Create a conversation
+					         	if (previewMedia) {
+					        			options.localMedia = previewMedia;
+					      		}
+					        		conversationsClient.inviteToConversation(inviteTo, options).then(conversationStarted,                        
+					         		function (error) {
+					             		log('Unable to create conversation');
+					             		console.error('Unable to create conversation', error);
+					         		});}	
+								}
+						  });
+		        	
+		        });        
+
+		    }
+		    
+		    var newteacherEl;
+		    for (ti in tea_list) {
+		        newteacherEl = createTeaIconEl(tea_list[ti])        
+		        $("#teacherlist").append(newteacherEl).then(function () {
+		        	
+			        $("#btn-media-" + tea_list[ti]).on("click", function () {
+			        		console.log("teacher media control");
+			        		if ($(this).hasClass('active')){
+								console.log($(this).button('reset'));
+								if (previewMedia){
+						     		previewMedia.detach();   		
+						   		previewMedia.stop();
+						   		previewMedia = null;
+						   		$('div#media-area').empty();
+						   		$('div#media-area').append("<h4 id='memo-text'>Ready to Take Class</h4>");
+								}						
+							}else{
+								console.log($(this).button('complete'));
+								if (!previewMedia){
+						 			previewMedia = new Twilio.Conversations.LocalMedia();	
+						  			myLocalMedia = Twilio.Conversations.getUserMedia().then(function (mediaStream) {
+							  			$('div#media-area').empty();
+							  			$('div#media-area').append(createMediaEl('local-media'));
+							  			$('div#media-area').append(createMediaEl('remote-media'));
+							  			previewMedia.addStream(mediaStream);
+										$('div#local-media').append(previewMedia.attach());
+									}
+						  		,function (error) {
+						         	console.error('Unable to access local media', error);
+						            log('Unable to access Camera and Microphone'); 			
+						  		});} else {
+						 			$('div#media-area').empty();
+						  			$('div#media-area').append(createMediaEl('local-media'));
+						  			$('div#media-area').append(createMediaEl('remote-media'));
+						  			previewMedia.addStream(mediaStream);
+									$('div#local-media').append(previewMedia.attach());
+								}  						
+							}
+			        });
+		        });
+		        
+
+		    }
+		       
+			});
+		 
+		   // $(function () { $('#collapseOne').collapse('show')});
+		   // $(function () { $('#collapseTwo').collapse('')});
+		   // $(function () { $('#collapseThree').collapse('toggle')});
+		 
+		 });
 		
 
 });
@@ -423,11 +419,8 @@ function createStuIconEl(user_info){
 	iconContainerEl.append(serviceBoxV1El);	
 	iconContainerEl.append(buttonStuGroupEl);
 	return iconContainerEl
-	//return "<div class='col-md-6 margin-bottom-10'><div id='service-box-" + user_info + "' class='service-box-v1 col-md-10 col-md-offset-1'><div id='media_" + user_info + "' class='remote-media'><i class='fa fa-user color-grey'></i> </div><h4 id='name_" + user_info +"' class='color-grey'>" + user_info + "</h4></div> <div class= 'btn-group-vertical btn-block btn-xs'><button id='camera_" +user_info + "' type='button' class='btn btn-primary'><i class='fa fa-eye color-grey'></i></button> <button id='sound_" +user_info + "' type='button' class='btn btn-success'><i class='fa fa-volume-up color-grey'></i></button><button id='link_" +user_info + "' type='button' class='btn btn-info'><i class='fa fa-chain color-grey'></i></button></div></div>";
 	//return "<div class='col-md-6 margin-bottom-10'><div id='service-box-" + user_info + "' class='service-box-stu'><div id='media_" + user_info + "' class='remote-media'></div><h4 id='name_" + user_info +"' class='color-white'>" + user_info + "</h4> <div class= 'btn-group-vertical btn-block btn-group-xs' data-toggle='buttons-checkbox'><button id='camera_" +user_info + "' type='button' class='btn btn-primary' data-toggle='toggle'><i class='fa fa-eye color-grey'></i><span></span></button> <button id='sound_" +user_info + "' type='button' class='btn btn-success'  data-toggle='toggle'><i class='fa fa-volume-up color-grey'></i><span></span></button><button id='link_" +user_info + "' type='button' class='btn btn-info' data-toggle='toggle'><i class='fa fa-chain color-grey'></i><span></span></button></div></div></div>";
 }
-
-$()
 
 
 /*
@@ -491,21 +484,21 @@ window.setInterval('updateClassInfo()', 3000);
 
 
 function setTeaConnectedEl(userinfo) {
-	console.log("#service-box-" + userinfo);
-	//$("#service-box-" + userinfo).css("background", "#d9edf7");
-	$("#service-box-" + userinfo).css("background", "green");
-	$("#service-box-" + userinfo +" i").css("color", "#fff");
-	$("#service-box-" + userinfo +" p").css("color", "#fff");
-	$("#service-box-" + userinfo + " h4").css("color", "#fff");
+	console.log("#media-" + userinfo);
+	//$("#media-" + userinfo).css("background", "#d9edf7");
+	$("#media-" + userinfo).css("background", "green");
+	$("#media-" + userinfo +" i").css("color", "#fff");
+	$("#media-" + userinfo +" p").css("color", "#fff");
+	$("#media-" + userinfo + " h4").css("color", "#fff");
 }
 
 function setStuConnectedEl(userinfo) {
-	console.log("#service-box-" + userinfo);
-	//$("#service-box-" + userinfo).css("background", "##dff0d8");
-	$("#service-box-" + userinfo).css("background", "green");
-	$("#service-box-" + userinfo +" i").css("color", "#fff");
-	$("#service-box-" + userinfo +" p").css("color", "#fff");
-	$("#service-box-" + userinfo + " h4").css("color", "#fff");
+	console.log("#media-" + userinfo);
+	//$("#media-" + userinfo).css("background", "##dff0d8");
+	$("#media-" + userinfo).css("background", "green");
+	$("#media-" + userinfo +" i").css("color", "#fff");
+	$("#media-" + userinfo +" p").css("color", "#fff");
+	$("#media-" + userinfo + " h4").css("color", "#fff");
 	//$("#btn-video-" + userinfo).show();
 	$("#btn-sound-" + userinfo).show();
 	$("#btn-link-" + userinfo).show();
@@ -515,10 +508,10 @@ function setStuConnectedEl(userinfo) {
 }
 
 function setDisconnectedEl(userinfo) {
-	$("#service-box-" + userinfo).css("background", "");
-	$("#service-box-" + userinfo +" i").css("color", "");
-	$("#service-box-" + userinfo +" p").css("color", "");
-	$("#service-box-" + userinfo + " h4").css("color", "");
+	$("#media-" + userinfo).css("background", "");
+	$("#media-" + userinfo +" i").css("color", "");
+	$("#media-" + userinfo +" p").css("color", "");
+	$("#media-" + userinfo + " h4").css("color", "");
 	console.log("button hided"+ " #btn-sound-" + userinfo);
 	//$("#btn-video-" + userinfo).hide();
 	$("#btn-sound-" + userinfo).hide();
@@ -526,10 +519,10 @@ function setDisconnectedEl(userinfo) {
 }
 
 function setReadyEl(userinfo) {
-	$("#service-box-" + userinfo).css("background", "#d73d04");
-	$("#service-box-" + userinfo +" i").css("color", "#fff");
-	$("#service-box-" + userinfo +" p").css("color", "#fff");
-	$("#service-box-" + userinfo + " h4").css("color", "#fff");
+	$("#media-" + userinfo).css("background", "#d73d04");
+	$("#media-" + userinfo +" i").css("color", "#fff");
+	$("#media-" + userinfo +" p").css("color", "#fff");
+	$("#media-" + userinfo + " h4").css("color", "#fff");
 	//$("#btn-video-" + userinfo).show();
 	$("#btn-sound-" + userinfo).show();
 	$("#btn-link-" + userinfo).show();
@@ -561,9 +554,13 @@ function clientConnected() {
          	});
          } else {
          	// Create a conversation
-         	if (previewMedia) {
+         	options = {localMedia:localMedia};
+         	/*if (previewMedia) {
         			options.localMedia = previewMedia;
-      		}
+      		}else {
+      			previewMedia = 
+      			options.localMedia = previewMedia;
+      		}*/
         		conversationsClient.inviteToConversation(inviteTo, options).then(conversationStarted,                        
          		function (error) {
              		log('Unable to create conversation');
@@ -668,6 +665,10 @@ function conversationStarted(conversation) {
     });
 }
 
+function createMediaEl(id_name){
+	return "<div id='" + id_name + "'class='margin-bottom-10'></div>"
+}
+
 //  Local video preview
 $('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) {	
   	if (!state){
@@ -705,9 +706,7 @@ $('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) 
 
 });
 
-function createMediaEl(id_name){
-	return "<div id='" + id_name + "'class='margin-bottom-10'></div>"
-}
+
 
 // Activity log
 function log(message) {

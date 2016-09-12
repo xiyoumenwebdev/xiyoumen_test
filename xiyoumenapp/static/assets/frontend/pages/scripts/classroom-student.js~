@@ -165,7 +165,7 @@ function conversationStarted(conversation) {
     console.log('In an active Conversation');
     activeConversation = conversation;
 
-    var mediaarea = '<div class="row"><div id="local-media" class="col-md-6 margin-bottom-10"></div><div id="remote-media" class="col-md-6 margin-bottom-10"></div></div>';    
+    var mediaarea = '<div class="row"><div id="local-media" class="col-md-6 padding-top-10 margin-bottom-10"></div><div id="remote-media" class="col-md-6 padding-top-10 margin-bottom-10"></div></div>';    
 	 //var videoarea = '<div id=""></div>';    
 	 MediaAreaEl = $(mediaarea);   
 	 //VideoAreaEl = $(videoarea);
@@ -212,7 +212,7 @@ function conversationStarted(conversation) {
 
 	    // Draw local video, if not already previewing
 	    if (!previewMedia) {
-	        conversation.localMedia.attach('#local-media');
+	        conversation.localMedia.attach('div#local-media');
 	    }
     
     
