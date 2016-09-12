@@ -1,0 +1,123 @@
+body {
+  font-family: "Source Han Sans Simplified Chinese";
+}
+
+#myCanvas {
+	cursor: crosshair;
+    position: fixed;
+    border:1px solid #cececc;
+}
+
+div#coursewarebox {height: 500px;}
+div#preview {height:500px}
+
+/* div#remote {height:400px} */
+
+div#media-area {height: 430px; text-align: center; border:1px solid #cececc}
+/* div#button-area {padding-top: 20%; height:100%}*/
+div#local-media {height:250px; }
+div#remote-media {height: 250px; border-left:1px solid #cececc}
+video {max-width: 100%; max-height: 100%}
+
+/*h4#memo-text {padding-top: 40%}*/
+
+div#log {height:70px; padding-top:10px ;border:1px solid #cececc}
+
+div#chatbox {height: 500px; }
+div#chat-room  {height: 500px;  padding-left: 10px;padding-right: 10px}
+div#chat-message-list {height: 334px}
+div#chat-content {border:1px solid #cececc}
+.popover {max-width: 100%;width: 400px}
+
+
+
+/*
+div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-width:27%!important;background-color:#272726;background-repeat:no-repeat}
+*/
+
+/*
+div#studentlist {max-height: 350px}
+div#teacherlist {max-height: 150px}
+div#controllist {max-height: 300px}
+
+div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padding-top: 10px; border-top: 1px solid #cececc; }
+
+.service-box-tea {height:130px; text-align: center; background: #fff; font-size: 55px; border:1px solid #cececc}
+.service-box-tea span {font-size: 11px}
+.service-box-stu:hover {background: #d73d04}
+.service-box-stu:hover i,
+.service-box-stu:hover p,
+.service-box-stu:hover h4 {
+  color: #fff;
+}
+*/
+
+/*button# span {font-size: 12px}*/
+
+/*
+.service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
+.service-box-stu span {font-size: 11px}
+.service-box-stu:hover {background: #d73d04}
+.service-box-stu:hover i,
+.service-box-stu:hover p,
+.service-box-stu:hover h4 {
+  color: #fff;
+}
+*/
+
+/*
+.service-box-v1:visited {
+  background: #d73d04;
+}
+.service-box-v1:visited i,
+.service-box-v1:visited p,
+.service-box-v1:visited h4 {
+  color: #fff;
+}
+*/
+
+/*div#chat-button-group {display: table; width: auto; margin-left: auto; margin-right: auto}*/
+
+
+/*
+#messages {
+  background-color:#232323;
+  padding:10px;
+  height:100%;
+  width:800px;
+  margin:0 auto;
+  overflow-y:auto;
+}
+
+#messages p {
+  margin:5px 0;
+  padding:0;
+}
+
+.info {
+  margin:5px 0;
+  font-style:italic;
+}
+
+.message-container {
+  margin:5px 0;
+  color:#fff;
+}
+
+.message-container .username {
+  display:inline-block;
+  margin-right:5px;
+  font-weight:bold;
+  color:#849091;
+}
+
+.me, .username.me {
+  font-weight:bold;
+  color:cyan;
+}
+
+.message-container .username.me {
+  display:inline-block;
+  margin-right:5px;
+}
+*/
