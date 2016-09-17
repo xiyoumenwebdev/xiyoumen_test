@@ -3,12 +3,13 @@ body {
 }
 
 /*#myCanvas {cursor: pointer; height:350px; z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}*/
-#myCanvas {z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}
+/*#myCanvas {z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}*/
 
-div#ppt-area {height: 500px;}
+div#ppt-area {height: 400px;position: absolute;}
 
 .fs-container {
-	height:500px;
+	height:400px;
+	left:15px;
 }
 
 .literally {
@@ -17,7 +18,7 @@ div#ppt-area {height: 500px;}
   
 }
      .literally img.background, .literally > canvas {
-        position: absolute;background-color: #ffffff;
+        position: absolute;
       }
 
       .toolset {

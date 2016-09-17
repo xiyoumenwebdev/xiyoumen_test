@@ -134,9 +134,11 @@ function postmessage() {
 
 
 function updateTeaEl() {
-	$('div#media-area').empty();
-	var btnMediaAreaEl = '<button id="btn-student-ready" type="button" class="btn btn-info" data-loading-text="Waiting for teacher" > <span>Ready To Begin Class</span></button>';
-  	$('div#media-area').append(btnMediaAreaEl)
+	//$('div#media-area').empty();
+	//var btnMediaAreaEl = '<button id="btn-student-ready" type="button" class="btn btn-info" data-loading-text="Waiting for teacher" > <span>Ready To Begin Class</span></button>';
+  	//$('div#media-area').append(btnMediaAreaEl)
+  	$('div#video-area').hide();
+  	$('button#button-area').show();
 }
 
 
@@ -165,13 +167,15 @@ function conversationStarted(conversation) {
     console.log('In an active Conversation');
     activeConversation = conversation;
 
-    var mediaarea = '<div class="row"><div id="local-media" class="col-md-6 padding-top-10 margin-bottom-10"></div><div id="remote-media" class="col-md-6 padding-top-10 margin-bottom-10"></div></div>';    
+    //var mediaarea = '<div class="row"><div id="local-media" class="col-md-6 padding-top-10 margin-bottom-10"></div><div id="remote-media" class="col-md-6 padding-top-10 margin-bottom-10"></div></div>';    
 	 //var videoarea = '<div id=""></div>';    
-	 MediaAreaEl = $(mediaarea);   
+	 //MediaAreaEl = $(mediaarea);   
 	 //VideoAreaEl = $(videoarea);
 	 
-    $('div#media-area').empty();
-    $('div#media-area').append(MediaAreaEl);
+    //$('div#media-area').empty();
+    //$('div#media-area').append(MediaAreaEl);
+	 $('div#video-area').show();
+	 $('div#button-area').hide();    
     /*   	
 	    $("div#local-media").slimScroll({
 		    width: '100%',
@@ -229,13 +233,15 @@ function conversationStarted(conversation) {
     	  log('Participant failed to connect: ' + participant.identity);
 		  console.log('Participant failed to connect: ' + participant.identity);
 		  $.post("/info/", {stustatus:0});
+		  updateTeaEl();
+		  /*
 		  updateTeaEl().then(function () {
 			  $("button#btn-student-ready").on("click",function () {
 					$.post("/info/", {stustatus:1});
 					$(this).button("loading");
 			  });		  	
 		  });
-
+		  */
 	 });
 
     // When a participant disconnects, note in log
@@ -243,12 +249,15 @@ function conversationStarted(conversation) {
         log("Participant '" + participant.identity + "' disconnected");
         console.log("Participant '" + participant.identity + "' disconnected");
         $.post("/info/", {stustatus:0});
+        updateTeaEl();
+        /*
 		  updateTeaEl().then(function () {
 			  $("button#btn-student-ready").on("click",function () {
 					$.post("/info/", {stustatus:1});
 					$(this).button("loading");
 			  });		  	
 		  });
+		  */
     });
 
     // When the conversation ends, stop capturing local video

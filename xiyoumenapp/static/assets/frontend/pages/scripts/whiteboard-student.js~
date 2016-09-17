@@ -1,5 +1,6 @@
 
 var lc = null;
+var loadmySnapShot = null;
 /*
 var tools;
 var strokeWidths;
@@ -14,7 +15,6 @@ var canvasData;
 var containerOne = document.getElementsByClassName('literally')[0];
 
 var showLC = function() {
-  var loadmySnapShot;
   $.get('/whiteboard/',function (data) {
 		loadmySnapShot = JSON.parse(data.drawing);  		
   });
@@ -30,20 +30,32 @@ var showLC = function() {
   
 window.demoLC = lc;
 
-console.log('Begin to load whiteboard.');
+console.log('Success to load whiteboard.');
+console.log(loadmySnapShot);
+}
 	
 $(document).ready(function() {
   // disable scrolling on touch devices so we can actually draw 
+  /*
   $(document).bind('touchmove', function(e) {
     if (e.target === document.documentElement) {
       return e.preventDefault();
     }
   });  
+  */
   showLC();
   console.log("Success to load whiteboard");
 });
 
-window.setInterval('showLC()', 1000);
+var updateLC = function () {
+  $.get('/whiteboard/',function (data) {
+		loadmySnapShot = JSON.parse(data.drawing);
+		lc.loadSnapshot(loadmySnapShot);  		
+  });
+	
+}
+
+window.setInterval('updateLC()', 1000);
 
 /*	
   var save = function() {
