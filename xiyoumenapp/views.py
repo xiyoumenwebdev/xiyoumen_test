@@ -147,7 +147,8 @@ class Whiteboard(Resource):
         try:
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
-                mydrawing = redis_store.get('whiteboard:' + classid)
+                mydrawing = redis_store.hgetall('whiteboard:' + classid)
+                print("Start to get drawing object json {0}".format(mydrawing))
                 print('Success to get drawing')
                 return mydrawing
             else:
@@ -167,7 +168,9 @@ class Whiteboard(Resource):
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 drawing = args['drawing']
-                redis_store.set("whiteboard:" + classid, drawing)
+                print("Start to parse drawing object json {0}".format(drawing))
+                drawing_dict = json.loads(drawing)
+                redis_store.hmset("whiteboard:" + classid, drawing_dict)
                 return "Success to add new drawing" 
             else:
                 return "You have no right to do this"

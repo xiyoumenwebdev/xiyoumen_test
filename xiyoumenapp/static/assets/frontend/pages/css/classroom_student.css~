@@ -2,11 +2,65 @@ body {
   font-family: "Source Han Sans Simplified Chinese";
 }
 
-#myCanvas {
-	cursor: crosshair;
-    position: fixed;
-    border:1px solid #cececc;
+#myCanvas {z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}
+
+div#ppt-area {height: 500px;}
+
+.fs-container {
+	height:500px;
 }
+
+.literally {
+  width: 100%;
+  height: 100%;
+}
+     .literally img.background, .literally > canvas {
+        position: absolute;
+      }
+
+      .toolset {
+        margin: 1rem;
+      }
+
+      .tool {
+        background: hsla(199, 26%, 44%, 0.5);
+        padding: 0.25rem;
+        margin: 0.25rem;
+        border-radius: 0.25rem;
+        color: #000;
+        text-align: center;
+        text-decoration: none;
+        position: relative; // give after context later
+      }
+
+      .tool.current {
+        color: #fff;
+        background: hsla(199, 26%, 44%, 1);
+      }
+
+      .tool:hover {
+        text-decoration: underline;
+        background: hsla(199, 26%, 44%, 0.75);
+      }
+
+      .toolLabel {
+        font-size: 1.25rem;
+      }
+
+      #tools-sizes.disabled {
+        pointer-events: none;
+      }
+
+      #tools-sizes.disabled .tool:after {
+        content: ' ';
+        background: hsla(0, 100%, 100%, 0.75);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 0.25rem;
+      }
 
 div#coursewarebox {height: 500px;}
 div#preview {height:500px}
@@ -17,7 +71,7 @@ div#media-area {height: 430px; text-align: center; border:1px solid #cececc}
 div#button-area {padding-top: 20%; height:100%}
 div#local-media {height:400px; }
 div#remote-media {height: 400px; border-left:1px solid #cececc}
-video {max-width: 100%; max-height: 100%}
+video {max-width: 100%;}
 
 /*h4#memo-text {padding-top: 40%}*/
 
