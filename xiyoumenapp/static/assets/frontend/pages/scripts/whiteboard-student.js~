@@ -1,5 +1,6 @@
 
 var lc = null;
+/*
 var tools;
 var strokeWidths;
 var colors;
@@ -7,23 +8,44 @@ var colors;
 var setCurrentByName;
 var findByName;
 var canvasData;
-
+*/
 
 // the only LC-specific thing we have to do
 var containerOne = document.getElementsByClassName('literally')[0];
 
 var showLC = function() {
+  var loadmySnapShot;
+  $.get('/whiteboard/',function (data) {
+		loadmySnapShot = JSON.parse(data.drawing);  		
+  });
+  
   lc = LC.init(containerOne, {
-    //snapshot: JSON.parse(localStorage.getItem('drawing')),
+    snapshot: loadmySnapShot,
     defaultStrokeWidth: 5,
     strokeWidths: [5, 10, 20, 50],
     primaryColor: '#ff0000',
     secondaryColor: 'transparent',
     backgroundColor: 'transparent'
   });
-  window.demoLC = lc;
+  
+window.demoLC = lc;
 
-	console.log('Begin to load whiteboard.');
+console.log('Begin to load whiteboard.');
+	
+$(document).ready(function() {
+  // disable scrolling on touch devices so we can actually draw 
+  $(document).bind('touchmove', function(e) {
+    if (e.target === document.documentElement) {
+      return e.preventDefault();
+    }
+  });  
+  showLC();
+  console.log("Success to load whiteboard");
+});
+
+window.setInterval('showLC()', 1000);
+
+/*	
   var save = function() {
     localStorage.setItem('drawing', JSON.stringify(lc.getSnapshot()));
   }
@@ -187,18 +209,7 @@ var showLC = function() {
 
 };
 
-$(document).ready(function() {
-  // disable scrolling on touch devices so we can actually draw
-  
-  $(document).bind('touchmove', function(e) {
-    if (e.target === document.documentElement) {
-      return e.preventDefault();
-    }
-  });
-  
-  showLC();
-  console.log("Success to load whiteboard");
-});
+
 
 $('#hide-lc').click(function() {
   if (lc) {
@@ -210,3 +221,4 @@ $('#hide-lc').click(function() {
 $('#show-lc').click(function() {
   if (!lc) { showLC(); }
 });
+*/

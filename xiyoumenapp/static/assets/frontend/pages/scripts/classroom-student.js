@@ -172,7 +172,7 @@ function conversationStarted(conversation) {
 	 
     $('div#media-area').empty();
     $('div#media-area').append(MediaAreaEl);
-    	    	
+    /*   	
 	    $("div#local-media").slimScroll({
 		    width: '100%',
 		    height: '334px',
@@ -208,7 +208,7 @@ function conversationStarted(conversation) {
 		    allowPageScroll: false,
 		    disableFadeOut: false        
 	    });
-    
+    */
 
 	    // Draw local video, if not already previewing
 	    if (!previewMedia) {
