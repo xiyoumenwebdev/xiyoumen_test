@@ -15,7 +15,7 @@ from flask import Blueprint
 from flask_restful import Api
 
 from xiyoumenapp import webapp
-from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList
+from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList, Whiteboard
 
 
 # define api into Blueprint
@@ -61,6 +61,15 @@ infoapi = Api(infoapi_bp)
 infoapi.add_resource(Info, '/', endpoint='info_ep')
 # Register api into blueprint
 webapp.register_blueprint(infoapi_bp, url_prefix='/info')
+
+
+# define api into Blueprint
+whiteboardapi_bp = Blueprint('whiteboardapi', __name__)
+whiteboardapi = Api(whiteboardapi_bp)
+# add webapp resource into api
+whiteboardapi.add_resource(Whiteboard, '/', endpoint='whiteboard_ep')
+# Register api into blueprint
+webapp.register_blueprint(whiteboardapi_bp, url_prefix='/whiteboard')
 
 
 # sfolder = os.path.join("static", "assets")

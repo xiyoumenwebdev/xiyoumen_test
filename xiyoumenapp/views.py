@@ -29,6 +29,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('txt')
 parser.add_argument('teastatus')
 parser.add_argument('stustatus')
+parser.add_argument('drawing')
 
 redis_store = Redis(charset='utf-8', decode_responses=True)
 
@@ -80,6 +81,7 @@ class Login(Resource):
                 redis_store.delete('stu_list:' + classid)
                 redis_store.delete('teastatus_dict:' + classid)
                 redis_store.delete('stustatus_dict:' + classid)
+                redis_store.delete('whiteboard:' + classid)
 
                 return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
@@ -124,13 +126,53 @@ class Token(Resource):
                 ins_conference = Conference(classid, userid)
                 tmptoken = ins_conference.get_accesstoken()
                 tmptoken = jsonify(identity=tmptoken.identity, 
-                        token=tmptoken.to_jwt())
+                                   token=tmptoken.to_jwt())
                 print('Success to create token')
                 return tmptoken
             else:
                 # return redirect(fields.url_for('login_ep'))
                 return "There are some problme about token"
         except Exception as err:
+            print(err)
+
+
+class Whiteboard(Resource):
+    """
+    # This class returns whiteboard json
+    """
+    def get(self):
+        """
+        # function get response http GET with token json
+        """
+        try:
+            if ('classid' in session) and ('userid' in session):
+                classid = session['classid']
+                mydrawing = redis_store.get('whiteboard:' + classid)
+                print('Success to get drawing')
+                return mydrawing
+            else:
+                # return redirect(fields.url_for('login_ep'))
+                return "There are some problme about token"
+        except Exception as err:
+            print(err)
+
+    def post(self):
+
+        """
+        # function post response http POST drawing 
+        """
+        try:
+            print("ready to receive post message")
+            args = parser.parse_args()
+            if ('classid' in session) and ('userid' in session):
+                classid = session['classid']
+                drawing = args['drawing']
+                redis_store.set("whiteboard:" + classid, drawing)
+                return "Success to add new drawing" 
+            else:
+                return "You have no right to do this"
+        except Exception as err:
+            print("Fail to add whiteboard")
             print(err)
 
 
@@ -162,17 +204,17 @@ class Info(Resource):
                 stustatus_hash = redis_store.hgetall('stustatus_dict:'+classid)
                 # print(teastatus_hash)
                 
-                teastatus_dict = {"0":[], "1":[], "2":[], "3":[]}
-                stustatus_dict = {"0":[], "1":[], "2":[], "3":[]}
+                teastatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                stustatus_dict = {"0": [], "1": [], "2": [], "3": []}
 
-                for (k,v) in teastatus_hash.items():
+                for (k, v) in teastatus_hash.items():
                     for ni in range(4):
                         if v == str(ni):
                             teastatus_dict[str(ni)].append(k)
                             break
                 # print(teastatus_dict)
                         
-                for (k,v) in stustatus_hash.items():
+                for (k, v) in stustatus_hash.items():
                     for ni in range(4):
                         if v == str(ni):
                             stustatus_dict[str(ni)].append(k)
@@ -187,8 +229,8 @@ class Info(Resource):
                     userinfo["stustatuslist"] = stustatus_dict
                 # elif userinfo['roleid'] == 2:
                     # userinfo["teastatuslist"] = teastatus_dict 
-                print (userinfo)
-                print ('Success to get userinfo')
+                print(userinfo)
+                print('Success to get userinfo')
                 return userinfo 
             else:
                 return userinfo 
@@ -211,7 +253,7 @@ class Info(Resource):
             print(roleid)
             
             if ('classid' in session) and ('userid' in session):
-                if (not redis_store.exists("stu_list:"+classid) and roleid == 1):
+                if ( not redis_store.exists("stu_list:"+classid) and roleid == 1 ):
                     print(session) 
                     uc = Users_Classroom.query.filter_by(classid=classid).all()
                     tid_list = [ti.userid for ti in uc]

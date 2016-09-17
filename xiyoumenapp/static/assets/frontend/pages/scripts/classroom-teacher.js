@@ -3,6 +3,7 @@ var activeConversation;
 var conversation;
 var previewMedia;
 var myLocalMedia;
+
 var identity;
 var token;
 var classname;
@@ -715,3 +716,8 @@ $('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) 
 function log(message) {
     document.getElementById('log-content').innerHTML = message;
 }
+
+
+
+
+
