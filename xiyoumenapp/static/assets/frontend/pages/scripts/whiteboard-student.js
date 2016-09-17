@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 var updateLC = function () {
 	
-	if (lc) {
+	if (!lc) {
 		showLC();
 		console.log("Success to load whiteboard again");
 	}else {

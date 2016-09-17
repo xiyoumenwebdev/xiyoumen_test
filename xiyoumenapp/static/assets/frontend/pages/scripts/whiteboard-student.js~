@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 var updateLC = function () {
 	
-	if (lc) {
+	if (!lc) {
 		showLC();
 		console.log("Success to load whiteboard again");
 	}else {
@@ -49,6 +49,7 @@ var updateLC = function () {
 		//loadmySnapShot = JSON.parse(data.drawing);
 		loadmySnapShot = data.drawing;
 		lc.loadSnapshot(loadmySnapShot); 
+		window.demoLC = lc;
 	 	console.log('Success to update whiteboard.'); 		
   		});
 	}	
