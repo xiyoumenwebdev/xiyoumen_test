@@ -16,7 +16,7 @@ var containerOne = document.getElementsByClassName('literally')[0];
 
 var showLC = function() {
   $.get('/whiteboard/',function (data) {
-		loadmySnapShot = JSON.parse(data.drawing);  		
+		loadmySnapShot = data.drawing;  		
   });
   
   lc = LC.init(containerOne, {
@@ -35,25 +35,23 @@ console.log('Success to load whiteboard.');
 }
 	
 $(document).ready(function() {
-  // disable scrolling on touch devices so we can actually draw 
-  /*
-  $(document).bind('touchmove', function(e) {
-    if (e.target === document.documentElement) {
-      return e.preventDefault();
-    }
-  });  
-  */
   showLC();
   console.log("Success to load whiteboard");
 });
 
 var updateLC = function () {
-  $.get('/whiteboard/',function (data) {
+	
+	if (lc) {
+		showLC();
+		console.log("Success to load whiteboard again");
+	}else {
+		$.get('/whiteboard/',function (data) {
 		//loadmySnapShot = JSON.parse(data.drawing);
 		loadmySnapShot = data.drawing;
-		lc.loadSnapshot(loadmySnapShot);  		
-  });
-	
+		lc.loadSnapshot(loadmySnapShot); 
+	 	console.log('Success to update whiteboard.'); 		
+  		});
+	}	
 }
 
 window.setInterval('updateLC()', 1000);

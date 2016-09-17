@@ -152,7 +152,7 @@ License: You must have a valid license purchased only from themeforest (the abov
 												</button>
 											</div>
 										</div>
-										<div id="video-area" class="row hidden">
+										<div id="video-area" class="row">
 												<div id="local-media" class="col-md-6 padding-top-10 margin-bottom-10"></div>
 												<div id="remote-media" class="col-md-6 padding-top-10 margin-bottom-10"></div>
 										</div> 			
@@ -219,7 +219,7 @@ License: You must have a valid license purchased only from themeforest (the abov
                    <!--  TAB-1 END -->
                    
                   <!--  BEGIN TAB-2 -->                                      
-                    <div id="tab-2" class="tab-pane row fade">
+                    <div id="tab-2" class="tab-pane row fade active">
                     
 	                    <!-- BEGIN CAROUSELL SLIDE-->
 

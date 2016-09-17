@@ -148,7 +148,7 @@ class Whiteboard(Resource):
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 mydrawing = redis_store.hgetall('whiteboard:' + classid)
-                print("Start to get drawing object json {0}".format(mydrawing))
+                # print("Start to get drawing object json {0}".format(mydrawing))
                 print('Success to get drawing')
                 return mydrawing
             else:
