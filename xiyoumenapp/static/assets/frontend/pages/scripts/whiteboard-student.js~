@@ -35,14 +35,6 @@ console.log('Success to load whiteboard.');
 }
 	
 $(document).ready(function() {
-  // disable scrolling on touch devices so we can actually draw 
-  /*
-  $(document).bind('touchmove', function(e) {
-    if (e.target === document.documentElement) {
-      return e.preventDefault();
-    }
-  });  
-  */
   showLC();
   console.log("Success to load whiteboard");
 });

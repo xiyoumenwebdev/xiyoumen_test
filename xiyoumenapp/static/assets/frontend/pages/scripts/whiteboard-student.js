@@ -49,6 +49,7 @@ var updateLC = function () {
 		//loadmySnapShot = JSON.parse(data.drawing);
 		loadmySnapShot = data.drawing;
 		lc.loadSnapshot(loadmySnapShot); 
+		window.demoLC = lc;
 	 	console.log('Success to update whiteboard.'); 		
   		});
 	}	
