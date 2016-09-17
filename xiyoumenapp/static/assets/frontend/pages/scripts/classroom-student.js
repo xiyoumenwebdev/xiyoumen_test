@@ -24,6 +24,8 @@ function timeit(){
 window.setInterval('timeit()', 1000);
 
 $(document).ready(function () {	
+	$('div#video-area').hide();
+	$('div#button-area').show();
 	$.post("/info/", {stustatus:0}).then(function () {			
 		$.getJSON('/info/',function(data){
 			classname = data.classname;

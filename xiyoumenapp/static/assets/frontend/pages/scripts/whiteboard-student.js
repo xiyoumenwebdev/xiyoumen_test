@@ -31,7 +31,7 @@ var showLC = function() {
 window.demoLC = lc;
 
 console.log('Success to load whiteboard.');
-console.log(loadmySnapShot);
+//console.log(loadmySnapShot);
 }
 	
 $(document).ready(function() {
@@ -49,7 +49,8 @@ $(document).ready(function() {
 
 var updateLC = function () {
   $.get('/whiteboard/',function (data) {
-		loadmySnapShot = JSON.parse(data.drawing);
+		//loadmySnapShot = JSON.parse(data.drawing);
+		loadmySnapShot = data.drawing;
 		lc.loadSnapshot(loadmySnapShot);  		
   });
 	

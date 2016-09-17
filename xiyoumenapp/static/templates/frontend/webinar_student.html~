@@ -219,7 +219,7 @@ License: You must have a valid license purchased only from themeforest (the abov
                    <!--  TAB-1 END -->
                    
                   <!--  BEGIN TAB-2 -->                                      
-                    <div id="tab-2" class="tab-pane row fade active">
+                    <div id="tab-2" class="tab-pane row fade">
                     
 	                    <!-- BEGIN CAROUSELL SLIDE-->
 
