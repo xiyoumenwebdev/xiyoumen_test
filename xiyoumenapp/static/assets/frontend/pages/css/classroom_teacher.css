@@ -15,69 +15,70 @@ div#ppt-area {height: 400px;position: absolute;}
 .literally {
   width: 100%;
   height: 100%;
-  
 }
-     .literally img.background, .literally > canvas {
-        position: absolute;
-      }
 
-      .toolset {
-        margin: 1rem;
-      }
+.literally img.background, .literally > canvas {
+  position: absolute;
+}
 
-      .tool {
-        background: hsla(199, 26%, 44%, 0.5);
-        padding: 0.25rem;
-        margin: 0.25rem;
-        border-radius: 0.25rem;
-        color: #000;
-        text-align: center;
-        text-decoration: none;
-        position: relative; // give after context later
-      }
+.toolset {
+  margin: 1rem;
+}
 
-      .tool.current {
-        color: #fff;
-        background: hsla(199, 26%, 44%, 1);
-      }
+.tool {
+  background: hsla(199, 26%, 44%, 0.5);
+  padding: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  color: #000;
+  text-align: center;
+  text-decoration: none;
+  position: relative; // give after context later
+}
 
-      .tool:hover {
-        text-decoration: underline;
-        background: hsla(199, 26%, 44%, 0.75);
-      }
+.tool.current {
+  color: #fff;
+  background: hsla(199, 26%, 44%, 1);
+}
 
-      .toolLabel {
-        font-size: 1.25rem;
-      }
+.tool:hover {
+  text-decoration: underline;
+  background: hsla(199, 26%, 44%, 0.75);
+}
 
-      #tools-sizes.disabled {
-        pointer-events: none;
-      }
+.toolLabel {
+  font-size: 1.25rem;
+}
 
-      #tools-sizes.disabled .tool:after {
-        content: ' ';
-        background: hsla(0, 100%, 100%, 0.75);
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border-radius: 0.25rem;
-      }
-      
+#tools-sizes.disabled {
+  pointer-events: none;
+}
+
+#tools-sizes.disabled .tool:after {
+  content: ' ';
+  background: hsla(0, 100%, 100%, 0.75);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0.25rem;
+}
+
 div#coursewarebox {height: 500px;}
-div#preview {height:500px}
+/*div#preview {height:500px}*/
 
 /* div#remote {height:400px} */
 
 div#media-area {height: 430px; text-align: center; border:1px solid #cececc}
-div#button-area {padding-top: 20%; height:100%}
-div#local-media {height:285px; }
-div#remote-media {height: 100px; border-top:1px solid #cececc}
+div#button-area {height:100%; padding-top: 50%;}
+div#local-media {height:40%; }
+div#remote-media {height: 40%; border-top:1px solid #cececc;}
 video {max-width: 100%; max-height: 100%}
 
-h4#memo-text {padding-top: 40%}
-
+button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
+/*h4#memo-text {padding-top: 40%}*/
+input.switch {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
 
 /*
 div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-width:27%!important;background-color:#272726;background-repeat:no-repeat}
@@ -85,25 +86,42 @@ div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-wi
 div#log {height:70px; padding-top:10px ;border:1px solid #cececc}
 
 div#studentlist {max-height: 350px}
-div#teacherlist {max-height: 150px}
+div#assistantlist {max-height: 350px}
+div#teacherlist {max-height: 350px}
 div#controllist {max-height: 300px}
 
 div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padding-top: 10px; border-top: 1px solid #cececc; }
 
-.service-box-tea {text-align: center; background: #fff; font-size: 55px; border:1px solid #cececc}
-.service-box-tea span {font-size: 11px}
-.service-box-stu:hover {background: #d73d04}
-.service-box-stu:hover i,
-.service-box-stu:hover p,
-.service-box-stu:hover h4 {
+.icon-media {height: 90px;}
+div.icon-media > i {padding-top:40px;height:100%;}
+
+.service-box-tea {text-align: center; background: #fff; border:1px solid #cececc}
+.service-box-tea h4 {color: #8A6D3B;}
+.service-box-tea i {color: #8A6D3B;}
+/*.service-box-tea span {font-size: 11px}*/
+.service-box-tea:hover {background: #D73D04}
+.service-box-tea:hover i,
+.service-box-tea:hover p,
+.service-box-tea:hover h4 {
   color: #fff;
 }
 
-/*button# span {font-size: 12px}*/
+.service-box-ass {text-align: center; background: #fff; border:1px solid #cececc}
+.service-box-ass h4 {color: #31708F;}
+.service-box-ass i {color: #31708F;}
+/*.service-box-tea span {font-size: 11px}*/
+.service-box-ass:hover {background: #D73D04}
+.service-box-ass:hover i,
+.service-box-ass:hover p,
+.service-box-ass:hover h4 {
+  color: #fff;
+}
 
 .service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
-.service-box-stu span {font-size: 11px}
-.service-box-stu:hover {background: #d73d04}
+.service-box-stu h4 {color: #3E773F;}
+.service-box-stu i {color: #3E773F;}
+/*.service-box-stu span {font-size: 11px}*/
+.service-box-stu:hover {background: #D73D04}
 .service-box-stu:hover i,
 .service-box-stu:hover p,
 .service-box-stu:hover h4 {
@@ -124,9 +142,10 @@ div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padd
 
 div#chatbox {height: 500px; }
 div#chat-room  {height: 500px;  padding-left: 10px;padding-right: 10px}
-div#chat-message-list {height: 334px}
+div#chat-message-list {height: 340px}
 div#chat-content {border:1px solid #cececc}
-.popover {max-width: 100%;width: 400px}
+.portlet {margin-bottom: 5px;}
+/*.popover {max-width: 100%;width: 400px}*/
 /*div#chat-button-group {display: table; width: auto; margin-left: auto; margin-right: auto}*/
 
 

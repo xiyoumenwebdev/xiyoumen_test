@@ -11,8 +11,10 @@ apps of webpage is builded in this module
 
 import os
 
+from flask_restful import fields
 from flask import Blueprint
 from flask_restful import Api
+from flask_sse import sse
 
 from xiyoumenapp import webapp
 from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList, Whiteboard
@@ -53,6 +55,7 @@ chatlistapi.add_resource(ChatList, '/', endpoint='chatlist_ep')
 # Register api into blueprint
 webapp.register_blueprint(chatlistapi_bp, url_prefix='/chatlist')
 
+webapp.register_blueprint(sse, url_prefix='/stream')
 
 # define api into Blueprint
 infoapi_bp = Blueprint('infoapi', __name__)

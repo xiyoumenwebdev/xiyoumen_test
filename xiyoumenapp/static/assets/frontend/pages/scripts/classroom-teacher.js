@@ -1,723 +1,748 @@
-var conversationsClient;
-var activeConversation;
-var conversation;
-var previewMedia;
-var myLocalMedia;
-
-var identity;
-var token;
+// BEGIN PAGE VIEWS CODES
 var classname;
 var username;
 var stu_list;
+var ass_list;
 var tea_list;
-var teastatus_dict;
-var stustatus_dict;
-var teastatus_str;
-var stustatus_str;
+var tealinkstatus_dict;
+var asslinkstatus_dict;
+var stulinkstatus_dict;
+var teavideostatus_dict;
+var assvideostatus_dict;
+var stuvideostatus_dict;
+var teasoundstatus_dict;
+var asssoundstatus_dict;
+var stusoundstatus_dict;
+var roleid = 'tea';
+
+var rolecolor_tea = "#8A6D3B";
+var rolecolor_ass = "#31708F";
+var rolecolor_stu = "#3E773F";
+
 
 // Check for WebRTC
 if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
     alert('WebRTC is not available in your browser.');
 }
 
-function timeit(){
-	var classdatetime = new Date();
-	$("#classdate").text(classdatetime.toLocaleDateString());
-	$("#classtime").text(classdatetime.toLocaleTimeString());
+// Show  local time  on topside
+function timeit() {
+    "use strict";
+    var classdatetime = new Date();
+    $("#classdate").text(classdatetime.toLocaleDateString());
+    $("#classtime").text(classdatetime.toLocaleTimeString());
 }
-window.setInterval('timeit()', 1000);
+window.setInterval(function(){"use strict";timeit();}, 1000);
 
-/*
-$(document).ready(function () {
-	$.post("/info/", {teastatus:0});
-});
-*/
-
-$.fn.bootstrapSwitch.defaults.state = true;
-$(".switch").bootstrapSwitch();
-
-//$(function () { $('.mytooltip').tooltip();});
-//$(function () { $('.tooltip-camera-open').tooltip();});
-//$(function () { $('.tooltip-camera-close').tooltip();});
-//$(function () { $('.tooltip-volume-up').tooltip();});
-//$(function () { $('.tooltip-volume-off').tooltip();});
-//$(function () { $('.tooltip-link').tooltip();});
-//$(function () { $('.tooltip-unlink').tooltip();});
-//$(function () { $('.tooltip-teastatus').tooltip();});
-//$(function () { $('.tooltip-stustatus').tooltip();});
-
-$(function(){
-    $('.general-item-list').slimScroll({
-	    width: '100%',
-	    height: '334px',
-	    size: '5px',
-	    position: 'right',
-	    color: '#cececc',
-	    opacity: 0.3,
-	    alwaysVisible: false,
-	    distance: '0px',
-	    start: 'top',
-	    railVisible: false,
-	    //railColor: '#222',
-	    //railOpacity: 0.3,
-	    wheelStep: 5,
-	    allowPageScroll: false,
-	    disableFadeOut: false        
-    });
-});
-
-
-$(function(){
+// Show  slimScroll bar  at teacherlist and studentlist on right side.
+$(function() {
+    "use strict";
     $('.userlist').slimScroll({
-		width: '100%',    	
-    	height: '380px',
-    	size: '5px',
-    	position: 'right',
-    	color: '#cececc',
-    	alwaysVisible: false,
-    	distance: '0px',
-    	start: 'top',    	  
-    	railVisible: false,
-	   //railColor: '#232323',
-	   //railOpacity: 0.1,
-    	wheelStep: 5,
-	   allowPageScroll: false,
-	   disableFadeOut: false
+        width: '100%',
+        height: '380px',
+        size: '5px',
+        position: 'right',
+        color: '#cececc',
+        alwaysVisible: false,
+        distance: '0px',
+        start: 'top',
+        railVisible: false,
+        //railColor: '#232323',
+        //railOpacity: 0.1,
+        wheelStep: 5,
+        allowPageScroll: false,
+        disableFadeOut: false
     });
 });
 
 
-$(function(){
+// Show slimScroll bar at div#remote-media on right side.
+$(function() {
+    "use strict";
     $('div#remote-media').slimScroll({
-	    width: '100%',
-	    height: '100px',
-	    size: '5px',
-	    position: 'right',
-	    color: '#cececc',
-	    opacity: 0.1,
-	    alwaysVisible: false,
-	    distance: '0px',
-	    start: 'top',
-	    railVisible: false,
-	    //railColor: '#222',
-	    //railOpacity: 0.3,
-	    wheelStep: 5,
-	    allowPageScroll: false,
-	    disableFadeOut: false        
+        width: '100%',
+        height: '100px',
+        size: '5px',
+        position: 'right',
+        color: '#cececc',
+        opacity: 0.1,
+        alwaysVisible: false,
+        distance: '0px',
+        start: 'top',
+        railVisible: false,
+        //railColor: '#222',
+        //railOpacity: 0.3,
+        wheelStep: 5,
+        allowPageScroll: false,
+        disableFadeOut: false
     });
 });
 
 
-$(function () 
-      { $("input#chat-ask").popover();
-      });
+// Show Student icon in Student list.
+function createIconEl(user_info, roleid) {
+    "use strict";
+    var iconContainer = '<div class="col-md-6 margin-bottom-10"> </div>';
+    var serviceBoxV1 = '<div> </div>';
+    var iconMedia = '<div id="" class="icon-media"> <i class="fa fa-user fa-2x color-grey"></i></div>';
+    var userH = '<h4 id="" class="color-grey"></h4>';
+
+    var buttonStuGroup = '<div class= "btn-group-vertical btn-block btn-group-xs"> </div>';
+    var buttonStuLink = '<button id="" type="button" class="btn btn-primary" data-toggle="button" data-complete-text=""></button>';
+    var buttonStuVideo = '<button id="" type="button" class="btn btn-success" data-toggle="button" data-complete-text=""></button>';
+    var buttonStuSound = '<button id="" type="button" class="btn btn-info"  data-toggle="button" data-complete-text=""></button>';
+    var iconStuVideoOn = '<i class="fa fa-eye color-grey"></i><span></span>';
+    var iconStuVideoOff = '<i class="fa fa-eye-slash color-grey"></i><span></span>';
+    var iconStuSoundOn = '<i class="fa fa-microphone color-grey"></i><span></span>';
+    var iconStuSoundOff = '<i class="fa fa-microphone-slash color-grey"></i><span></span>';
+    var iconStuLinkOn = '<i class="fa fa-link color-grey"></i><span></span>';
+    var iconStuLinkOff = '<i class="fa fa-unlink color-grey"></i><span></span>';
+
+    var iconContainerEl = $(iconContainer);
+    var serviceBoxV1El = $(serviceBoxV1);
+    var iconMediaEl = $(iconMedia);
+    var userHEl = $(userH);
+    var buttonStuGroupEl = $(buttonStuGroup);
+    var buttonStuLinkEl = $(buttonStuLink);
+    var buttonStuVideoEl = $(buttonStuVideo);
+    var buttonStuSoundEl = $(buttonStuSound);
+
+    serviceBoxV1El.addClass("service-box-" + roleid);
+
+    iconMediaEl.attr("id", "media-" + user_info);
+    userHEl.append(user_info);
+
+    serviceBoxV1El.append(iconMediaEl);
+    serviceBoxV1El.append(userHEl);
+
+    buttonStuLinkEl.attr("id", "btn-link-" + user_info);
+    buttonStuLinkEl.attr("data-complete-text", iconStuLinkOn);
+    buttonStuLinkEl.append(iconStuLinkOff);
+
+    buttonStuVideoEl.attr("id", "btn-video-" + user_info);
+    buttonStuVideoEl.attr("data-complete-text", iconStuVideoOn);
+    buttonStuVideoEl.append(iconStuVideoOff);
+
+    buttonStuSoundEl.attr("id", "btn-sound-" + user_info);
+    buttonStuSoundEl.attr("data-complete-text", iconStuSoundOn);
+    buttonStuSoundEl.append(iconStuSoundOff);
+
+    buttonStuGroupEl.append(buttonStuLinkEl);
+    buttonStuGroupEl.append(buttonStuVideoEl);
+    buttonStuGroupEl.append(buttonStuSoundEl);
+
+    iconContainerEl.append(serviceBoxV1El);
+    iconContainerEl.append(buttonStuGroupEl);
+    return iconContainerEl;
+}
 
 
-function insertmessage(chatname, chattime, chatmessage, chatrole){
-	var roleicon;
-	if (chatrole=="teacher"){
-		//roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
-		roleicon = 'style="text-shadow: black 5px;color:0ec9b6"';	
-	}else {
-		//roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
-		roleicon = 'style="text-shadow: black 5px;color:#bdccb7"';
-	}
-	var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="glyphicon glyphicon-user" ' + roleicon + '> </i><a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
-	console.log(inserthtml);	
-	$("#chat-message-list").prepend(inserthtml)
+// Set Icon Ready status of teacher or student
+function setIconReadyEl(userinfo) {
+    "use strict";
+    ($("#media-" + userinfo).parent()).css("background", "#d73d04");
+    $("#media-" + userinfo + " i").css("color", "#fff");
+    $("#media-" + userinfo + " p").css("color", "#fff");
+    ($("#media-" + userinfo).next()).css("color", "#fff");
+}
+
+
+// Set Icon Connected Status of Teacher.
+function setIconConnectedEl(userinfo, roleid) {
+    "use strict";
+    var rolecolor;
+    if (roleid === "tea") {rolecolor = rolecolor_tea;}
+    if (roleid === "ass") {rolecolor = rolecolor_ass;}
+    if (roleid === "stu") {rolecolor = rolecolor_stu;}
+    ($("#media-" + userinfo).parent()).css("background", rolecolor);
+    $("#media-" + userinfo + " i").css("color", "#fff");
+    $("#media-" + userinfo + " p").css("color", "#fff");
+    ($("#media-" + userinfo).next()).css("color", "#fff");
+}
+
+// Set Icon Disconnected status of teacher
+function setIconDisconnectedEl(userinfo, roleid) {
+    "use strict";
+    var rolecolor;
+    if (roleid === "tea") {rolecolor = rolecolor_tea;}
+    if (roleid === "ass") {rolecolor = rolecolor_ass;}
+    if (roleid === "stu") {rolecolor = rolecolor_stu;}
+    ($("#media-" + userinfo).parent()).css("background", "#fff");
+    $("#media-" + userinfo + " i").css("color", rolecolor);
+    $("#media-" + userinfo + " p").css("color", rolecolor);
+    ($("#media-" + userinfo).next()).css("color", rolecolor);
 }
 
 
 
-function updatemessage(){
-	$.getJSON("/chatlist/", function (data) {
-		//console.log(data.classname);
-		//console.log(data.chatcontent);
-		listmessage = data.chatcontent;
-		num_chatitem = listmessage.length;
-		listoldmessage = $("#chat-message-list").children();
-		num_chatolditem = listoldmessage.length;
-		//console.log(num_chatitem);
-		//console.log(num_chatolditem);
-		//var classdatetime = new Date();
-		
-		for (item in listmessage){
-			//console.log(item);
-			if (num_chatolditem <= item){
-				chat_item = listmessage[item];
-				chatname = chat_item.username;
-				chattime = chat_item.createtime;
-				chatmessage = chat_item.question;
-				chatrole = chat_item.rolename;		
-				insertmessage(chatname, chattime, chatmessage, chatrole);
-			}
-		}		
-	});
+// Set button disabled status of student
+function setButtonDisabledEl(id_name, btntype) {
+    "use strict";
+    var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+    $(id_btn).attr("disabled", "disabled");
+    $(id_btn).addClass("btn-default");
+    $(id_btn).removeClass("btn-primary");
+    $(id_btn).removeClass("btn-success");
+    $(id_btn).removeClass("btn-info");
 }
 
-window.setInterval('updatemessage()', 2000);
-
-function postmessage() {
-		chattext = $("#chat-text").val();
-		console.log(chattext);
-		$.post("/chatlist/", {txt:chattext});
-		updatemessage();
+// Set button disabled status of student
+function setButtonEnabledEl(id_name, btntype) {
+    "use strict";
+    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+    var id_btn = "#btn-"+btntype+"-"+id_name;
+    $(id_btn).removeAttr("disabled");
+    $(id_btn).removeClass("btn-default");
+    if (btntype === "link") {
+        $(id_btn).addClass("btn-primary");
+    }
+    if (btntype === "video") {
+        $(id_btn).addClass("btn-success");
+    }
+    if (btntype === "sound") {
+        $(id_btn).addClass("btn-info");
+    }
 }
 
-$(document).ready(function () {
-	$.post("/info/", {teastatus:0}).then(function () {	
-
-		$.getJSON('/info/',function(data){
-			classname = data.classname;
-			username = data.username;
-			stu_list = data.student;
-			tea_list = data.teacher;	
-			teastatus_dict = data.teastatuslist;
-			stustatus_dict = data.stustatuslist;
-			console.log(teastatus_dict);
-			console.log(tea_list);			
-		   console.log(classname);
-		   
-			$("title").text(classname);
-			$("span#classname").text(classname);
-			$("span#username").text(username);
-			
-			var num_alltea = tea_list.length;
-		   var num_allstu = stu_list.length;
-		   var num_readytea = teastatus_dict["1"].length;
-		   var num_readystu = stustatus_dict["1"].length;
-		   var num_onlinetea = teastatus_dict["2"].length;
-		   var num_onlinestu = stustatus_dict["2"].length;
-		   
-		   $("span#num_teainfo").text(num_readytea + " / " + num_onlinetea + " / " + num_alltea);
-		   $("span#num_stuinfo").text(num_readystu + " / " +num_onlinestu + " / " + num_allstu);
-		   
-		   $.getJSON('/token/', function(data) {
-		    	identity = data.identity;
-		    	token = data.token;
-		    	var accessManager = new Twilio.AccessManager(token=data.token);
-		
-		    	// Check the browser console to see your generated identity. 
-		    	// Send an invite to yourself if you want! 
-		    
-			 	console.log(token);
-		    	// Create a Conversations Client and connect to Twilio
-		    	conversationsClient = new Twilio.Conversations.Client(accessManager);  
-		    	console.log(conversationsClient.identity);
-		    	conversationsClient.listen().then(clientConnected, function (error) {
-		        log('Could not connect to Twilio: ' + error.message);
-		        $.post("/info/", {teastatus:0});
-	    	 	});
-			});
-		
-		    var newstudentEl;
-		    for (si in stu_list) {
-		        newstudentEl = createStuIconEl(stu_list[si])
-		        $("#studentlist").append(newstudentEl);
-		        	
-			        	$("#btn-sound-" + stu_list[si]).on("click",function () {
-			        		if ($(this).hasClass('active')){
-								console.log($(this).button('reset'));
-								// mute;
-								if (activeConversation){
-									activeConversation.on('participantConnected', function (participant) {
-										log("Participant '" + participant.identity + "' muted");
-					        			console.log("Participant '" + participant.identity + "' muted");
-					        			participant.media.detach();
-					        			participant.on('trackAdded',function (track) {
-					        				if (track.kind=='video'){
-												track.attach('#media-'+participant.identity);        				
-					        				}	
-					        			});				
-									}); 	  		
-				 	  			} 							
-							}else{
-								console.log($(this).button('complete')); 	  		
-								//unmute;
-					 	  		if (activeConversation){
-									activeConversation.on('participantConnected', function (participant) {
-										log("Participant '" + participant.identity + "' unmuted");
-					        			console.log("Participant '" + participant.identity + "' unmuted");
-					        			participant.media.detach();
-					        			participant.media.attach('#media-'+participant.identity);
-									
-									});}
-							}
-			         });
-			         
-				      $("#btn-link-" + stu_list[si]).on("click",function () {
-			        		if ($(this).hasClass('active')){
-			        			//unlink;
-								console.log($(this).button('reset'));
-							 	if (activeConversation){
-			 	  					activeconversation.disconnect().then(conversationStarted,function(error){
-			             			log('Unable to disable conversation');
-			             			console.error('Unable to disable conversation', error); 	  			
-		 	  					});} 							
-							}else{
-								//link;
-								console.log($(this).button('complete'));
-								var inviteTo = stu_list[si];
-					 	  		var options = {audio:false};
-					     		if (activeConversation) {
-					         	// Add a participant          
-					         	activeConversation.invite(inviteTo, options).then(conversationStarted,
-					         	function (error) {
-					             		log('Fail to invite');
-					             		console.error('Fail to invite', error);         		
-					         	});
-					         } else {
-					         	// Create a conversation
-					         	if (previewMedia) {
-					        			options.localMedia = previewMedia;
-					      		}
-					        		conversationsClient.inviteToConversation(inviteTo, options).then(conversationStarted,                        
-					         		function (error) {
-					             		log('Unable to create conversation');
-					             		console.error('Unable to create conversation', error);
-					         		});}	
-								}
-						  });       
-
-		    }
-		    
-		    var newteacherEl;
-		    for (ti in tea_list) {
-		        newteacherEl = createTeaIconEl(tea_list[ti])        
-		        $("#teacherlist").append(newteacherEl);
-		        	
-			        $("#btn-media-" + tea_list[ti]).on("click", function () {
-			        		console.log("teacher media control");
-			        		if ($(this).hasClass('active')){
-								console.log($(this).button('reset'));
-								if (previewMedia){
-						     		previewMedia.detach();   		
-						   		previewMedia.stop();
-						   		previewMedia = null;
-						   		$('div#media-area').empty();
-						   		$('div#media-area').append("<h4 id='memo-text'>Ready to Take Class</h4>");
-								}						
-							}else{
-								console.log($(this).button('complete'));
-								if (!previewMedia){
-						 			previewMedia = new Twilio.Conversations.LocalMedia();	
-						  			myLocalMedia = Twilio.Conversations.getUserMedia().then(function (mediaStream) {
-							  			$('div#media-area').empty();
-							  			$('div#media-area').append(createMediaEl('local-media'));
-							  			$('div#media-area').append(createMediaEl('remote-media'));
-							  			previewMedia.addStream(mediaStream);
-										$('div#local-media').append(previewMedia.attach());
-									}
-						  		,function (error) {
-						         	console.error('Unable to access local media', error);
-						            log('Unable to access Camera and Microphone'); 			
-						  		});} else {
-						 			$('div#media-area').empty();
-						  			$('div#media-area').append(createMediaEl('local-media'));
-						  			$('div#media-area').append(createMediaEl('remote-media'));
-						  			previewMedia.addStream(mediaStream);
-									$('div#local-media').append(previewMedia.attach());
-								}  						
-							}
-			        });
-		    }
-		       
-			});
-		 
-		   // $(function () { $('#collapseOne').collapse('show')});
-		   // $(function () { $('#collapseTwo').collapse('')});
-		   // $(function () { $('#collapseThree').collapse('toggle')});
-		 
-		 });
-		
-
-});
-
-function createTeaIconEl(user_info){
-	var iconContainer = '<div class="col-md-6"> </div>';
-	var serviceBoxV1 = 	'<div class="service-box-tea"> </div>';
-	var localMedia = '<div id="" class="local-media"> <i class="fa fa-user color-grey"></i></div>';
-	var userH = '<h4 id="" class="color-grey"></h4>';
-	var buttonTeaPreview = '<button id="" type="button" class="btn btn-primary btn-block btn-xs" data-toggle="button" data-complete-text=""> </button>';
-	var iconTeaPreview = '<i class="fa fa-eye color-grey"></i><span> / </span><i class="fa fa-microphone color-grey"></i><span>  PREVIEW</span>';
-	var iconTeaClose = '<i class="fa fa-eye-slash color-grey"></i><span> / </span><i class="fa fa-microphone-slash color-grey"></i><span>  CLOSE</span>';
-	
-	var iconContainerEl = $(iconContainer);
-	var serviceBoxV1El = $(serviceBoxV1);
-	var localMediaEl = $(localMedia);
-	var userHEl = $(userH);
-	var buttonTeaPreviewEl = $(buttonTeaPreview);
-	
-	localMediaEl.attr("id", "media-" + user_info);
-	userHEl.append(user_info);	
-	buttonTeaPreviewEl.attr("id","btn-media-" + user_info);
-	buttonTeaPreviewEl.attr("data-complete-text", iconTeaClose);
-	buttonTeaPreviewEl.append(iconTeaPreview);
-	
-	serviceBoxV1El.append(localMediaEl);
-	serviceBoxV1El.append(userHEl);	
-	iconContainerEl.append(serviceBoxV1El);	
-	iconContainerEl.append(buttonTeaPreviewEl);
-	//return "<div class='col-md-6 margin-bottom-10'><div id='service-box-" + user_info + "' class='service-box-v1'><div id='media_" + user_info + "' class='remote-media'> <i class='fa fa-user color-grey'></i></div><h4 id='name_" + user_info +"' class='color-grey'>" + user_info + "</h4></div> <button id='media_preview' type='button' class='btn btn-primary btn-block btn-xs' data-toggle='button'><i class='fa fa-eye color-grey'></i><span> / </span><i class='fa fa-microphone color-grey'></i><span>  PREVIEW</span></button></div>";
-	return iconContainerEl
+// Set button active status of student
+function setButtonOffEl(id_name, btntype) {
+    "use strict";
+    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+    var id_btn = "#btn-"+btntype+"-"+id_name;
+    $(id_btn).removeClass("active");
+    console.log($(id_btn).hasClass("active"));
 }
 
-
-function createStuIconEl(user_info){
-	var iconContainer = '<div class="col-md-6 margin-bottom-10"> </div>';
-	var serviceBoxV1 = 	'<div class="service-box-stu"> </div>';
-	var remoteMedia = '<div id="" class="remote-media"> <i class="fa fa-user color-grey"></i></div>';
-	var userH = '<h4 id="" class="color-grey"></h4>';
-	
-	var buttonStuGroup = '<div class= "btn-group-vertical btn-block btn-group-xs"> </div>';
-	var buttonStuVideo = '<button id="" type="button" class="btn btn-primary" data-toggle="button" data-complete-text=""></button>';
-	var buttonStuSound = '<button id="" type="button" class="btn btn-success"  data-toggle="button" data-complete-text=""></button>';
-	var buttonStuLink = '<button id="" type="button" class="btn btn-info" data-toggle="button" data-complete-text=""></button>';
-	var iconStuVideo = '<i class="fa fa-eye color-grey"></i><span></span>'
-	var iconStuVideoOff = '<i class="fa fa-eye-slash color-grey"></i><span></span>'	
-	var iconStuSound = '<i class="fa fa-volume-up color-grey"></i><span></span>'
-	var iconStuSoundOff = '<i class="fa fa-volume-off color-grey"></i><span></span>'
-	var iconStuLink = '<i class="fa fa-link color-grey"></i><span></span>'
-	var iconStuLinkOff = '<i class="fa fa-unlink color-grey"></i><span></span>'
-	
-	
-	var iconContainerEl = $(iconContainer);
-	var serviceBoxV1El = $(serviceBoxV1);
-	var remoteMediaEl = $(remoteMedia);
-	var userHEl = $(userH);
-	var buttonStuGroupEl = $(buttonStuGroup);
-	var buttonStuVideoEl = $(buttonStuVideo);
-	var buttonStuSoundEl = $(buttonStuSound);
-	var buttonStuLinkEl = $(buttonStuLink);	
-	
-	remoteMediaEl.attr("id", "media-" + user_info);
-	userHEl.append(user_info);	
-	serviceBoxV1El.append(remoteMediaEl);
-	serviceBoxV1El.append(userHEl);
-		
-	//buttonStuVideoEl.attr("id","btn-video-" + user_info);
-	buttonStuSoundEl.attr("id","btn-sound-" + user_info);
-	buttonStuLinkEl.attr("id", "btn-link-" + user_info);
-	
-	//buttonStuVideoEl.attr("data-complete-text", iconStuVideoOff);
-	buttonStuSoundEl.attr("data-complete-text", iconStuSoundOff);
-	buttonStuLinkEl.attr("data-complete-text", iconStuLinkOff);
-	
-	//buttonStuVideoEl.append(iconStuVideo);
-	buttonStuSoundEl.append(iconStuSound);
-	buttonStuLinkEl.append(iconStuLink);
-	
-	//buttonStuGroupEl.append(buttonStuVideoEl);
-	buttonStuGroupEl.append(buttonStuSoundEl);
-	buttonStuGroupEl.append(buttonStuLinkEl);
-	
-		
-	iconContainerEl.append(serviceBoxV1El);	
-	iconContainerEl.append(buttonStuGroupEl);
-	return iconContainerEl
-	//return "<div class='col-md-6 margin-bottom-10'><div id='service-box-" + user_info + "' class='service-box-stu'><div id='media_" + user_info + "' class='remote-media'></div><h4 id='name_" + user_info +"' class='color-white'>" + user_info + "</h4> <div class= 'btn-group-vertical btn-block btn-group-xs' data-toggle='buttons-checkbox'><button id='camera_" +user_info + "' type='button' class='btn btn-primary' data-toggle='toggle'><i class='fa fa-eye color-grey'></i><span></span></button> <button id='sound_" +user_info + "' type='button' class='btn btn-success'  data-toggle='toggle'><i class='fa fa-volume-up color-grey'></i><span></span></button><button id='link_" +user_info + "' type='button' class='btn btn-info' data-toggle='toggle'><i class='fa fa-chain color-grey'></i><span></span></button></div></div></div>";
-}
-
-
-/*
-function buttontoggle() {
-	
-	if ($(this).hasClass('active')){
-		console.log("toggle 0");
-		//console.log($(this).button('toggle'))
-		console.log($(this).button('reset'));
-		
-	}else{
-		console.log("toggle 1");
-		//console.log($(this).button('toggle'))
-		console.log($(this).button('complete'));
-		
-	}
-	console.log($(this).text);
-};	
-*/		
-
-function updateClassInfo() {
-	$.getJSON('/info/',function(data){	
-		teastatus_dict = data.teastatuslist;
-		stustatus_dict = data.stustatuslist;    
-		var num_alltea = tea_list.length;
-    	var num_allstu = stu_list.length;
-    	var num_readytea = teastatus_dict["1"].length;
-    	var num_readystu = stustatus_dict["1"].length;
-   	var num_onlinetea = teastatus_dict["2"].length;
-    	var num_onlinestu = stustatus_dict["2"].length;
-    	var newteastatus_str = num_readytea + " / " + num_onlinetea + " / " + num_alltea;
-    	var newstustatus_str = num_readystu + " / " +num_onlinestu + " / " + num_allstu;
-    	if (teastatus_str!=newteastatus_str || stustatus_str!=newstustatus_str ){  
-    		teastatus_str = newteastatus_str;
-    		stustatus_str = newstustatus_str;  		
-    		$("span#num_teainfo").text(teastatus_str);
-    		$("span#num_stuinfo").text(stustatus_str);
-	    	for (l0i in teastatus_dict['0']) {
-	    		setDisconnectedEl(teastatus_dict['0'][l0i]);
-	    	}
-	    	for (l1i in teastatus_dict['1']) {
-	    		setReadyEl(teastatus_dict['1'][l1i]);
-	    	}
-	     	for (l2i in teastatus_dict['2']) {
-	    		setTeaConnectedEl(teastatus_dict['2'][l2i]);
-	    	}  
-	    	for (l0i in stustatus_dict['0']) {
-	    		setDisconnectedEl(stustatus_dict['0'][l0i]);
-	    	}
-	    	for (l1i in stustatus_dict['1']) {
-	    		setReadyEl(stustatus_dict['1'][l1i]);
-	    	}
-	     	for (l2i in stustatus_dict['2']) {
-	    		setStuConnectedEl(stustatus_dict['2'][l2i]);
-	    	}
-	   }  	
-	});
-}
-
-window.setInterval('updateClassInfo()', 3000);
-
-
-function setTeaConnectedEl(userinfo) {
-	console.log("#media-" + userinfo);
-	//$("#media-" + userinfo).css("background", "#d9edf7");
-	$("#media-" + userinfo).css("background", "green");
-	($("#media-" + userinfo).parent()).css("background", "green");
-	$("#media-" + userinfo +" i").css("color", "#fff");
-	$("#media-" + userinfo +" p").css("color", "#fff");
-	($("#media-" + userinfo).next()).css("color", "#fff");
-	$("#media-" + userinfo + " h4").css("color", "#fff");
-}
-
-function setStuConnectedEl(userinfo) {
-	console.log("#media-" + userinfo);
-	//$("#media-" + userinfo).css("background", "##dff0d8");
-	$("#media-" + userinfo).css("background", "green");
-	($("#media-" + userinfo).parent()).css("background", "green");
-	$("#media-" + userinfo +" i").css("color", "#fff");
-	$("#media-" + userinfo +" p").css("color", "#fff");
-	($("#media-" + userinfo).next()).css("color", "#fff");
-	$("#media-" + userinfo + " h4").css("color", "#fff");
-	//$("#btn-video-" + userinfo).show();
-	$("#btn-sound-" + userinfo).show();
-	$("#btn-link-" + userinfo).show();
-	//$("#btn-video-" + userinfo).addClass("active");
-	$("#btn-sound-" + userinfo).removeClass("active");
-	$("#btn-link-" + userinfo).addClass("active");
-}
-
-function setDisconnectedEl(userinfo) {
-	$("#media-" + userinfo).css("background", "");
-	($("#media-" + userinfo).parent()).css("background", "");
-	$("#media-" + userinfo +" i").css("color", "");
-	$("#media-" + userinfo +" p").css("color", "");
-	($("#media-" + userinfo).next()).css("color", "#fff");
-	$("#media-" + userinfo + " h4").css("color", "");
-	console.log("button hided"+ " #btn-sound-" + userinfo);
-	//$("#btn-video-" + userinfo).hide();
-	$("#btn-sound-" + userinfo).hide();
-	$("#btn-link-" + userinfo).hide();
-}
-
-function setReadyEl(userinfo) {
-	$("#media-" + userinfo).css("background", "#d73d04");
-	($("#media-" + userinfo).parent()).css("background", "#d73d04");
-	$("#media-" + userinfo +" i").css("color", "#fff");
-	$("#media-" + userinfo +" p").css("color", "#fff");
-	($("#media-" + userinfo).next()).css("color", "#fff");
-	$("#media-" + userinfo + " h4").css("color", "#fff");
-	//$("#btn-video-" + userinfo).show();
-	$("#btn-sound-" + userinfo).show();
-	$("#btn-link-" + userinfo).show();
-	//$("#btn-video-" + userinfo).removeClass("active");
-	$("#btn-sound-" + userinfo).removeClass("active");
-	$("#btn-link-" + userinfo).removeClass("active");
+// Set button ready status of student
+function setButtonOnEl(id_name, btntype) {
+    "use strict";
+    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+    var id_btn = "#btn-"+btntype+"-"+id_name;
+    $(id_btn).addClass("active");
+    console.log($(id_btn).hasClass("active"));
 }
 
 
 
-// Successfully connected!
-function clientConnected() {
-    log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
-	 console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
-	 $.post("/info/", {teastatus:1});
+// Set Badge Icon num according to linkstatus;
+function SetStatusBadgeEl(id_badge, linkstatus_dict) {
+    "use strict";
+    var num_all = 0;
+    for (var item in linkstatus_dict) {
+        if (linkstatus_dict.hasOwnProperty(item)){
+            num_all = num_all + linkstatus_dict[item].length;
+        }
+    }
+    var num_ready = linkstatus_dict["1"].length;
+    var num_online = linkstatus_dict["2"].length;
+    $(id_badge).text(num_ready + " / " + num_online + " / " + num_all);
 }
 
-// Bind switch to create conversation
- $('input#remote-conn-all').on('switchChange.bootstrapSwitch', function(e, state) {
- 	  if (!state) {
- 	  		inviteTo = stustatus_dict['1'];
- 	  		var options = {};
-     		if (activeConversation) {
-         	// Add a participant          
-         	activeConversation.invite(inviteTo, options).then(conversationStarted,
-         	function (error) {
-             		log('Fail to invite');
-             		console.error('Fail to invite', error);         		
-         	});
-         } else {
-         	// Create a conversation
-         	options = {};
-         	/*if (previewMedia) {
-        			options.localMedia = previewMedia;
-      		}else {
-      			previewMedia = 
-      			options.localMedia = previewMedia;
-      		}*/
-        		conversationsClient.inviteToConversation(inviteTo, options).then(conversationStarted,                        
-         		function (error) {
-             		log('Unable to create conversation');
-             		console.error('Unable to create conversation', error);
-         		});}	 	  
- 	  }else {
- 	  		if (activeConversation){
- 	  			activeconversation.disconnect().then(conversationStarted,function(error){
-             		log('Unable to disable conversation');
-             		console.error('Unable to disable conversation', error); 	  			
- 	  			});} 	  	
- 	  }
- });
- 
- 	//Bind switch to sound control
- $('input#remote-volume-all').on('switchChange.bootstrapSwitch', function(e, state) {
- 	  if (state) {	 
- 	  		//previewMedia.unmute()
- 	  		if (activeConversation){
-				activeConversation.on('participantConnected', function (participant) {
-					log("Participant '" + participant.identity + "' unmuted");
-        			console.log("Participant '" + participant.identity + "' unmuted");
-        			participant.media.detach();
-        			participant.media.attach('#media-'+participant.identity);
-				
-				}); 	  		
- 	  		}
- 	  }else {
- 			//previeMedia.mute()
- 	  		if (activeConversation){
-				activeConversation.on('participantConnected', function (participant) {
-					log("Participant '" + participant.identity + "' muted");
-        			console.log("Participant '" + participant.identity + "' muted");
-        			participant.media.detach();
-        			participant.on('trackAdded',function (track) {
-        				if (track.kind=='video'){
-							track.attach('#media-'+participant.identity);        				
-        				}	
-        			});
-				
-				}); 	  		
- 	  		} 			
- 	  }
- 
- });    
 
-// Conversation is live
-function conversationStarted(conversation) {
-    log('In an active Conversation');
-    console.log('In an active Conversation');
-    activeConversation = conversation;
-    // Draw local video, if not already previewing
-    if (!previewMedia) {
-        conversation.localMedia.attach('#local-media');
-    }else {
-    	  previewMedia.detach();   		
-   	  previewMedia.stop();
-   	  previewMedia = null;
-    	  $('div#media-area').empty();
-	  	  $('div#media-area').append(createMediaEl('local-media'));
-	  	  $('div#media-area').append(createMediaEl('remote-media'));
-    	  conversation.localMedia.attach('#local-media');
+
+// Change Icon display according to linkstatus;
+function changeLinkStatusIcon(roleid){
+    "use strict";
+    var linkstatus_dict;
+    // console.log(tealinkstatus_dict);
+    if (roleid==='tea') {linkstatus_dict=tealinkstatus_dict;}
+    if (roleid==='ass') {linkstatus_dict=asslinkstatus_dict;}
+    if (roleid==='stu') {linkstatus_dict=stulinkstatus_dict;}
+    // console.log("span#num_"+roleid+"info");
+    SetStatusBadgeEl("span#num_"+roleid+"info", linkstatus_dict);
+
+    // status "0" means disconnected
+    for (var l0i in linkstatus_dict['0']) {
+        if (linkstatus_dict['0'].hasOwnProperty(l0i)){
+            if (linkstatus_dict['0'][l0i]===username) {
+                setIconDisconnectedEl(linkstatus_dict['0'][l0i], roleid);
+                setButtonDisabledEl("", "link");
+                setButtonDisabledEl("", "video");
+                setButtonDisabledEl("", "sound");
+                setButtonEnabledEl(linkstatus_dict['0'][l0i], "link");
+                $("#btn-link-"+username).button('reset');
+            }else{
+                setIconDisconnectedEl(linkstatus_dict['0'][l0i], roleid);
+                setButtonEnabledEl(linkstatus_dict['0'][l0i], "link");
+                setButtonDisabledEl(linkstatus_dict['0'][l0i], "video");
+                setButtonDisabledEl(linkstatus_dict['0'][l0i], "sound");
+            }
+        }
     }
 
-    // When a participant joins, draw their video on screen
-    conversation.on('participantConnected', function (participant) {
-        log("Participant '" + participant.identity + "' connected");
-        console.log("Participant '" + participant.identity + "' connected");
-        participant.media.attach('#media_'+participant.identity);
-        setConnectedEl(participant.identity);
-        $.post("/info/", {teastatus:2});
-    });
-    
-    conversation.on('participantFailed', function(participant) {
-    	  log('Participant failed to connect: ' + participant.identity);
-		  console.log('Participant failed to connect: ' + participant.identity);
-		  setDisconnectedEl(participant.identity);
-	 });
-
-    // When a participant disconnects, note in log
-    conversation.on('participantDisconnected', function (participant) {
-        log("Participant '" + participant.identity + "' disconnected");
-        console.log("Participant '" + participant.identity + "' disconnected");
-        setDisconnectedEl(participant.identity);
-    });
-
-    // When the conversation ends, stop capturing local video
-    conversation.on('disconnected', function (conversation) {
-        log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
-        console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
-        conversation.localMedia.stop();
-        conversation.disconnect();
-        activeConversation = null;
-        $.post("/info/", {teastatus:1});
-        for (ti in tea_list) {
-        		setDisconnectedEl(tea_list[ti]);
+    // status "1" means ready
+    for (var l1i in linkstatus_dict['1']) {
+        if (linkstatus_dict['1'].hasOwnProperty(l1i)){
+            setIconReadyEl(linkstatus_dict['1'][l1i]);
+            setButtonOffEl(linkstatus_dict['1'][l1i], "link");
+            setButtonEnabledEl(linkstatus_dict['1'][l1i], "link");
+            setButtonDisabledEl(linkstatus_dict['1'][l1i], "video");
+            setButtonDisabledEl(linkstatus_dict['1'][l1i], "sound");
+            $("#btn-link-"+username).button('reset');
         }
-        for (si in stu_list) {
-        		setDisconnectedEl(stu_list[si]);
+    }
+
+    // status "2" means connected
+    for (var l2i in linkstatus_dict['2']) {
+        if (linkstatus_dict['2'].hasOwnProperty(l2i)){
+            setIconConnectedEl(linkstatus_dict['2'][l2i], roleid);
+            setButtonOnEl(linkstatus_dict['2'][l2i], "link");
+            setButtonEnabledEl(linkstatus_dict['2'][l2i], "link");
+            setButtonEnabledEl(linkstatus_dict['2'][l2i], "video");
+            setButtonEnabledEl(linkstatus_dict['2'][l2i], "sound");
+            $("#btn-link-"+username).button('complete');
         }
-        
-    });
+    }
+
 }
 
-function createMediaEl(id_name){
-	return "<div id='" + id_name + "'class='margin-bottom-10'></div>"
+
+// Change Icon display according to video status;
+function changeVideoStatusButton(roleid){
+    "use strict";
+    var videostatus_dict;
+    // console.log(tealinkstatus_dict);
+    if (roleid==='tea') {videostatus_dict=teavideostatus_dict;}
+    if (roleid==='ass') {videostatus_dict=assvideostatus_dict;}
+    if (roleid==='stu') {videostatus_dict=stuvideostatus_dict;}
+
+    // status "0" means disconnected
+    for (var l0i in videostatus_dict['0']) {
+        if (videostatus_dict['0'].hasOwnProperty(l0i)){
+            setButtonDisabledEl(videostatus_dict['0'][l0i], "video");
+        }
+    }
+
+    // status "1" means ready
+    for (var l1i in videostatus_dict['1']) {
+        if (videostatus_dict['1'].hasOwnProperty(l1i)){
+            setButtonEnabledEl(videostatus_dict['1'][l1i], "video");
+            setButtonOffEl(videostatus_dict['1'][l1i], "video");
+        }
+    }
+
+    // status "2" means connected
+    for (var l2i in videostatus_dict['2']) {
+        if (videostatus_dict['2'].hasOwnProperty(l2i)){
+            setButtonEnabledEl(videostatus_dict['2'][l2i], "video");
+            setButtonOnEl(videostatus_dict['2'][l2i], "video");
+        }
+    }
+
 }
 
-//  Local video preview
-$('input#camera-preview').on('switchChange.bootstrapSwitch', function(e, state) {	
-  	if (!state){
-  		if (!previewMedia){
- 			previewMedia = new Twilio.Conversations.LocalMedia();	
-  			myLocalMedia = Twilio.Conversations.getUserMedia().then(function (mediaStream) {
-	  			$('div#media-area').empty();
-	  			$('div#media-area').append(createMediaEl('local-media'));
-	  			$('div#media-area').append(createMediaEl('remote-media'));
-	  			previewMedia.addStream(mediaStream);
-				$('div#local-media').append(previewMedia.attach());
-				//$.post("/info/", {teastatus:2});
-			}
-  		,function (error) {
-         	console.error('Unable to access local media', error);
-            log('Unable to access Camera and Microphone'); 			
-  		});} else {
- 			$('div#media-area').empty();
-  			$('div#media-area').append(createMediaEl('local-media'));
-  			$('div#media-area').append(createMediaEl('remote-media'));
-  			previewMedia.addStream(mediaStream);
-			$('div#local-media').append(previewMedia.attach());
-			//$.post("/info/", {teastatus:2});
-		}  	
-   } else {
-   	if (previewMedia){
-     		previewMedia.detach();   		
-   		previewMedia.stop();
-   		previewMedia = null;
-   		$('div#media-area').empty();
-   		$('div#media-area').append("<h4 id='memo-text'>Ready to Take Class</h4>")
-   		//$.post("/info/", {teastatus:1});
-		}
- 	}       
 
+// Change Icon display according to sound status;
+function changeSoundStatusButton(roleid){
+    "use strict";
+    var soundstatus_dict;
+    // console.log(tealinkstatus_dict);
+    if (roleid==='tea') {soundstatus_dict=teasoundstatus_dict;}
+    if (roleid==='ass') {soundstatus_dict=asssoundstatus_dict;}
+    if (roleid==='stu') {soundstatus_dict=stusoundstatus_dict;}
+
+    // status "0" means disconnected
+    for (var l0i in soundstatus_dict['0']) {
+        if (soundstatus_dict['0'].hasOwnProperty(l0i)){
+            setButtonDisabledEl(soundstatus_dict['0'][l0i], "sound");
+        }
+    }
+
+    // status "1" means ready
+    for (var l1i in soundstatus_dict['1']) {
+        if (soundstatus_dict['1'].hasOwnProperty(l1i)){
+            setButtonEnabledEl(soundstatus_dict['1'][l1i], "sound");
+            setButtonOffEl(soundstatus_dict['1'][l1i], "sound");
+        }
+    }
+
+    // status "2" means connected
+    for (var l2i in soundstatus_dict['2']) {
+        if (soundstatus_dict['2'].hasOwnProperty(l2i)){
+            setButtonEnabledEl(soundstatus_dict['2'][l2i], "sound");
+            setButtonOnEl(soundstatus_dict['2'][l2i], "sound");
+        }
+    }
+
+}
+
+
+
+
+
+
+// Initial webpage
+$(document).ready(function() {
+    "use strict";
+    $.post("/info/", {tealinkstatus: '0'}).then(function() {
+        $.getJSON('/info/', function(data) {
+            classname = data.classname;
+            username = data.username;
+            stu_list = data.student;
+            ass_list = data.assistant;
+            tea_list = data.teacher;
+            tealinkstatus_dict = data.tealinkstatuslist;
+            asslinkstatus_dict = data.asslinkstatuslist;
+            stulinkstatus_dict = data.stulinkstatuslist;
+
+            $("title").text(classname);
+            $("span#classname").text(classname);
+            $("span#username").text(username);
+
+            SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
+            SetStatusBadgeEl("span#num_assinfo", asslinkstatus_dict);
+            SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
+
+
+            for (var ti in tea_list) {
+                if (tea_list.hasOwnProperty(ti)){
+                    var newteacherEl = createIconEl(tea_list[ti], 'tea');
+                    $("#teacherlist").append(newteacherEl);
+                }
+            }
+
+            for (var ai in ass_list) {
+                if (ass_list.hasOwnProperty(ai)){
+                    var newassistantEl = createIconEl(ass_list[ai], 'ass');
+                    $("#assistantlist").append(newassistantEl);
+                }
+            }
+
+
+            for (var si in stu_list) {
+                if (stu_list.hasOwnProperty(si)){
+                    var newstudentEl = createIconEl(stu_list[si], 'stu');
+                    $("#studentlist").append(newstudentEl);
+                }
+            }
+
+            setButtonDisabledEl("", "link");
+            setButtonDisabledEl("", "video");
+            setButtonDisabledEl("", "sound");
+
+            setButtonEnabledEl(username,"link");
+
+        });
+        // $(function () { $('#collapseOne').collapse('show')});
+        // $(function () { $('#collapseTwo').collapse('')});
+        // $(function () { $('#collapseThree').collapse('toggle')});
+    });
 });
 
 
+// var stu_list;
+// var tea_list;
+// var teastatus_dict;
+// var stustatus_dict;
+// var teastatus_str;
+// var stustatus_str;
+// var classname;
+// var username;
+/*
+function buttontoggle() {
 
-// Activity log
-function log(message) {
-    document.getElementById('log-content').innerHTML = message;
-}
+    if ($(this).hasClass('active')){
+        console.log("toggle 0");
+        //console.log($(this).button('toggle'))
+        console.log($(this).button('reset'));
+    }else{
+        console.log("toggle 1");
+        //console.log($(this).button('toggle'))
+        console.log($(this).button('complete'));
+    }
+    console.log($(this).text);
+};
+*/
+
+// Show all switch input  via bootstrap switch
+// $.fn.bootstrapSwitch.defaults.state = true;
+// $(".switch").bootstrapSwitch();
+
+// Update student list and teacher list from /info/
+// function updateClassInfo() {
+//     "use strict";
+//     $.getJSON('/info/', function(data) {
+//         teastatus_dict = data.teastatuslist;
+//         stustatus_dict = data.stustatuslist;
+//         var num_alltea = tea_list.length;
+//         var num_allstu = stu_list.length;
+//         var num_readytea = teastatus_dict["1"].length;
+//         var num_readystu = stustatus_dict["1"].length;
+//         var num_onlinetea = teastatus_dict["2"].length;
+//         var num_onlinestu = stustatus_dict["2"].length;
+//         var newteastatus_str = num_readytea + " / " + num_onlinetea + " / " + num_alltea;
+//         var newstustatus_str = num_readystu + " / " + num_onlinestu + " / " + num_allstu;
+//         if (teastatus_str !== newteastatus_str || stustatus_str !== newstustatus_str) {
+//             teastatus_str = newteastatus_str;
+//             stustatus_str = newstustatus_str;
+//             $("span#num_teainfo").text(teastatus_str);
+//             $("span#num_stuinfo").text(stustatus_str);
+
+//             for (var l0i in teastatus_dict['0']) {
+//                 if (teastatus_dict['0'].hasOwnProperty(l0i)){
+//                     setDisconnectedEl(teastatus_dict['0'][l0i]);
+//                 }
+//             }
+//             for (var l1i in teastatus_dict['1']) {
+//                 if (teastatus_dict['1'].hasOwnProperty(l1i)){
+//                     setDisconnectedEl(teastatus_dict['1'][l1i]);
+//                 }
+//             }
+//             for (var l2i in teastatus_dict['2']) {
+//                 if (teastatus_dict['2'].hasOwnProperty(l2i)){
+//                     setTeaConnectedEl(teastatus_dict['2'][l2i]);
+//                 }
+//             }
+//             for (var s0i in stustatus_dict['0']) {
+//                 if (stustatus_dict['0'].hasOwnProperty(s0i)){
+//                     setDisconnectedEl(stustatus_dict['0'][s0i]);
+//                 }
+//             }
+//             for (var s1i in stustatus_dict['1']) {
+//                 if (stustatus_dict['1'].hasOwnProperty(s1i)){
+//                     setReadyEl(stustatus_dict['1'][s1i]);
+//                 }
+//             }
+//             for (var s2i in stustatus_dict['2']) {
+//                 if (stustatus_dict['2'].hasOwnProperty(s2i)){
+//                     setStuConnectedEl(stustatus_dict['2'][s2i]);
+//                 }
+//             }
+//         }
+//     });
+// }
+
+// window.setInterval(function(){"use strict";updateClassInfo();}, 2000);
+//
+//
+// // Set Icon Connected Status of Teacher.
+// function setAssIconConnectedEl(userinfo) {
+//     "use strict";
+//     var rolecolor;
+//     if (roleid === "tea") {rolecolor = "#8A6D3B";}
+//     if (roleid === "ass") {rolecolor = "#31708F";}
+//     if (roleid === "stu") {rolecolor = "#3E773F";}
+//     console.log("#media-" + userinfo);
+//     ($("#media-" + userinfo).parent()).css("background", "#31708F");
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+// }
+
+// // Set Icon Disconnected status of teacher
+// function setAssIconDisconnectedEl(userinfo) {
+//     "use strict";
+//     // $("#media-" + userinfo).css("background", "#fff");
+//     ($("#media-" + userinfo).parent()).css("background", "#fff");
+//     $("#media-" + userinfo + " i").css("color", "#31708F");
+//     $("#media-" + userinfo + " p").css("color", "#31708F");
+//     ($("#media-" + userinfo).next()).css("color", "#31708F");
+//     // $("#media-" + userinfo + " h4").css("color", "");
+//     //console.log("button hided"+ " #btn-sound-" + userinfo);
+// }
+
+// // Set Icon Connected Status of Student.
+// function setStuIconConnectedEl(userinfo) {
+//     "use strict";
+//     console.log("#media-" + userinfo);
+//     //$("#media-" + userinfo).css("background", "#d9edf7");
+//     ($("#media-" + userinfo).parent()).css("background", "#3E773F");
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+//     // $("#media-" + userinfo + " h4").css("color", "#fff");
+// }
+
+// // Set Icon Disconnected status of student
+// function setStuIconDisconnectedEl(userinfo) {
+//     "use strict";
+//     // $("#media-" + userinfo).css("background", "#fff");
+//     ($("#media-" + userinfo).parent()).css("background", "#fff");
+//     $("#media-" + userinfo + " i").css("color", "#3E773F");
+//     $("#media-" + userinfo + " p").css("color", "#3E773F");
+//     ($("#media-" + userinfo).next()).css("color", "#3E773F");
+//     // $("#media-" + userinfo + " h4").css("color", "");
+//     //console.log("button hided"+ " #btn-sound-" + userinfo);
+// }
+//
+//
+// // Set connected status of student
+// function setStuConnectedEl(userinfo) {
+//     "use strict";
+//     console.log("#media-" + userinfo);
+//     //$("#media-" + userinfo).css("background", "##dff0d8");
+//     $("#media-" + userinfo).css("background", "green");
+//     ($("#media-" + userinfo).parent()).css("background", "green");
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     // ($("#media-" + userinfo).next()).css("color", "#fff");
+//     $("#media-" + userinfo + " h4").css("color", "#fff");
+
+//     $("#btn-video-" + userinfo).show();
+//     $("#btn-video-" + userinfo).removeAttr("disabled");
+//     $("#btn-video-" + userinfo).removeClass("btn-default");
+//     $("#btn-video-" + userinfo).addClass("btn-primary");
+//     $("#btn-video-" + userinfo).addClass("active");
+
+//     $("#btn-sound-" + userinfo).show();
+//     $("#btn-sound-" + userinfo).removeAttr("disabled");
+//     $("#btn-sound-" + userinfo).removeClass("btn-default");
+//     $("#btn-sound-" + userinfo).addClass("btn-success");
+//     $("#btn-sound-" + userinfo).removeClass("active");
+
+//     $("#btn-link-" + userinfo).show();
+//     $("#btn-link-" + userinfo).removeAttr("disabled");
+//     $("#btn-link-" + userinfo).removeClass("btn-default");
+//     $("#btn-link-" + userinfo).addClass("btn-info");
+//     $("#btn-link-" + userinfo).addClass("active");
+// }
+
+// // Set disconnected status of teacher or student
+// function setDisconnectedEl(userinfo) {
+//     "use strict";
+//     $("#media-" + userinfo).css("background", "");
+//     ($("#media-" + userinfo).parent()).css("background", "");
+//     $("#media-" + userinfo + " i").css("color", "");
+//     $("#media-" + userinfo + " p").css("color", "");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+//     $("#media-" + userinfo + " h4").css("color", "");
+//     //console.log("button hided"+ " #btn-sound-" + userinfo);
+//     $("#btn-video-" + userinfo).show();
+//     $("#btn-video-" + userinfo).attr("disabled", "true");
+//     $("#btn-video-" + userinfo).addClass("btn-default");
+//     $("#btn-video-" + userinfo).removeClass("btn-primary");
+
+//     $("#btn-sound-" + userinfo).show();
+//     $("#btn-sound-" + userinfo).attr("disabled", "true");
+//     $("#btn-sound-" + userinfo).addClass("btn-default");
+//     $("#btn-sound-" + userinfo).removeClass("btn-success");
+
+//     $("#btn-link-" + userinfo).show();
+//     $("#btn-link-" + userinfo).attr("disabled", "true");
+//     $("#btn-link-" + userinfo).addClass("btn-default");
+//     $("#btn-link-" + userinfo).removeClass("btn-info");
+
+// }
+
+// // Set ready status of teacher or student
+// function setReadyEl(userinfo) {
+//     "use strict";
+//     $("#media-" + userinfo).css("background", "#d73d04");
+//     ($("#media-" + userinfo).parent()).css("background", "#d73d04");
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+//     $("#media-" + userinfo + " h4").css("color", "#fff");
+
+//     $("#btn-video-" + userinfo).show();
+//     $("#btn-video-" + userinfo).removeAttr("disabled");
+//     $("#btn-video-" + userinfo).addClass("btn-primary");
+//     $("#btn-video-" + userinfo).removeClass("btn-default");
+
+//     $("#btn-sound-" + userinfo).show();
+//     $("#btn-sound-" + userinfo).removeAttr("disabled");
+//     $("#btn-sound-" + userinfo).addClass("btn-success");
+//     $("#btn-sound-" + userinfo).removeClass("btn-default");
+
+//     $("#btn-link-" + userinfo).show();
+//     $("#btn-link-" + userinfo).removeAttr("disabled");
+//     $("#btn-link-" + userinfo).addClass("btn-info");
+//     $("#btn-link-" + userinfo).removeClass("btn-default");
+
+//     $("#btn-video-" + userinfo).removeClass("active");
+//     $("#btn-sound-" + userinfo).removeClass("active");
+//     $("#btn-link-" + userinfo).removeClass("active");
+// }
+//
+//
+//
+// // // Show Teacher icon in Teacher list
+// function createTeaIconEl(user_info) {
+//     "use strict";
+//     var iconContainer = '<div class="col-md-6"> </div>';
+//     var serviceBoxV1 = '<div class="service-box-tea"> </div>';
+//     var localMedia = '<div id="" class="local-media"> <i class="fa fa-user color-grey"></i></div>';
+//     var userH = '<h4 id="" class="color-grey"></h4>';
+
+//     var buttonTeaPreview = '<button id="" type="button" class="btn btn-primary btn-block btn-xs" data-toggle="button" data-complete-text=""> </button>';
+//     var iconTeaPreview = '<i class="fa fa-eye color-grey"></i><span> / </span><i class="fa fa-microphone color-grey"></i><span>  PREVIEW</span>';
+//     var iconTeaClose = '<i class="fa fa-eye-slash color-grey"></i><span> / </span><i class="fa fa-microphone-slash color-grey"></i><span>  CLOSE</span>';
+
+//     var iconContainerEl = $(iconContainer);
+//     var serviceBoxV1El = $(serviceBoxV1);
+//     var localMediaEl = $(localMedia);
+//     var userHEl = $(userH);
+//     var buttonTeaPreviewEl = $(buttonTeaPreview);
+
+//     localMediaEl.attr("id", "media-" + user_info);
+//     userHEl.append(user_info);
+
+//     serviceBoxV1El.append(localMediaEl);
+//     serviceBoxV1El.append(userHEl);
+
+//     buttonTeaPreviewEl.attr("id", "btn-media-" + user_info);
+//     buttonTeaPreviewEl.attr("data-complete-text", iconTeaClose);
+//     buttonTeaPreviewEl.append(iconTeaPreview);
+
+//     iconContainerEl.append(serviceBoxV1El);
+//     iconContainerEl.append(buttonTeaPreviewEl);
+//     return iconContainerEl;
+// }
+//
+//
+// listenning on changed.linkstatus event for assistant.
+// $("span#num_assinfo").on("changed.linkstatus", function(event){
+//     "use strict";
+//     var status_dict = linkstatus;
+//     SetStatusBadgeEl(this, status_dict);
+
+//     // status "0" means disconnected
+//     for (var l0i in status_dict['0']) {
+//         if (status_dict['0'].hasOwnProperty(l0i)){
+//             setAssIconDisconnectedEl(status_dict['0'][l0i]);
+//         }
+//     }
+
+//     // status "1" means ready
+//     for (var l1i in status_dict['1']) {
+//         if (status_dict['1'].hasOwnProperty(l1i)){
+//             setIconReadyEl(status_dict['1'][l1i]);
+//         }
+//     }
+
+//     // status "2" means connected
+//     for (var l2i in status_dict['2']) {
+//         if (status_dict['2'].hasOwnProperty(l2i)){
+//             setAssIconConnectedEl(status_dict['2'][l2i]);
+//         }
+//     }
+// });
 
 
+// listenning on changed.linkstatus event for student.
+// $("span#num_stuinfo").on("changed.linkstatus", function(event, linkstatus){
+//     "use strict";
+//     var status_dict = linkstatus;
+//     SetStatusBadgeEl(this, status_dict);
 
+//     for (var l0i in status_dict['0']) {
+//         if (status_dict['0'].hasOwnProperty(l0i)){
+//             setStuIconDisconnectedEl(status_dict['0'][l0i]);
+//             setButtonDisabledEl(status_dict['0'][l0i]);
+//         }
+//     }
+//     for (var l1i in status_dict['1']) {
+//         if (status_dict['1'].hasOwnProperty(l1i)){
+//             setIconReadyEl(status_dict['1'][l1i]);
+//             setButtonOffEl(status_dict['1'][l1i], "link");
+//         }
+//     }
+//     for (var l2i in status_dict['2']) {
+//         if (status_dict['2'].hasOwnProperty(l2i)){
+//             setStuIconConnectedEl(status_dict['2'][l2i]);
+//             setButtonOnEl(status_dict['2'][l2i], "link");
+//         }
+//     }
+// });
 
-
+// PAGE VIEWS CODES END

@@ -24,8 +24,8 @@ var showLC = function() {
     defaultStrokeWidth: 5,
     strokeWidths: [5, 10, 20, 50],
     primaryColor: '#ff0000',
-    secondaryColor: 'transparent',
-    backgroundColor: 'transparent'
+    //secondaryColor: 'transparent',
+    //backgroundColor: 'transparent'
   });
   
 window.demoLC = lc;
@@ -55,7 +55,11 @@ var updateLC = function () {
 	}	
 }
 
+lc.on('drawingChange', updateLC);
+
 window.setInterval('updateLC()', 1000);
+
+
 
 /*	
   var save = function() {

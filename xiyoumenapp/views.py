@@ -13,6 +13,7 @@ import json, os, uuid, datetime
 from flask import session, jsonify, redirect, render_template, safe_join, g
 from flask_restful import Resource, fields, reqparse
 from redis import Redis
+from flask_sse import sse
 
 from xiyoumenapp import webapp, db
 from xiyoumenapp.models import Classroom, Users, Users_Classroom, Chatroom
@@ -27,9 +28,19 @@ page_student = safe_join(page_path, filename_student)
 
 parser = reqparse.RequestParser()
 parser.add_argument('txt')
-parser.add_argument('teastatus')
-parser.add_argument('stustatus')
-parser.add_argument('drawing')
+parser.add_argument('tealinkstatus')
+parser.add_argument('asslinkstatus')
+parser.add_argument('stulinkstatus')
+parser.add_argument('teavideostatus')
+parser.add_argument('assvideostatus')
+parser.add_argument('stuvideostatus')
+parser.add_argument('teasoundstatus')
+parser.add_argument('asssoundstatus')
+parser.add_argument('stusoundstatus')
+parser.add_argument('whiteboardstatus')
+parser.add_argument('pptstatus')
+
+
 
 redis_store = Redis(charset='utf-8', decode_responses=True)
 
@@ -78,10 +89,19 @@ class Login(Resource):
                 redis_store.set('username:'+userid, username)
                 redis_store.set('roleid:'+userid, roleid)
                 redis_store.delete('tea_list:' + classid)
+                redis_store.delete('ass_list:' + classid)
                 redis_store.delete('stu_list:' + classid)
-                redis_store.delete('teastatus_dict:' + classid)
-                redis_store.delete('stustatus_dict:' + classid)
+                redis_store.delete('tealinkstatus_dict:' + classid)
+                redis_store.delete('asslinkstatus_dict:' + classid)
+                redis_store.delete('stulinkstatus_dict:' + classid)
+                redis_store.delete('teavideostatus_dict:' + classid)
+                redis_store.delete('assvideostatus_dict:' + classid)
+                redis_store.delete('stuvideostatus_dict:' + classid)
+                redis_store.delete('teasoundstatus_dict:' + classid)
+                redis_store.delete('asssoundstatus_dict:' + classid)
+                redis_store.delete('stusoundstatus_dict:' + classid)
                 redis_store.delete('whiteboard:' + classid)
+                redis_store.delete('ppt:' + classid)
 
                 return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
@@ -199,39 +219,106 @@ class Info(Resource):
                 userinfo["roleid"] = int(redis_store.get("roleid:"+userid)) 
 
                 stu_list = redis_store.lrange('stu_list:'+classid, 0, -1)
+                ass_list = redis_store.lrange('ass_list:'+classid, 0, -1)
                 tea_list = redis_store.lrange('tea_list:'+classid, 0, -1)
-                # print(stu_list)
-                # print(tea_list)
                 
-                teastatus_hash = redis_store.hgetall('teastatus_dict:'+classid)
-                stustatus_hash = redis_store.hgetall('stustatus_dict:'+classid)
+                tealinkstatus_hash = redis_store.hgetall('tealinkstatus_dict:'+classid)
+                asslinkstatus_hash = redis_store.hgetall('asslinkstatus_dict:'+classid)
+                stulinkstatus_hash = redis_store.hgetall('stulinkstatus_dict:'+classid)
+
+                teavideostatus_hash = redis_store.hgetall('teavideostatus_dict:'+classid)
+                assvideostatus_hash = redis_store.hgetall('assvideostatus_dict:'+classid)
+                stuvideostatus_hash = redis_store.hgetall('stuvideostatus_dict:'+classid)
+
+                teasoundstatus_hash = redis_store.hgetall('teasoundstatus_dict:'+classid)
+                asssoundstatus_hash = redis_store.hgetall('asssoundstatus_dict:'+classid)
+                stusoundstatus_hash = redis_store.hgetall('stusoundstatus_dict:'+classid)
                 # print(teastatus_hash)
                 
-                teastatus_dict = {"0": [], "1": [], "2": [], "3": []}
-                stustatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                tealinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                asslinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                stulinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
 
-                for (k, v) in teastatus_hash.items():
+                teavideostatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                assvideostatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                stuvideostatus_dict = {"0": [], "1": [], "2": [], "3": []}
+
+                teasoundstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                asssoundstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                stusoundstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+
+                for (k, v) in tealinkstatus_hash.items():
                     for ni in range(4):
                         if v == str(ni):
-                            teastatus_dict[str(ni)].append(k)
+                            tealinkstatus_dict[str(ni)].append(k)
                             break
-                # print(teastatus_dict)
                         
-                for (k, v) in stustatus_hash.items():
+                for (k, v) in asslinkstatus_hash.items():
                     for ni in range(4):
                         if v == str(ni):
-                            stustatus_dict[str(ni)].append(k)
+                            asslinkstatus_dict[str(ni)].append(k)
                             break
-                # print(stustatus_dict)
+
+                for (k, v) in stulinkstatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            stulinkstatus_dict[str(ni)].append(k)
+                            break
+
+                for (k, v) in teavideostatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            teavideostatus_dict[str(ni)].append(k)
+                            break
+                        
+                for (k, v) in assvideostatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            assvideostatus_dict[str(ni)].append(k)
+                            break
+
+                for (k, v) in stuvideostatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            stuvideostatus_dict[str(ni)].append(k)
+                            break
+
+                for (k, v) in teasoundstatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            teasoundstatus_dict[str(ni)].append(k)
+                            break
+                        
+                for (k, v) in asssoundstatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            asssoundstatus_dict[str(ni)].append(k)
+                            break
+
+                for (k, v) in stusoundstatus_hash.items():
+                    for ni in range(4):
+                        if v == str(ni):
+                            stusoundstatus_dict[str(ni)].append(k)
+                            break
 
                 if userinfo['roleid'] == 1:
                     userinfo["teacher"] = tea_list 
                     userinfo["student"] = stu_list 
+                    userinfo["assistant"] = ass_list 
                     
-                    userinfo["teastatuslist"] = teastatus_dict 
-                    userinfo["stustatuslist"] = stustatus_dict
-                # elif userinfo['roleid'] == 2:
-                    # userinfo["teastatuslist"] = teastatus_dict 
+                    userinfo["tealinkstatuslist"] = tealinkstatus_dict 
+                    userinfo["stulinkstatuslist"] = stulinkstatus_dict
+                    userinfo["asslinkstatuslist"] = asslinkstatus_dict
+
+                    userinfo["teavideostatuslist"] = teavideostatus_dict 
+                    userinfo["stuvideostatuslist"] = stuvideostatus_dict
+                    userinfo["assvideostatuslist"] = assvideostatus_dict
+
+                    userinfo["teasoundstatuslist"] = teasoundstatus_dict 
+                    userinfo["stusoundstatuslist"] = stusoundstatus_dict
+                    userinfo["asssoundstatuslist"] = asssoundstatus_dict
+                elif userinfo['roleid'] == 2:
+                    userinfo["tealinkstatuslist"] = tealinkstatus_dict 
                 print(userinfo)
                 print('Success to get userinfo')
                 return userinfo 
@@ -274,27 +361,68 @@ class Info(Resource):
                         if tea.id in tid_list:
                             tea_list.append(tea.name)
 
+                    assistants = Users.query.filter_by(roleid=3).all()
+                    ass_list = []
+                    for ass in assistants:
+                        if ass.id in tid_list:
+                            ass_list.append(ass.name)
+
                     for ti in tea_list:
                         redis_store.lpush("tea_list:"+classid, ti)
-                        redis_store.hset('teastatus_dict:'+classid, ti, 0)
+                        redis_store.hset('tealinkstatus_dict:'+classid, ti, 0)
+                        redis_store.hset('teavideostatus_dict:'+classid, ti, 0)
+                        redis_store.hset('teasoundstatus_dict:'+classid, ti, 0)
 
                     for si in stu_list:
                         redis_store.lpush("stu_list:"+classid, si)
-                        redis_store.hset('stustatus_dict:'+classid, si, 0)
+                        redis_store.hset('stulinkstatus_dict:'+classid, si, 0)
+                        redis_store.hset('stuvideostatus_dict:'+classid, si, 0)
+                        redis_store.hset('stusoundstatus_dict:'+classid, si, 0)
 
+                    for ai in ass_list:
+                        redis_store.lpush("ass_list:"+classid, ai)
+                        redis_store.hset('assslinktatus_dict:'+classid, ai, 0)
+                        redis_store.hset('asssvideotatus_dict:'+classid, ai, 0)
+                        redis_store.hset('assssoundtatus_dict:'+classid, ai, 0)
                 else:
                     classid = session['classid']
                     userid = session['userid']
                     username = redis_store.get('username:'+userid)
                     roleid = int(redis_store.get('roleid:'+userid))
+
                     if roleid == 1:
-                        teastatus = args['teastatus']
-                        print("Teacher status changes to {0}".format(str(teastatus)))
-                        redis_store.hset('teastatus_dict:'+classid, username, teastatus)
+                        tealinkstatus = args['tealinkstatus']
+                        teavideostatus = args['teavideostatus']
+                        teasoundstatus = args['teasoundstatus']
+                        print("Teacher status changes to {0}".format(str(tealinkstatus)))
+                        redis_store.hset('tealinkstatus_dict:'+classid, 
+                                         username, tealinkstatus)
+                        redis_store.hset('teavideostatus_dict:'+classid,
+                                         username, teavideostatus)
+                        redis_store.hset('teasoundstatus_dict:'+classid,
+                                         username, teasoundstatus)
                     elif roleid == 2:
-                        stustatus = args['stustatus']
-                        print("Student status changes to {0}".format(str(stustatus)))
-                        redis_store.hset('stustatus_dict:'+classid, username, stustatus)
+                        stulinkstatus = args['stulinkstatus']
+                        stuvideostatus = args['stuvideostatus']
+                        stusoundstatus = args['stusoundstatus']
+                        print("Student status changes to {0}".format(str(stulinkstatus)))
+                        redis_store.hset('stulinkstatus_dict:'+classid,
+                                         username, stulinkstatus)
+                        redis_store.hset('stuvideostatus_dict:'+classid,
+                                         username, stuvideostatus)
+                        redis_store.hset('stusoundstatus_dict:'+classid,
+                                         username, stusoundstatus)
+                    elif roleid == 3:
+                        asslinkstatus = args['asslinkstatus']
+                        assvideostatus = args['assvideostatus']
+                        asssoundstatus = args['asssoundstatus']
+                        print("Assistant status changes to {0}".format(str(asslinkstatus)))
+                        redis_store.hset('asslinkstatus_dict:'+classid,
+                                         username, asslinkstatus)
+                        redis_store.hset('assvideostatus_dict:'+classid,
+                                         username, assvideostatus)
+                        redis_store.hset('asssoundstatus_dict:'+classid,
+                                         username, asssoundstatus)
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:
@@ -316,6 +444,7 @@ class ChatList(Resource):
         try:
             dic_chatlist = {}
             nowtime = datetime.datetime.now()
+            print(fields.url_for("sse.stream", channel="changed.chatroom"))
             if ('classid' in session) and (
                     'userid' in session):
                 classid = session['classid']
@@ -370,6 +499,18 @@ class ChatList(Resource):
                 chatitem = Chatroom(id, name, createtime, comment, userid, classid)
                 db.session.add(chatitem)
                 db.session.commit()
+
+                if roleid == 1:
+                    rolename = "teacher"
+                elif roleid == 2:
+                    rolename = "student"
+                createtimestr = createtime.strftime("%Y-%m-%d %H:%M:%S")
+                newmessage = dict(username=name,
+                                  createtime=createtimestr, 
+                                  rolename=rolename,
+                                  question=question)
+                # sse.publish({"newmessage":newmessage}, type="newchatmessage")
+                sse.publish({"message":newmessage}, type="newchatmessage", channel="changed.chatroom")
                 # print("Success to add new question")
                 # return fields.url_for("chatlist_ep") 
                 return "Success to add new question" 
