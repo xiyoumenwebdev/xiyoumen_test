@@ -11,7 +11,7 @@ $(function(){
     "use strict";
     $('.general-item-list').slimScroll({
         width: '100%',
-        height: '334px',
+        height: '380px',
         size: '5px',
         position: 'right',
         color: '#cececc',

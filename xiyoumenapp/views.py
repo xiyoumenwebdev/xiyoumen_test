@@ -38,7 +38,7 @@ parser.add_argument('teasoundstatus')
 parser.add_argument('asssoundstatus')
 parser.add_argument('stusoundstatus')
 parser.add_argument('whiteboardstatus')
-parser.add_argument('pptstatus')
+parser.add_argument('pptposition')
 
 
 
@@ -196,6 +196,46 @@ class Whiteboard(Resource):
                 return "You have no right to do this"
         except Exception as err:
             print("Fail to add whiteboard")
+            print(err)
+
+
+class PPT(Resource):
+    """
+    # Class State is resource of "state_ep"
+    """
+    def get(self):
+        """
+        # function get response http GET
+        """
+        try:
+            if ('classid' in session) and ('userid' in session):
+                pass
+            else:
+                pass
+        except Exception as err:
+            print("Fail to get info")
+            print(err)
+
+    def post(self):
+
+        """
+        # function post response http POST position with info
+        """
+        try:
+            print('Begin to post')
+            print(session)
+            args = parser.parse_args()
+            classid = session['classid']
+            userid = session['userid']
+            roleid = int(redis_store.get("roleid:"+userid))
+            print(roleid)
+            if ('classid' in session) and ('userid' in session):
+                if (roleid == 1):
+                    pptposition = args['pptposition']
+                    sse.publish({"pptposition":pptposition}, type="newposition",
+                                channel="changed.ppt")
+        except Exception as err:
+            print("Fail to get info")
             print(err)
 
 

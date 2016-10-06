@@ -39,7 +39,7 @@ $(function() {
     "use strict";
     $('.userlist').slimScroll({
         width: '100%',
-        height: '380px',
+        height: '430px',
         size: '5px',
         position: 'right',
         color: '#cececc',

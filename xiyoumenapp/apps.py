@@ -17,7 +17,7 @@ from flask_restful import Api
 from flask_sse import sse
 
 from xiyoumenapp import webapp
-from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList, Whiteboard
+from xiyoumenapp.views import Test, Login, ClassRoom, Token, Info, ChatList, Whiteboard, PPT
 
 
 # define api into Blueprint
@@ -64,6 +64,15 @@ infoapi = Api(infoapi_bp)
 infoapi.add_resource(Info, '/', endpoint='info_ep')
 # Register api into blueprint
 webapp.register_blueprint(infoapi_bp, url_prefix='/info')
+
+
+# define api into Blueprint
+pptapi_bp = Blueprint('pptapi', __name__)
+pptapi = Api(pptapi_bp)
+# add webapp resource into api
+pptapi.add_resource(PPT, '/', endpoint='ppt_ep')
+# Register api into blueprint
+webapp.register_blueprint(pptapi_bp, url_prefix='/ppt')
 
 
 # define api into Blueprint
