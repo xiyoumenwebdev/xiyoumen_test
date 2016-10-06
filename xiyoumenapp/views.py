@@ -209,9 +209,9 @@ class PPT(Resource):
         """
         try:
             if ('classid' in session) and ('userid' in session):
-                pass
+                return "You are listenning" 
             else:
-                pass
+                return "You have no right to do this"
         except Exception as err:
             print("Fail to get info")
             print(err)

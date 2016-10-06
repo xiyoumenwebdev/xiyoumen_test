@@ -3,25 +3,29 @@ body {
 }
 
 
-div#coursewarebox {height: 500px;}
+div#coursewarebox {height: 650px;}
 
-
-div#media-area {height: 450px; text-align: center; border:1px solid #cececc}
-div#button-area {height:100%; padding-top: 30%}
+div#video-area {height: 550px;}
+div#media-area {height: 90%; text-align: center; border:1px solid #cececc}
+div#button-area {height:100%; padding-top: 50%}
 div#local-media {height:40%;}
 div#remote-media {height: 40%; }
 video {max-width: 100%; max-height: 100%}
 
+button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
+
 /*h4#memo-text {padding-top: 40%}*/
 
-div#log {height:50px; padding-top:10px ;border:1px solid #cececc}
+div#log {height:10%; padding-top:10px ;border:1px solid #cececc}
 
-div#chatbox {height: 500px; }
-div#chat-room  {height: 500px;  padding-left: 10px;padding-right: 10px}
-div#chat-message-list {height: 340px}
-div#chat-content {border:1px solid #cececc}
+div#chatbox {height: 560px; }
+div#chat-room  {height: 560px;  padding-left: 10px;padding-right: 10px}
+div#chat-message-list {height: 380px}
+div#chat-content {height: 100%; border:1px solid #cececc}
 /*.portlet {margin-bottom: 5px;}*/
 /*.popover {max-width: 100%;width: 400px}*/
+
+iframe#ppt-area {height: 550px; width: 100%; border-style: none; padding: 0px;}
 
 /*#myCanvas {z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}*/
 
