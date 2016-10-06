@@ -1,5 +1,7 @@
 //BEGIN PAGE VIEW CODE
 
+var classid;
+var userid;
 var classname;
 var username;
 var roleid = 'stu';
@@ -39,6 +41,8 @@ $(document).ready(function () {
 	setVideoAreaEL(0);
 	$.post("/info/", {stulinkstatus:'0'}).then(function () {
 		$.getJSON('/info/',function(data){
+			classid = data.classid;
+			userid = data.userid;
 			classname = data.classname;
 			username = data.username;
 			// tealinkstatus_dict = data.tealinkstatuslist;
@@ -52,26 +56,26 @@ $(document).ready(function () {
 });
 
 
-$(function(){
-	"use strict";
-    $('.general-item-list').slimScroll({
-	    width: '100%',
-	    height: '334px',
-	    size: '5px',
-	    position: 'right',
-	    color: '#cececc',
-	    opacity: 0.3,
-	    alwaysVisible: false,
-	    distance: '0px',
-	    start: 'top',
-	    railVisible: false,
-	    //railColor: '#222',
-	    //railOpacity: 0.3,
-	    wheelStep: 5,
-	    allowPageScroll: false,
-	    disableFadeOut: false
-    });
-});
+// $(function(){
+// 	"use strict";
+//     $('.general-item-list').slimScroll({
+// 	    width: '100%',
+// 	    height: '430px',
+// 	    size: '5px',
+// 	    position: 'right',
+// 	    color: '#cececc',
+// 	    opacity: 0.3,
+// 	    alwaysVisible: false,
+// 	    distance: '0px',
+// 	    start: 'top',
+// 	    railVisible: false,
+// 	    //railColor: '#222',
+// 	    //railOpacity: 0.3,
+// 	    wheelStep: 10,
+// 	    allowPageScroll: false,
+// 	    disableFadeOut: false
+//     });
+// });
 
 
 

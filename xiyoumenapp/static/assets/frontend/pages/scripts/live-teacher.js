@@ -21,6 +21,26 @@ var e_stulink = jQuery.Event("changed.stulinkstatus");
 var e_stuvideo = jQuery.Event("changed.stuvideostatus");
 var e_stusound = jQuery.Event("changed.stusoundstatus");
 
+var stulink_source = new EventSource("/stream?channel=changed." + classid + ".stulink");
+var asslink_source = new EventSource("/stream?channel=changed." + classid + ".asslink");
+
+stulink_source.addEventListener("newstulinkstatus",function(event){
+    "use strict";
+    var data = JSON.parse(event.data);
+    stulinkstatus_dict = data.stulinkstatus;
+    $("#studentlist").trigger(e_stulink);
+    console.log(stulinkstatus_dict);
+}, false);
+
+asslink_source.addEventListener("newasslinkstatus",function(event){
+    "use strict";
+    var data = JSON.parse(event.data);
+    asslinkstatus_dict = data.asslinkstatus;
+    $("#assistantlist").trigger(e_asslink);
+    console.log(asslinkstatus_dict);
+}, false);
+
+
 // Activity log
 function log(message) {
     "use strict";

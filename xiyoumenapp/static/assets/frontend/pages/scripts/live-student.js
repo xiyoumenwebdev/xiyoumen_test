@@ -6,8 +6,30 @@ var activeConversation;
 // var conversation;
 var previewMedia;
 // var myLocalMedia;
+var tealinkstatus_dict;
 var identity;
 var token;
+
+var tealink_source = new EventSource("/stream?channel=changed." + classid + ".tealink");
+
+tealink_source.addEventListener("newtealinkstatus",function(event){
+    "use strict";
+    var data = JSON.parse(event.data);
+    tealinkstatus_dict = data.tealinkstatus;
+    console.log(tealinkstatus_dict);
+}, false);
+
+// Set Enable Status of Button;
+function setButtonEnabledEl() {
+    "use strict";
+    $("button#btn-begin-class").removeAttr("disabled");
+}
+
+// Set Enable Status of Button;
+function setButtonDisabledEl() {
+    "use strict";
+    $("button#btn-begin-class").attr("disabled", "disabled");
+}
 
 
 // Activity log
@@ -16,8 +38,6 @@ function log(message) {
     document.getElementById('log-content').innerHTML = message;
 }
 
-
-
 // Successfully connected!
 function clientConnected() {
 	"use strict";
@@ -25,8 +45,7 @@ function clientConnected() {
     console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
     var newlinkstatus = "1";
     $.post("/info/", {stulinkstatus:newlinkstatus});
-
-
+    setButtonEnabledEl();
 }
 
 // Initial live conversation.
@@ -47,6 +66,7 @@ $(document).ready(function () {
             console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
 		    var newlinkstatus = "0";
 		    $.post("/info/", {stulinkstatus:newlinkstatus});
+            setButtonDisabledEl();
         });
     });
 
@@ -69,6 +89,7 @@ function conversationStarted(conversation) {
         participant.media.attach('#remote_media'+participant.identity);
         var newlinkstatus = "2";
         $.post("/info/", {stulinkstatus:newlinkstatus});
+        setButtonEnabledEl();
         $("button#btn-begin-class").button('complete');
     });
 
@@ -77,6 +98,7 @@ function conversationStarted(conversation) {
         console.log('Participant failed to connect: ' + participant.identity);
         var newlinkstatus = "0";
         $.post("/info/", {stulinkstatus:newlinkstatus});
+        setButtonDisabledEl();
         $("button#btn-begin-class").button('reset');
      });
 
@@ -86,6 +108,7 @@ function conversationStarted(conversation) {
         console.log("Participant '" + participant.identity + "' disconnected");
         var newlinkstatus = "1";
         $.post("/info/", {stulinkstatus:newlinkstatus});
+        setButtonEnabledEl();
 	    $("button#btn-begin-class").button('reset');
     });
 
@@ -99,7 +122,7 @@ function conversationStarted(conversation) {
 
         var newlinkstatus = "0";
         $.post("/info/", {stulinkstatus:newlinkstatus});
-
+        setButtonDisabledEl();
         setVideoAreaEL(0);
     });
 }

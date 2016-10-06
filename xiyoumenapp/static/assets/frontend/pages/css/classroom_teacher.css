@@ -88,9 +88,9 @@ div#remote-media video{border:1px solid #272726;margin:3em 2em;height:70%;max-wi
 */
 div#log {height:10%; padding-top:10px ;border:1px solid #cececc}
 
-div#studentlist {max-height: 350px}
-div#assistantlist {max-height: 350px}
-div#teacherlist {max-height: 350px}
+div#studentlist {max-height: 450px}
+div#assistantlist {max-height: 450px}
+div#teacherlist {max-height: 450px}
 /*div#controllist {max-height: 300px}*/
 
 div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padding-top: 10px; border-top: 1px solid #cececc; }

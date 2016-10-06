@@ -233,7 +233,7 @@ class PPT(Resource):
                 if (roleid == 1):
                     pptposition = args['pptposition']
                     sse.publish({"pptposition":pptposition}, type="newposition",
-                                channel="changed.ppt")
+                                channel="changed." + classid + ".ppt")
         except Exception as err:
             print("Fail to get info")
             print(err)
@@ -256,6 +256,8 @@ class Info(Resource):
                 userid = session['userid']
                 userinfo["classname"] = redis_store.get("classname:"+classid)
                 userinfo["username"] = redis_store.get("username:"+userid)
+                userinfo["classid"] = session["classid"]
+                userinfo["userid"] = session["userid"] 
                 userinfo["roleid"] = int(redis_store.get("roleid:"+userid)) 
 
                 stu_list = redis_store.lrange('stu_list:'+classid, 0, -1)
@@ -441,6 +443,18 @@ class Info(Resource):
                                          username, teavideostatus)
                         redis_store.hset('teasoundstatus_dict:'+classid,
                                          username, teasoundstatus)
+
+                        tealinkstatus_hash = redis_store.hgetall('tealinkstatus_dict:'+classid)
+                        tealinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                        for (k, v) in tealinkstatus_hash.items():
+                            for ni in range(4):
+                                if v == str(ni):
+                                    tealinkstatus_dict[str(ni)].append(k)
+                                    break
+
+                        sse.publish({"tealinkstatus":tealinkstatus_dict},
+                                    type="newtealinkstatus",
+                                    channel="changed." + classid + ".tealink")
                     elif roleid == 2:
                         stulinkstatus = args['stulinkstatus']
                         stuvideostatus = args['stuvideostatus']
@@ -452,6 +466,18 @@ class Info(Resource):
                                          username, stuvideostatus)
                         redis_store.hset('stusoundstatus_dict:'+classid,
                                          username, stusoundstatus)
+
+                        stulinkstatus_hash = redis_store.hgetall('stulinkstatus_dict:'+classid)
+                        stulinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                        for (k, v) in stulinkstatus_hash.items():
+                            for ni in range(4):
+                                if v == str(ni):
+                                    stulinkstatus_dict[str(ni)].append(k)
+                                    break
+
+                        sse.publish({"stulinkstatus":stulinkstatus_dict},
+                                    type="newstulinkstatus",
+                                    channel="changed." + classid + ".stulink")
                     elif roleid == 3:
                         asslinkstatus = args['asslinkstatus']
                         assvideostatus = args['assvideostatus']
@@ -463,6 +489,18 @@ class Info(Resource):
                                          username, assvideostatus)
                         redis_store.hset('asssoundstatus_dict:'+classid,
                                          username, asssoundstatus)
+
+                        asslinkstatus_hash = redis_store.hgetall('asslinkstatus_dict:'+classid)
+                        asslinkstatus_dict = {"0": [], "1": [], "2": [], "3": []}
+                        for (k, v) in asslinkstatus_hash.items():
+                            for ni in range(4):
+                                if v == str(ni):
+                                    asslinkstatus_dict[str(ni)].append(k)
+                                    break
+
+                        sse.publish({"asslinkstatus":asslinkstatus_dict},
+                                    type="newasslinkstatus",
+                                    channel="changed." + classid + ".asslink")
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:
@@ -550,7 +588,8 @@ class ChatList(Resource):
                                   rolename=rolename,
                                   question=question)
                 # sse.publish({"newmessage":newmessage}, type="newchatmessage")
-                sse.publish({"message":newmessage}, type="newchatmessage", channel="changed.chatroom")
+                sse.publish({"message":newmessage}, type="newchatmessage",
+                        channel="changed." + classid + ".chatroom")
                 # print("Success to add new question")
                 # return fields.url_for("chatlist_ep") 
                 return "Success to add new question" 

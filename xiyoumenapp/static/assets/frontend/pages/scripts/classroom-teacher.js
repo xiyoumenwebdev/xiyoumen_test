@@ -1,4 +1,6 @@
 // BEGIN PAGE VIEWS CODES
+var classid;
+var userid;
 var classname;
 var username;
 var stu_list;
@@ -43,13 +45,14 @@ $(function() {
         size: '5px',
         position: 'right',
         color: '#cececc',
+        opacity: 0.3,
         alwaysVisible: false,
         distance: '0px',
         start: 'top',
         railVisible: false,
         //railColor: '#232323',
         //railOpacity: 0.1,
-        wheelStep: 5,
+        wheelStep: 10,
         allowPageScroll: false,
         disableFadeOut: false
     });
@@ -376,6 +379,8 @@ $(document).ready(function() {
     "use strict";
     $.post("/info/", {tealinkstatus: '0'}).then(function() {
         $.getJSON('/info/', function(data) {
+            classid = data.classid;
+            userid = data.userid;
             classname = data.classname;
             username = data.username;
             stu_list = data.student;

@@ -3,7 +3,7 @@
 var chatname;
 var chatrole;
 // var e = jQuery.Event("changed.chatmessage");
-var chat_source = new EventSource("/stream?channel=changed.chatroom");
+var chat_source = new EventSource("/stream?channel=changed." + classid + ".chatroom");
 
 
 //  Show slimScroll bar at chatroom
