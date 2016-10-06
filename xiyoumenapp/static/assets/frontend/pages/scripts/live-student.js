@@ -10,7 +10,7 @@ var tealinkstatus_dict;
 var identity;
 var token;
 
-var tealink_source = new EventSource("/stream?channel=changed." + classid + ".tealink");
+var tealink_source = new EventSource("/stream?channel=changed." + classid + "tealink");
 
 tealink_source.addEventListener("newtealinkstatus",function(event){
     "use strict";

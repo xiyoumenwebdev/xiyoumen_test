@@ -233,7 +233,7 @@ class PPT(Resource):
                 if (roleid == 1):
                     pptposition = args['pptposition']
                     sse.publish({"pptposition":pptposition}, type="newposition",
-                                channel="changed." + classid + ".ppt")
+                                channel="changed." + classid + "ppt")
         except Exception as err:
             print("Fail to get info")
             print(err)
@@ -454,7 +454,7 @@ class Info(Resource):
 
                         sse.publish({"tealinkstatus":tealinkstatus_dict},
                                     type="newtealinkstatus",
-                                    channel="changed." + classid + ".tealink")
+                                    channel="changed." + classid + "tealink")
                     elif roleid == 2:
                         stulinkstatus = args['stulinkstatus']
                         stuvideostatus = args['stuvideostatus']
@@ -477,7 +477,7 @@ class Info(Resource):
 
                         sse.publish({"stulinkstatus":stulinkstatus_dict},
                                     type="newstulinkstatus",
-                                    channel="changed." + classid + ".stulink")
+                                    channel="changed." + classid + "stulink")
                     elif roleid == 3:
                         asslinkstatus = args['asslinkstatus']
                         assvideostatus = args['assvideostatus']
@@ -500,7 +500,7 @@ class Info(Resource):
 
                         sse.publish({"asslinkstatus":asslinkstatus_dict},
                                     type="newasslinkstatus",
-                                    channel="changed." + classid + ".asslink")
+                                    channel="changed." + classid + "asslink")
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:
@@ -522,7 +522,6 @@ class ChatList(Resource):
         try:
             dic_chatlist = {}
             nowtime = datetime.datetime.now()
-            print(fields.url_for("sse.stream", channel="changed.chatroom"))
             if ('classid' in session) and (
                     'userid' in session):
                 classid = session['classid']
@@ -589,7 +588,8 @@ class ChatList(Resource):
                                   question=question)
                 # sse.publish({"newmessage":newmessage}, type="newchatmessage")
                 sse.publish({"message":newmessage}, type="newchatmessage",
-                        channel="changed." + classid + ".chatroom")
+                        channel="changed." + classid + "chatroom")
+                print("changed." + classid + "chatroom")
                 # print("Success to add new question")
                 # return fields.url_for("chatlist_ep") 
                 return "Success to add new question" 
