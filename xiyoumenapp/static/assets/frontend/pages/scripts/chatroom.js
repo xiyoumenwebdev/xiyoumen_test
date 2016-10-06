@@ -3,7 +3,8 @@
 var chatname;
 var chatrole;
 // var e = jQuery.Event("changed.chatmessage");
-var chat_source = new EventSource("/stream?channel=changed." + classid + "chatroom");
+var chat_source = new EventSource("/stream?channel=changed.chatroom");
+
 
 
 //  Show slimScroll bar at chatroom
@@ -58,6 +59,7 @@ $("button#chat-submit").click(function(){
     //console.log(chattext);
     $.post("/chatlist/", {txt:chattext});
     $("input#chat-text").val("");
+    console.log("/stream?channel=chatroom" + classstr.substring(0,10));
     // $("div#chat-message-list").trigger(e, [chattext]);
 });
 

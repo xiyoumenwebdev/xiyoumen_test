@@ -1,6 +1,7 @@
 // BEGIN PAGE VIEWS CODES
 var classid;
 var userid;
+var classstr;
 var classname;
 var username;
 var stu_list;
@@ -381,6 +382,8 @@ $(document).ready(function() {
         $.getJSON('/info/', function(data) {
             classid = data.classid;
             userid = data.userid;
+            classstr = data.classstr;
+            classstr = classstr.substring(0,10);
             classname = data.classname;
             username = data.username;
             stu_list = data.student;

@@ -2,6 +2,7 @@
 
 var classid;
 var userid;
+var classstr;
 var classname;
 var username;
 var roleid = 'stu';
@@ -43,6 +44,7 @@ $(document).ready(function () {
 		$.getJSON('/info/',function(data){
 			classid = data.classid;
 			userid = data.userid;
+			classstr = data.classstr;
 			classname = data.classname;
 			username = data.username;
 			// tealinkstatus_dict = data.tealinkstatuslist;

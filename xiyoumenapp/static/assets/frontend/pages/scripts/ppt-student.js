@@ -1,7 +1,7 @@
 // BEGIN PPT CODE
 
 var pptposition;
-var ppt_source = new EventSource("/stream?channel=changed." + classid + "ppt");
+var ppt_source = new EventSource("/stream?channel=changed.ppt");
 
 // Inintial all chatmessage from endpoint /chatlist/
 $(document).ready(function() {

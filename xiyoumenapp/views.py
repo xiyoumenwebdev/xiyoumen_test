@@ -85,6 +85,9 @@ class Login(Resource):
                     
                 session['classid'] = classid
                 session['userid'] = userid
+                tempclassstr = classid.split("-")
+                session['classstr'] = ''.join(tempclassstr)
+                print(session['classstr'])
                 redis_store.set('classname:'+classid, classname)
                 redis_store.set('username:'+userid, username)
                 redis_store.set('roleid:'+userid, roleid)
@@ -227,13 +230,14 @@ class PPT(Resource):
             args = parser.parse_args()
             classid = session['classid']
             userid = session['userid']
+            classstr = session['classstr']
             roleid = int(redis_store.get("roleid:"+userid))
             print(roleid)
             if ('classid' in session) and ('userid' in session):
                 if (roleid == 1):
                     pptposition = args['pptposition']
                     sse.publish({"pptposition":pptposition}, type="newposition",
-                                channel="changed." + classid + "ppt")
+                                channel="changed.ppt" )
         except Exception as err:
             print("Fail to get info")
             print(err)
@@ -254,10 +258,12 @@ class Info(Resource):
                 print(session)
                 classid = session['classid']
                 userid = session['userid']
+                classstr = session['classstr']
                 userinfo["classname"] = redis_store.get("classname:"+classid)
                 userinfo["username"] = redis_store.get("username:"+userid)
                 userinfo["classid"] = session["classid"]
                 userinfo["userid"] = session["userid"] 
+                userinfo["classstr"] = session['classstr']
                 userinfo["roleid"] = int(redis_store.get("roleid:"+userid)) 
 
                 stu_list = redis_store.lrange('stu_list:'+classid, 0, -1)
@@ -381,6 +387,7 @@ class Info(Resource):
             args = parser.parse_args()
             classid = session['classid']
             userid = session['userid']
+            classstr = session['classstr']
             roleid = int(redis_store.get("roleid:"+userid))
             print(roleid)
             
@@ -454,7 +461,7 @@ class Info(Resource):
 
                         sse.publish({"tealinkstatus":tealinkstatus_dict},
                                     type="newtealinkstatus",
-                                    channel="changed." + classid + "tealink")
+                                    channel="changed.tealink")
                     elif roleid == 2:
                         stulinkstatus = args['stulinkstatus']
                         stuvideostatus = args['stuvideostatus']
@@ -477,7 +484,7 @@ class Info(Resource):
 
                         sse.publish({"stulinkstatus":stulinkstatus_dict},
                                     type="newstulinkstatus",
-                                    channel="changed." + classid + "stulink")
+                                    channel="changed.stulink")
                     elif roleid == 3:
                         asslinkstatus = args['asslinkstatus']
                         assvideostatus = args['assvideostatus']
@@ -500,7 +507,7 @@ class Info(Resource):
 
                         sse.publish({"asslinkstatus":asslinkstatus_dict},
                                     type="newasslinkstatus",
-                                    channel="changed." + classid + "asslink")
+                                    channel="changed.asslink")
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:
@@ -565,6 +572,7 @@ class ChatList(Resource):
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 userid = session['userid']
+                classstr = session['classstr']
                 question = args['txt']
                 users = Users.query.filter_by(id=userid).all()
                 roleid = users[0].roleid
@@ -587,9 +595,10 @@ class ChatList(Resource):
                                   rolename=rolename,
                                   question=question)
                 # sse.publish({"newmessage":newmessage}, type="newchatmessage")
-                sse.publish({"message":newmessage}, type="newchatmessage",
-                        channel="changed." + classid + "chatroom")
-                print("changed." + classid + "chatroom")
+                sse.publish({"message":newmessage}, 
+                            type="newchatmessage",
+                            channel="changed.chatroom")
+                # print("chatroom"+ classstr[0:10])
                 # print("Success to add new question")
                 # return fields.url_for("chatlist_ep") 
                 return "Success to add new question" 

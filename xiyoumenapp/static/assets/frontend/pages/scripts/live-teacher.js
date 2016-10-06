@@ -21,8 +21,8 @@ var e_stulink = jQuery.Event("changed.stulinkstatus");
 var e_stuvideo = jQuery.Event("changed.stuvideostatus");
 var e_stusound = jQuery.Event("changed.stusoundstatus");
 
-var stulink_source = new EventSource("/stream?channel=changed." + classid + "stulink");
-var asslink_source = new EventSource("/stream?channel=changed." + classid + "asslink");
+var stulink_source = new EventSource("/stream?channel=changed.stulink");
+var asslink_source = new EventSource("/stream?channel=changed.asslink");
 
 stulink_source.addEventListener("newstulinkstatus",function(event){
     "use strict";
