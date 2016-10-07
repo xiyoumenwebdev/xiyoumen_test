@@ -96,7 +96,7 @@ function conversationStarted(conversation) {
     conversation.on('participantConnected', function (participant) {
         log("Participant '" + participant.identity + "' connected");
         console.log("Participant '" + participant.identity + "' connected");
-        participant.media.attach('#remote_media'+participant.identity);
+        participant.media.attach('div#remote-media');
         var newlinkstatus = "2";
         $.post("/info/", {stulinkstatus:newlinkstatus});
         setButtonEnabledEl();
