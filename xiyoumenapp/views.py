@@ -463,6 +463,8 @@ class Info(Resource):
                         sse.publish({"tealinkstatus":tealinkstatus_dict},
                                     type="newtealinkstatus"+classstr,
                                     channel="changed.tealink")
+                        print(tealinkstatus_dict)
+                        print("newtealinkstatus"+classstr)
                     elif roleid == 2:
                         stulinkstatus = args['stulinkstatus']
                         stuvideostatus = args['stuvideostatus']
@@ -486,6 +488,8 @@ class Info(Resource):
                         sse.publish({"stulinkstatus":stulinkstatus_dict},
                                     type="newstulinkstatus"+classstr,
                                     channel="changed.stulink")
+                        print(stulinkstatus_dict)
+                        print("newstulinkstatus"+classstr)
                     elif roleid == 3:
                         asslinkstatus = args['asslinkstatus']
                         assvideostatus = args['assvideostatus']
@@ -509,6 +513,8 @@ class Info(Resource):
                         sse.publish({"asslinkstatus":asslinkstatus_dict},
                                     type="newasslinkstatus"+classstr,
                                     channel="changed.asslink")
+                        print(asslinkstatus_dict)
+                        print("newasslinkstatus"+classstr)
                 print("Success to update status in session")
                 return "Success to update status in session" 
             else:

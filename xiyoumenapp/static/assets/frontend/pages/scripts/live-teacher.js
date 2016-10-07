@@ -37,7 +37,7 @@ $.getJSON("/info/", function (data) {
     console.log(myeventtypestu);
     console.log(myeventtypeass);
     stulink_source.addEventListener(myeventtypestu,function(event){
-        "use strict";
+        // "use strict";
         var data = JSON.parse(event.data);
         stulinkstatus_dict = data.stulinkstatus;
         $("#studentlist").trigger(e_stulink);
@@ -45,7 +45,7 @@ $.getJSON("/info/", function (data) {
     }, false);
 
     asslink_source.addEventListener(myeventtypeass,function(event){
-        "use strict";
+        // "use strict";
         var data = JSON.parse(event.data);
         asslinkstatus_dict = data.asslinkstatus;
         $("#assistantlist").trigger(e_asslink);
@@ -309,7 +309,7 @@ function conversationStarted(conversation) {
     log('In an active Conversation');
     console.log('In an active Conversation');
 
-    
+
     activeConversation = conversation;
     // Draw local video, if not already previewing
     // $("div#button-area").addClass(hidden);
@@ -317,19 +317,26 @@ function conversationStarted(conversation) {
     // $("div#remote-media").removeClass(hidden);
 
     if (!previewMedia) {
-    	conversation.localMedia.attach('#local-media');
+        $("div#local-media").append(conversation.localMedia.attach());
+        $("div#media-"+username).append(conversation.localMedia.attach());
+        // $("div#local-media").append(conversation.localMedia.attach('#local-media'));
     }else {
 	    previewMedia.detach();
 	    previewMedia.stop();
 	    previewMedia = null;
-	    conversation.localMedia.attach('#local-media');
+        $("div#local-media").append(conversation.localMedia.attach());
+        $("div#media-"+username).append(conversation.localMedia.attach());
+	    // $("div#local-media").append(conversation.localMedia.attach('#local-media'));
     }
 
     // When a participant joins, draw their video on screen
     conversation.on('participantConnected', function (participant) {
         log("Participant '" + participant.identity + "' connected");
         console.log("Participant '" + participant.identity + "' connected");
-        participant.media.attach('#media_'+participant.identity);
+        var remotemediaEL = participant.media.attach();
+        // var remotemediaEL = participant.media.attach('#media_'+participant.identity);
+        $("div#media-"+participant.identity).append(remotemediaEL);
+
         setConnectedEl(participant.identity);
         $.post("/info/", {tealinkstatus:2});
         $("button#btn-begin-class").button('complete');

@@ -75,8 +75,7 @@ $(document).ready(function () {
         conversationsClient.listen().then(clientConnected, function (error) {
 	        log('Could not connect to Twilio: ' + error.message);
             console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
-		    var newlinkstatus = "0";
-		    $.post("/info/", {stulinkstatus:newlinkstatus});
+
             setButtonDisabledEl();
         });
     });
@@ -153,6 +152,9 @@ $("button#btn-begin-class").click(function(){
 
     }else{
     	$(this).button('loading');
+
+        var newlinkstatus = "0";
+        $.post("/info/", {stulinkstatus:newlinkstatus});
 
 	    setVideoAreaEL(1);
 
