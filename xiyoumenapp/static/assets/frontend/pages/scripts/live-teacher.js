@@ -317,15 +317,19 @@ function conversationStarted(conversation) {
     // $("div#remote-media").removeClass(hidden);
 
     if (!previewMedia) {
-        $("div#local-media").append(conversation.localMedia.attach());
-        $("div#media-"+username).append(conversation.localMedia.attach());
+        $("div#local-media").empty();
+        conversation.localMedia.attach("div#local-media");
+        $("div#media-"+username).empty();
+        conversation.localMedia.attach("div#media-"+username);
         // $("div#local-media").append(conversation.localMedia.attach('#local-media'));
     }else {
-	    previewMedia.detach();
-	    previewMedia.stop();
-	    previewMedia = null;
-        $("div#local-media").append(conversation.localMedia.attach());
-        $("div#media-"+username).append(conversation.localMedia.attach());
+        previewMedia.detach();
+        previewMedia.stop();
+        previewMedia = null;
+        $("div#local-media").empty();
+        conversation.localMedia.attach("div#local-media");
+        $("div#media-"+username).empty();
+        conversation.localMedia.attach("div#media-"+username);
 	    // $("div#local-media").append(conversation.localMedia.attach('#local-media'));
     }
 
@@ -333,9 +337,16 @@ function conversationStarted(conversation) {
     conversation.on('participantConnected', function (participant) {
         log("Participant '" + participant.identity + "' connected");
         console.log("Participant '" + participant.identity + "' connected");
-        var remotemediaEL = participant.media.attach();
-        // var remotemediaEL = participant.media.attach('#media_'+participant.identity);
-        $("div#media-"+participant.identity).append(remotemediaEL);
+        participant.media.attach('div#media-'+participant.identity);
+        $('div#media-'+participant.identity +" audio").addClass("hidden");
+        // var remotemediaEL = participant.media.attach();
+        // $("div#media-"+participant.identity).append(remotemediaEL);
+        ('div#media-'+participant.identity).click(function(event){
+            $("div#remote-media").empty();
+            $("div#remote-media").append($("div#media-"+participant.identity + " video"));
+            $("div#remote-media").append($("div#media-"+participant.identity + " audio"));
+            $('div#remote-media +" audio").addClass("hidden");
+        });
 
         setConnectedEl(participant.identity);
         $.post("/info/", {tealinkstatus:2});
