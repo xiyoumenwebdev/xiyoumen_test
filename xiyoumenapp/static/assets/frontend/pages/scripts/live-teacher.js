@@ -345,7 +345,7 @@ function conversationStarted(conversation) {
             $("div#remote-media").empty();
             $("div#remote-media").append($("div#media-"+participant.identity + " video"));
             $("div#remote-media").append($("div#media-"+participant.identity + " audio"));
-            $('div#remote-media +" audio").addClass("hidden");
+            $("div#remote-media" +" audio").addClass("hidden");
         });
 
         setConnectedEl(participant.identity);
