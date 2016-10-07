@@ -236,7 +236,8 @@ class PPT(Resource):
             if ('classid' in session) and ('userid' in session):
                 if (roleid == 1):
                     pptposition = args['pptposition']
-                    sse.publish({"pptposition":pptposition}, type="newposition",
+                    sse.publish({"pptposition":pptposition},
+                                type="newposition"+classstr,
                                 channel="changed.ppt" )
         except Exception as err:
             print("Fail to get info")
@@ -460,7 +461,7 @@ class Info(Resource):
                                     break
 
                         sse.publish({"tealinkstatus":tealinkstatus_dict},
-                                    type="newtealinkstatus",
+                                    type="newtealinkstatus"+classstr,
                                     channel="changed.tealink")
                     elif roleid == 2:
                         stulinkstatus = args['stulinkstatus']
@@ -483,7 +484,7 @@ class Info(Resource):
                                     break
 
                         sse.publish({"stulinkstatus":stulinkstatus_dict},
-                                    type="newstulinkstatus",
+                                    type="newstulinkstatus"+classstr,
                                     channel="changed.stulink")
                     elif roleid == 3:
                         asslinkstatus = args['asslinkstatus']
@@ -506,7 +507,7 @@ class Info(Resource):
                                     break
 
                         sse.publish({"asslinkstatus":asslinkstatus_dict},
-                                    type="newasslinkstatus",
+                                    type="newasslinkstatus"+classstr,
                                     channel="changed.asslink")
                 print("Success to update status in session")
                 return "Success to update status in session" 
@@ -596,9 +597,11 @@ class ChatList(Resource):
                                   question=question)
                 # sse.publish({"newmessage":newmessage}, type="newchatmessage")
                 sse.publish({"message":newmessage}, 
-                            type="newchatmessage",
+                            type=("newchatmessage"+classstr),
                             channel="changed.chatroom")
-                # print("chatroom"+ classstr[0:10])
+                print("newchatmessage"+classstr)
+                print(len("newchatmessage"+classstr))
+
                 # print("Success to add new question")
                 # return fields.url_for("chatlist_ep") 
                 return "Success to add new question" 

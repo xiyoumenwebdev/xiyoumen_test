@@ -382,8 +382,8 @@ $(document).ready(function() {
         $.getJSON('/info/', function(data) {
             classid = data.classid;
             userid = data.userid;
-            classstr = data.classstr;
-            classstr = classstr.substring(0,10);
+            // classstr = data.classstr;
+            // classstr = classstr.substring(0,2);
             classname = data.classname;
             username = data.username;
             stu_list = data.student;

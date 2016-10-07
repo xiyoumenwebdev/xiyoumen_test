@@ -2,9 +2,79 @@
 
 var chatname;
 var chatrole;
-// var e = jQuery.Event("changed.chatmessage");
+//var classidstr;
+
+
 var chat_source = new EventSource("/stream?channel=changed.chatroom");
 
+// Insert message of chat contents.
+function insertmessage(chatname, chattime, chatmessage, chatrole){
+    "use strict";
+    var roleicon;
+    if (chatrole==="teacher"){
+        //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
+        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_tea+'"';
+    }
+    if (chatrole==="assistant"){
+        //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
+        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_ass+'"';
+    }
+    if (chatrole==="student") {
+        //roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
+        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_stu+'"';
+    }
+    var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="fa fa-user" ' + roleicon + '> </i> <a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
+    //console.log(inserthtml);
+    $("div#chat-message-list").prepend(inserthtml);
+}
+
+var classstr;
+
+$.getJSON("/info/", function (data) {
+    "use strict";
+    classstr = data.classstr;
+}).then(function(){
+    "use strict";
+    var myeventtype = "newchatmessage"+classstr;
+    console.log(myeventtype);
+
+    chat_source.addEventListener(myeventtype,function(event){
+        var data = JSON.parse(event.data);
+        var newmessge_dict = data.message;
+        console.log(newmessge_dict);
+        chatname = newmessge_dict.username;
+        var chattime = newmessge_dict.createtime;
+        var chatmessage = newmessge_dict.question;
+        chatrole = newmessge_dict.rolename;
+        insertmessage(chatname, chattime, chatmessage, chatrole);
+    }, false);
+});
+
+
+// Inintial all chatmessage from endpoint /chatlist/
+$(document).ready(function() {
+    "use strict";
+    $.getJSON("/chatlist/", function (data) {
+        var listmessage = data.chatcontent;
+        var listoldmessage = $("#chat-message-list").children();
+        var num_chatolditem = listoldmessage.length;
+        for (var item in listmessage) {
+            if ( listmessage.hasOwnProperty(item)){
+                //console.log(item);
+                if (num_chatolditem <= item){
+                    var chat_item = listmessage[item];
+                    chatname = chat_item.username;
+                    var chattime = chat_item.createtime;
+                    var chatmessage = chat_item.question;
+                    chatrole = chat_item.rolename;
+                    insertmessage(chatname, chattime, chatmessage, chatrole);
+                }
+            }
+        }
+    });
+
+
+});
 
 
 //  Show slimScroll bar at chatroom
@@ -30,26 +100,6 @@ $(function(){
 });
 
 
-// Insert message of chat contents.
-function insertmessage(chatname, chattime, chatmessage, chatrole){
-    "use strict";
-    var roleicon;
-    if (chatrole==="teacher"){
-        //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
-        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_tea+'"';
-    }
-    if (chatrole==="assistant"){
-        //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
-        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_ass+'"';
-    }
-    if (chatrole==="student") {
-        //roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
-        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_stu+'"';
-    }
-    var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="fa fa-user" ' + roleicon + '> </i> <a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
-    //console.log(inserthtml);
-    $("div#chat-message-list").prepend(inserthtml);
-}
 
 
 // Send message of chat content.
@@ -59,47 +109,27 @@ $("button#chat-submit").click(function(){
     //console.log(chattext);
     $.post("/chatlist/", {txt:chattext});
     $("input#chat-text").val("");
-    console.log("/stream?channel=chatroom" + classstr.substring(0,10));
+    // $("div#chat-message-list").trigger(e, [chattext]);
+});
+
+// Send message of chat content.
+$("input#chat-text").keydown(function(event){
+    "use strict";
+    console.log(event.which);
+    if (event.which == 13) {
+        var chattext = $("input#chat-text").val();
+        //console.log(chattext);
+        $.post("/chatlist/", {txt:chattext});
+        $("input#chat-text").val("");
+    }
     // $("div#chat-message-list").trigger(e, [chattext]);
 });
 
 
-// Inintial all chatmessage from endpoint /chatlist/
-$(document).ready(function() {
-    "use strict";
-    $.getJSON("/chatlist/", function (data) {
-        var listmessage = data.chatcontent;
-        var listoldmessage = $("#chat-message-list").children();
-        var num_chatolditem = listoldmessage.length;
-        for (var item in listmessage) {
-            if ( listmessage.hasOwnProperty(item)){
-                //console.log(item);
-                if (num_chatolditem <= item){
-                    var chat_item = listmessage[item];
-                    chatname = chat_item.username;
-                    var chattime = chat_item.createtime;
-                    var chatmessage = chat_item.question;
-                    chatrole = chat_item.rolename;
-                    insertmessage(chatname, chattime, chatmessage, chatrole);
-                }
-            }
-        }
-    });
-});
 
 
 
-chat_source.addEventListener("newchatmessage",function(event){
-    "use strict";
-    var data = JSON.parse(event.data);
-    var newmessge_dict = data.message;
-    console.log(newmessge_dict);
-    chatname = newmessge_dict.username;
-    var chattime = newmessge_dict.createtime;
-    var chatmessage = newmessge_dict.question;
-    chatrole = newmessge_dict.rolename;
-    insertmessage(chatname, chattime, chatmessage, chatrole);
-}, false);
+
 
 
 // listenning to the event "change.chatmessage", and update the new message

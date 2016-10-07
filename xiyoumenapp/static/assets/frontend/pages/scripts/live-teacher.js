@@ -24,21 +24,36 @@ var e_stusound = jQuery.Event("changed.stusoundstatus");
 var stulink_source = new EventSource("/stream?channel=changed.stulink");
 var asslink_source = new EventSource("/stream?channel=changed.asslink");
 
-stulink_source.addEventListener("newstulinkstatus",function(event){
-    "use strict";
-    var data = JSON.parse(event.data);
-    stulinkstatus_dict = data.stulinkstatus;
-    $("#studentlist").trigger(e_stulink);
-    console.log(stulinkstatus_dict);
-}, false);
+var classstr;
 
-asslink_source.addEventListener("newasslinkstatus",function(event){
+$.getJSON("/info/", function (data) {
     "use strict";
-    var data = JSON.parse(event.data);
-    asslinkstatus_dict = data.asslinkstatus;
-    $("#assistantlist").trigger(e_asslink);
-    console.log(asslinkstatus_dict);
-}, false);
+    classstr = data.classstr;
+}).then(function(){
+    "use strict";
+    var myeventtypestu = "newstulinkstatus"+classstr;
+    var myeventtypeass = "newasslinkstatus"+classstr;
+
+    console.log(myeventtypestu);
+    console.log(myeventtypeass);
+    stulink_source.addEventListener(myeventtypestu,function(event){
+        "use strict";
+        var data = JSON.parse(event.data);
+        stulinkstatus_dict = data.stulinkstatus;
+        $("#studentlist").trigger(e_stulink);
+        console.log(stulinkstatus_dict);
+    }, false);
+
+    asslink_source.addEventListener(myeventtypeass,function(event){
+        "use strict";
+        var data = JSON.parse(event.data);
+        asslinkstatus_dict = data.asslinkstatus;
+        $("#assistantlist").trigger(e_asslink);
+        console.log(asslinkstatus_dict);
+    }, false);
+
+});
+
 
 
 // Activity log

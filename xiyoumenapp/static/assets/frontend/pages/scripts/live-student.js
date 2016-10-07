@@ -10,14 +10,25 @@ var tealinkstatus_dict;
 var identity;
 var token;
 
-var tealink_source = new EventSource("/stream?channel=changed.tealink" + classstr);
+var tealink_source = new EventSource("/stream?channel=changed.tealink");
 
-tealink_source.addEventListener("newtealinkstatus",function(event){
+var classstr;
+
+$.getJSON("/info/", function (data) {
     "use strict";
-    var data = JSON.parse(event.data);
-    tealinkstatus_dict = data.tealinkstatus;
-    console.log(tealinkstatus_dict);
-}, false);
+    classstr = data.classstr;
+}).then(function(){
+    "use strict";
+    var myeventtype = "newtealinkstatus"+classstr;
+    console.log(myeventtype);
+    tealink_source.addEventListener(myeventtype,function(event){
+        "use strict";
+        var data = JSON.parse(event.data);
+        tealinkstatus_dict = data.tealinkstatus;
+        console.log(tealinkstatus_dict);
+    }, false);
+});
+
 
 // Set Enable Status of Button;
 function setButtonEnabledEl() {

@@ -11,7 +11,7 @@ $("iframe#ppt-area").contents().find("div#page-container").scroll(function(){
 
 window.setInterval(function() {
     "use strict";
-    // $.post("/ppt/", {pptposition:pptposition});
+    $.post("/ppt/", {pptposition:pptposition});
 }, 1000);
 
 // Click upload button #btn-upload to upload files.
