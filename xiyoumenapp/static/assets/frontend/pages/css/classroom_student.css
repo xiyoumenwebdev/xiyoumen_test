@@ -10,7 +10,7 @@ div#media-area {height: 90%; text-align: center; border:1px solid #cececc}
 div#button-area {height:100%; padding-top: 50%}
 div#local-media {height:40%;}
 div#remote-media {height: 40%; }
-video {max-width: 100%; max-height: 100%}
+video {width: 100%; max-height: 100%}
 
 button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
 
@@ -18,14 +18,15 @@ button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 
 
 div#log {height:10%; padding-top:10px ;border:1px solid #cececc}
 
-div#chatbox {height: 560px; }
-div#chat-room  {height: 560px;  padding-left: 10px;padding-right: 10px}
-div#chat-message-list {height: 380px}
+div#chatbox {height: 100%; }
+div#chat-room  {height: 100%;  padding-left: 10px;padding-right: 10px}
+div#chat-message-list {height: 100%}
 div#chat-content {height: 100%; border:1px solid #cececc}
 /*.portlet {margin-bottom: 5px;}*/
 /*.popover {max-width: 100%;width: 400px}*/
 
 iframe#ppt-area {height: 550px; width: 100%; border-style: none; padding: 0px;}
+div#page-container {overflow-y: hidden}
 
 /*#myCanvas {z-index: 255; position: absolute; left: 0px; top: 60px;border:1px solid #cececc;}*/
 
@@ -45,6 +46,53 @@ iframe#ppt-area {height: 550px; width: 100%; border-style: none; padding: 0px;}
 .literally img.background, .literally > canvas {
 
 }
+
+.icon-media {height: 90px;}
+div.icon-media > i {padding-top:40px;height:100%;}
+
+.service-box-tea {text-align: center; background: #fff; border:1px solid #cececc}
+.service-box-tea h4 {color: #8A6D3B; word-wrap:break-word; word-break:normal;}
+.service-box-tea i {color: #8A6D3B;}
+/*.service-box-tea span {font-size: 11px}*/
+.service-box-tea:hover {background: #D73D04}
+.service-box-tea:hover i,
+.service-box-tea:hover p,
+.service-box-tea:hover h4 {
+  color: #fff;
+}
+
+
+.service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
+.service-box-stu h4 {color: #3E773F; word-wrap:break-word; word-break:normal;}
+.service-box-stu i {color: #3E773F;}
+/*.service-box-stu span {font-size: 11px}*/
+.service-box-stu:hover {background: #D73D04}
+.service-box-stu:hover i,
+.service-box-stu:hover p,
+.service-box-stu:hover h4 {
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

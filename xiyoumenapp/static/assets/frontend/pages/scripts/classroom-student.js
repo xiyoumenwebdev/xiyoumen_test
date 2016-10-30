@@ -5,6 +5,8 @@ var userid;
 var classstr;
 var classname;
 var username;
+var tealinkstatus_dict;
+
 var roleid = 'stu';
 var rolecolor_tea = "#8A6D3B";
 var rolecolor_ass = "#31708F";
@@ -24,22 +26,35 @@ function timeit(){
 }
 window.setInterval(function(){"use strict";timeit();}, 1000);
 
-function setVideoAreaEL(s){
-	"use strict";
-	if (s) {
-	    $("div#button-area").css({"height":"10%", "padding-top":"20px"});
-	    $("div#local-media").removeClass('hidden');
-	    $("div#remote-media").removeClass('hidden');
-	}else{
-		$("div#button-area").css({"height":"100%","padding-top":"30%"});
-		$("div#local-media").addClass("hidden");
-		$("div#remote-media").addClass("hidden");
-	}
+// Show Student icon in Student list.
+function createIconEl(user_info, roleid) {
+    "use strict";
+    var iconContainer = '<div class="col-md-12 margin-bottom-10"> </div>';
+    var serviceBoxV1 = '<div> </div>';
+    var iconMedia = '<div id="" class="icon-media"> <i class="fa fa-user fa-2x color-grey"></i></div>';
+    var userH = '<h4 id="" class="color-grey"></h4>';
+
+
+    var iconLoading = '<i class="fa fa-spinner fa-pulse color-grey"></i><span></span>';
+
+    var iconContainerEl = $(iconContainer);
+    var serviceBoxV1El = $(serviceBoxV1);
+    var iconMediaEl = $(iconMedia);
+    var userHEl = $(userH);
+
+    serviceBoxV1El.addClass("service-box-" + roleid);
+
+    iconMediaEl.attr("id", "media-" + user_info);
+    userHEl.append(user_info);
+
+    serviceBoxV1El.append(iconMediaEl);
+    serviceBoxV1El.append(userHEl);
+    iconContainerEl.append(serviceBoxV1El);
+    return iconContainerEl;
 }
 
 $(document).ready(function () {
 	"use strict";
-	setVideoAreaEL(0);
 	$.post("/info/", {stulinkstatus:'0'}).then(function () {
 		$.getJSON('/info/',function(data){
 			classid = data.classid;
@@ -47,15 +62,48 @@ $(document).ready(function () {
 			classstr = data.classstr;
 			classname = data.classname;
 			username = data.username;
-			// tealinkstatus_dict = data.tealinkstatuslist;
+            tealinkstatus_dict = data.tealinkstatuslist;
+
 		    console.log(classname);
 			$("title").text(classname);
 			$("span#classname").text(classname);
 			$("span#username").text(username);
+
+			$("div#livelist").append(createIconEl(username, "stu"));
+
+			if (tealinkstatus_dict["2"]) {
+				$("button#btn-begin-class").attr("diabled","");
+				var linkstatuslist = tealinkstatus_dict["2"];
+				for (var item in linkstatuslist) {
+			        if (linkstatuslist.hasOwnProperty(item)){
+						$("div#livelist").append(createIconEl(linkstatuslist[item], "tea"));
+			        }
+			    }
+			}
 		});
 
 	});
 });
+
+//PAGE VIEW CODE END
+
+
+
+
+
+
+// function setVideoAreaEL(s){
+// 	"use strict";
+// 	if (s) {
+// 	    $("div#button-area").css({"height":"10%", "padding-top":"20px"});
+// 	    $("div#local-media").removeClass('hidden');
+// 	    $("div#remote-media").removeClass('hidden');
+// 	}else{
+// 		$("div#button-area").css({"height":"100%","padding-top":"30%"});
+// 		$("div#local-media").addClass("hidden");
+// 		$("div#remote-media").addClass("hidden");
+// 	}
+// }
 
 
 // $(function(){
@@ -286,4 +334,3 @@ $(document).ready(function () {
 // }
 
 
-//PAGE VIEW CODE END

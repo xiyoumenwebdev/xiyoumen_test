@@ -14,12 +14,15 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
+from flask_cors import CORS, cross_origin
 
 from xiyoumenapp import settings
 
 webapp = Flask(__name__)
 webapp.permanent = True
 webapp.config.from_object(settings)
+
+CORS(webapp)
 
 db = SQLAlchemy(webapp)
 

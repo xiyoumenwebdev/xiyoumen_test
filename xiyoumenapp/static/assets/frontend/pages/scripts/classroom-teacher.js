@@ -4,20 +4,24 @@ var userid;
 var classstr;
 var classname;
 var username;
+
 var stu_list;
 var ass_list;
 var tea_list;
-var tealinkstatus_dict;
-var asslinkstatus_dict;
-var stulinkstatus_dict;
-var teavideostatus_dict;
-var assvideostatus_dict;
-var stuvideostatus_dict;
-var teasoundstatus_dict;
-var asssoundstatus_dict;
-var stusoundstatus_dict;
-var roleid = 'tea';
 
+var tealinkstatus_dict;
+var teavideostatus_dict;
+var teasoundstatus_dict;
+
+var asslinkstatus_dict;
+var assvideostatus_dict;
+var asssoundstatus_dict;
+
+var stulinkstatus_dict;
+var stuvideostatus_dict;
+var stusoundstatus_dict;
+
+var roleid = 'tea';
 var rolecolor_tea = "#8A6D3B";
 var rolecolor_ass = "#31708F";
 var rolecolor_stu = "#3E773F";
@@ -92,13 +96,16 @@ function createIconEl(user_info, roleid) {
     var userH = '<h4 id="" class="color-grey"></h4>';
 
     var buttonStuGroup = '<div class= "btn-group-vertical btn-block btn-group-xs"> </div>';
-    var buttonStuLink = '<button id="" type="button" class="btn btn-primary" data-toggle="button" data-complete-text=""></button>';
-    var buttonStuVideo = '<button id="" type="button" class="btn btn-success" data-toggle="button" data-complete-text=""></button>';
-    var buttonStuSound = '<button id="" type="button" class="btn btn-info"  data-toggle="button" data-complete-text=""></button>';
+    var buttonStuLink = '<button id="" type="button" class="btn btn-primary hidden" data-toggle="button" data-complete-text="" data-loading-text="" ></button>';
+    var buttonStuVideo = '<button id="" type="button" class="btn btn-success hidden" data-toggle="button" data-complete-text="" data-loading-text="" ></button>';
+    var buttonStuSound = '<button id="" type="button" class="btn btn-info hidden"  data-toggle="button" data-complete-text="" data-loading-text="" ></button>';
+
+    var iconLoading = '<i class="fa fa-spinner fa-pulse color-grey"></i><span></span>';
+
     var iconStuVideoOn = '<i class="fa fa-eye color-grey"></i><span></span>';
     var iconStuVideoOff = '<i class="fa fa-eye-slash color-grey"></i><span></span>';
-    var iconStuSoundOn = '<i class="fa fa-microphone color-grey"></i><span></span>';
-    var iconStuSoundOff = '<i class="fa fa-microphone-slash color-grey"></i><span></span>';
+    var iconStuSoundOn = '<i class="fa fa-volume-up color-grey"></i><span></span>';
+    var iconStuSoundOff = '<i class="fa fa-volume-off color-grey"></i><span></span>';
     var iconStuLinkOn = '<i class="fa fa-link color-grey"></i><span></span>';
     var iconStuLinkOff = '<i class="fa fa-unlink color-grey"></i><span></span>';
 
@@ -121,14 +128,17 @@ function createIconEl(user_info, roleid) {
 
     buttonStuLinkEl.attr("id", "btn-link-" + user_info);
     buttonStuLinkEl.attr("data-complete-text", iconStuLinkOn);
+    buttonStuLinkEl.attr("data-loading-text", iconLoading);
     buttonStuLinkEl.append(iconStuLinkOff);
 
     buttonStuVideoEl.attr("id", "btn-video-" + user_info);
     buttonStuVideoEl.attr("data-complete-text", iconStuVideoOn);
+    buttonStuVideoEl.attr("data-loading-text", iconLoading);
     buttonStuVideoEl.append(iconStuVideoOff);
 
     buttonStuSoundEl.attr("id", "btn-sound-" + user_info);
     buttonStuSoundEl.attr("data-complete-text", iconStuSoundOn);
+    buttonStuSoundEl.attr("data-loading-text", iconLoading);
     buttonStuSoundEl.append(iconStuSoundOff);
 
     buttonStuGroupEl.append(buttonStuLinkEl);
@@ -140,94 +150,6 @@ function createIconEl(user_info, roleid) {
     return iconContainerEl;
 }
 
-
-// Set Icon Ready status of teacher or student
-function setIconReadyEl(userinfo) {
-    "use strict";
-    ($("#media-" + userinfo).parent()).css("background", "#d73d04");
-    $("#media-" + userinfo + " i").css("color", "#fff");
-    $("#media-" + userinfo + " p").css("color", "#fff");
-    ($("#media-" + userinfo).next()).css("color", "#fff");
-}
-
-
-// Set Icon Connected Status of Teacher.
-function setIconConnectedEl(userinfo, roleid) {
-    "use strict";
-    var rolecolor;
-    if (roleid === "tea") {rolecolor = rolecolor_tea;}
-    if (roleid === "ass") {rolecolor = rolecolor_ass;}
-    if (roleid === "stu") {rolecolor = rolecolor_stu;}
-    ($("#media-" + userinfo).parent()).css("background", rolecolor);
-    $("#media-" + userinfo + " i").css("color", "#fff");
-    $("#media-" + userinfo + " p").css("color", "#fff");
-    ($("#media-" + userinfo).next()).css("color", "#fff");
-}
-
-// Set Icon Disconnected status of teacher
-function setIconDisconnectedEl(userinfo, roleid) {
-    "use strict";
-    var rolecolor;
-    if (roleid === "tea") {rolecolor = rolecolor_tea;}
-    if (roleid === "ass") {rolecolor = rolecolor_ass;}
-    if (roleid === "stu") {rolecolor = rolecolor_stu;}
-    ($("#media-" + userinfo).parent()).css("background", "#fff");
-    $("#media-" + userinfo + " i").css("color", rolecolor);
-    $("#media-" + userinfo + " p").css("color", rolecolor);
-    ($("#media-" + userinfo).next()).css("color", rolecolor);
-}
-
-
-
-// Set button disabled status of student
-function setButtonDisabledEl(id_name, btntype) {
-    "use strict";
-    var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    $(id_btn).attr("disabled", "disabled");
-    $(id_btn).addClass("btn-default");
-    $(id_btn).removeClass("btn-primary");
-    $(id_btn).removeClass("btn-success");
-    $(id_btn).removeClass("btn-info");
-}
-
-// Set button disabled status of student
-function setButtonEnabledEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).removeAttr("disabled");
-    $(id_btn).removeClass("btn-default");
-    if (btntype === "link") {
-        $(id_btn).addClass("btn-primary");
-    }
-    if (btntype === "video") {
-        $(id_btn).addClass("btn-success");
-    }
-    if (btntype === "sound") {
-        $(id_btn).addClass("btn-info");
-    }
-}
-
-// Set button active status of student
-function setButtonOffEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).removeClass("active");
-    console.log($(id_btn).hasClass("active"));
-}
-
-// Set button ready status of student
-function setButtonOnEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).addClass("active");
-    console.log($(id_btn).hasClass("active"));
-}
-
-
-
 // Set Badge Icon num according to linkstatus;
 function SetStatusBadgeEl(id_badge, linkstatus_dict) {
     "use strict";
@@ -237,153 +159,74 @@ function SetStatusBadgeEl(id_badge, linkstatus_dict) {
             num_all = num_all + linkstatus_dict[item].length;
         }
     }
-    var num_ready = linkstatus_dict["1"].length;
+    var num_ready = linkstatus_dict["0"].length;
     var num_online = linkstatus_dict["2"].length;
     $(id_badge).text(num_ready + " / " + num_online + " / " + num_all);
 }
 
 
-
-// Change Icon display according to linkstatus;
-function changeLinkStatusIcon(roleid){
+// Update link status to status_val;
+function updateLinkStatus(roleid, username, status_val){
     "use strict";
-    var linkstatus_dict;
-    // console.log(tealinkstatus_dict);
-    if (roleid==='tea') {linkstatus_dict=tealinkstatus_dict;}
-    if (roleid==='ass') {linkstatus_dict=asslinkstatus_dict;}
-    if (roleid==='stu') {linkstatus_dict=stulinkstatus_dict;}
-    // console.log("span#num_"+roleid+"info");
-    SetStatusBadgeEl("span#num_"+roleid+"info", linkstatus_dict);
-
-    // status "0" means disconnected
-    for (var l0i in linkstatus_dict['0']) {
-        if (linkstatus_dict['0'].hasOwnProperty(l0i)){
-            if (linkstatus_dict['0'][l0i]===username) {
-                setIconDisconnectedEl(linkstatus_dict['0'][l0i], roleid);
-                setButtonDisabledEl("", "link");
-                setButtonDisabledEl("", "video");
-                setButtonDisabledEl("", "sound");
-                setButtonEnabledEl(linkstatus_dict['0'][l0i], "link");
-                $("#btn-link-"+username).button('reset');
-            }else{
-                setIconDisconnectedEl(linkstatus_dict['0'][l0i], roleid);
-                setButtonEnabledEl(linkstatus_dict['0'][l0i], "link");
-                setButtonDisabledEl(linkstatus_dict['0'][l0i], "video");
-                setButtonDisabledEl(linkstatus_dict['0'][l0i], "sound");
-            }
-        }
+    if (roleid==='tea') {
+        $.post("/info/", {teaname:username, tealinkstatus:status_val});
     }
-
-    // status "1" means ready
-    for (var l1i in linkstatus_dict['1']) {
-        if (linkstatus_dict['1'].hasOwnProperty(l1i)){
-            setIconReadyEl(linkstatus_dict['1'][l1i]);
-            setButtonOffEl(linkstatus_dict['1'][l1i], "link");
-            setButtonEnabledEl(linkstatus_dict['1'][l1i], "link");
-            setButtonDisabledEl(linkstatus_dict['1'][l1i], "video");
-            setButtonDisabledEl(linkstatus_dict['1'][l1i], "sound");
-            $("#btn-link-"+username).button('reset');
-        }
+    if (roleid==='ass') {
+        $.post("/info/", {assname:username, asslinkstatus:status_val});
     }
-
-    // status "2" means connected
-    for (var l2i in linkstatus_dict['2']) {
-        if (linkstatus_dict['2'].hasOwnProperty(l2i)){
-            setIconConnectedEl(linkstatus_dict['2'][l2i], roleid);
-            setButtonOnEl(linkstatus_dict['2'][l2i], "link");
-            setButtonEnabledEl(linkstatus_dict['2'][l2i], "link");
-            setButtonEnabledEl(linkstatus_dict['2'][l2i], "video");
-            setButtonEnabledEl(linkstatus_dict['2'][l2i], "sound");
-            $("#btn-link-"+username).button('complete');
-        }
+    if (roleid==='stu') {
+        $.post("/info/", {stuname:username, stulinkstatus:status_val});
     }
-
 }
 
-
-// Change Icon display according to video status;
-function changeVideoStatusButton(roleid){
+// Update video status to status_val;
+function updateVideoStatus(roleid, username, status_val){
     "use strict";
-    var videostatus_dict;
-    // console.log(tealinkstatus_dict);
-    if (roleid==='tea') {videostatus_dict=teavideostatus_dict;}
-    if (roleid==='ass') {videostatus_dict=assvideostatus_dict;}
-    if (roleid==='stu') {videostatus_dict=stuvideostatus_dict;}
-
-    // status "0" means disconnected
-    for (var l0i in videostatus_dict['0']) {
-        if (videostatus_dict['0'].hasOwnProperty(l0i)){
-            setButtonDisabledEl(videostatus_dict['0'][l0i], "video");
-        }
+    if (roleid==='tea') {
+        $.post("/info/", {teaname:username, teavideostatus:status_val});
     }
-
-    // status "1" means ready
-    for (var l1i in videostatus_dict['1']) {
-        if (videostatus_dict['1'].hasOwnProperty(l1i)){
-            setButtonEnabledEl(videostatus_dict['1'][l1i], "video");
-            setButtonOffEl(videostatus_dict['1'][l1i], "video");
-        }
+    if (roleid==='ass') {
+        $.post("/info/", {assname:username, assvideostatus:status_val});
     }
-
-    // status "2" means connected
-    for (var l2i in videostatus_dict['2']) {
-        if (videostatus_dict['2'].hasOwnProperty(l2i)){
-            setButtonEnabledEl(videostatus_dict['2'][l2i], "video");
-            setButtonOnEl(videostatus_dict['2'][l2i], "video");
-        }
+    if (roleid==='stu') {
+        $.post("/info/", {stuname:username, stuvideostatus:status_val});
     }
-
 }
 
-
-// Change Icon display according to sound status;
-function changeSoundStatusButton(roleid){
+// Update sound status to status_val;
+function updateSoundStatus(roleid, username, status_val){
     "use strict";
-    var soundstatus_dict;
-    // console.log(tealinkstatus_dict);
-    if (roleid==='tea') {soundstatus_dict=teasoundstatus_dict;}
-    if (roleid==='ass') {soundstatus_dict=asssoundstatus_dict;}
-    if (roleid==='stu') {soundstatus_dict=stusoundstatus_dict;}
-
-    // status "0" means disconnected
-    for (var l0i in soundstatus_dict['0']) {
-        if (soundstatus_dict['0'].hasOwnProperty(l0i)){
-            setButtonDisabledEl(soundstatus_dict['0'][l0i], "sound");
-        }
+    if (roleid==='tea') {
+        $.post("/info/", {teaname:username, teasoundstatus:status_val});
     }
-
-    // status "1" means ready
-    for (var l1i in soundstatus_dict['1']) {
-        if (soundstatus_dict['1'].hasOwnProperty(l1i)){
-            setButtonEnabledEl(soundstatus_dict['1'][l1i], "sound");
-            setButtonOffEl(soundstatus_dict['1'][l1i], "sound");
-        }
+    if (roleid==='ass') {
+        $.post("/info/", {assname:username, asssoundstatus:status_val});
     }
-
-    // status "2" means connected
-    for (var l2i in soundstatus_dict['2']) {
-        if (soundstatus_dict['2'].hasOwnProperty(l2i)){
-            setButtonEnabledEl(soundstatus_dict['2'][l2i], "sound");
-            setButtonOnEl(soundstatus_dict['2'][l2i], "sound");
-        }
+    if (roleid==='stu') {
+        $.post("/info/", {stuname:username, stusoundstatus:status_val});
     }
-
 }
 
-
-
-
-
+function createPPTEl(pptname){
+    "use strict";
+    var containerEl = $('<div class="ppt-item col-md-4 margin-bottom-10 padding-top-10"> </div>');
+    var pptEl = $('<div class="service-box-ppt"> </div>');
+    var iconPPTEl = '<i class="fa fa-file-powerpoint-o color-grey"></i>';
+    pptEl.attr("id", "ppt-" + pptname);
+    pptEl.append(iconPPTEl);
+    pptEl.append("<h4>" + pptname +"</h4>");
+    containerEl.append(pptEl);
+    $("div#pptlist").append(containerEl);
+}
 
 // Initial webpage
 $(document).ready(function() {
     "use strict";
-    $.post("/info/", {tealinkstatus: '0'}).then(function() {
+    // $.post("/info/", {tealinkstatus: '0'}).then(function() {
         $.getJSON('/info/', function(data) {
             classid = data.classid;
             userid = data.userid;
-            // classstr = data.classstr;
-            // classstr = classstr.substring(0,2);
+            classstr = data.classstr;
             classname = data.classname;
             username = data.username;
             stu_list = data.student;
@@ -392,6 +235,14 @@ $(document).ready(function() {
             tealinkstatus_dict = data.tealinkstatuslist;
             asslinkstatus_dict = data.asslinkstatuslist;
             stulinkstatus_dict = data.stulinkstatuslist;
+
+            teavideostatus_dict = data.teavideostatuslist;
+            assvideostatus_dict = data.assvideostatuslist;
+            stuvideostatus_dict = data.stuvideostatuslist;
+
+            teasoundstatus_dict = data.teasoundstatuslist;
+            asssoundstatus_dict = data.asssoundstatuslist;
+            stusoundstatus_dict = data.stusoundstatuslist;
 
             $("title").text(classname);
             $("span#classname").text(classname);
@@ -405,14 +256,103 @@ $(document).ready(function() {
             for (var ti in tea_list) {
                 if (tea_list.hasOwnProperty(ti)){
                     var newteacherEl = createIconEl(tea_list[ti], 'tea');
-                    $("#teacherlist").append(newteacherEl);
+                    // Click teacher list link button #btn-link-**** to link or unlink.
+                    $.when($("#teacherlist").append(newteacherEl)).done(function(){
+                        // console.log($("#btn-link-"+tea_list[ti]));
+                        $("button#btn-link-"+tea_list[ti]).on('click', function(){
+                            var newLinkStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click link off");
+                                newLinkStatus = "0";
+                                updateLinkStatus("tea", tea_list[ti], newLinkStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Link on");
+                                newLinkStatus = "2";
+                                updateLinkStatus("tea", tea_list[ti], newLinkStatus);
+                            }
+                        });
+                        $("button#btn-video-"+tea_list[ti]).on('click', function(){
+                            var newVideoStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click video off");
+                                newVideoStatus = "0";
+                                updateVideoStatus("tea", tea_list[ti], newVideoStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click video on");
+                                newVideoStatus = "2";
+                                updateVideoStatus("tea", tea_list[ti], newVideoStatus);
+                            }
+                        });
+                        $("button#btn-sound-"+tea_list[ti]).on('click', function(){
+                            var newSoundStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click Sound off");
+                                newSoundStatus = "0";
+                                updateSoundStatus("tea", tea_list[ti], newSoundStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Sound on");
+                                newSoundStatus = "2";
+                                updateSoundStatus("tea", tea_list[ti], newSoundStatus);
+                            }
+                        });
+                    });
                 }
             }
 
             for (var ai in ass_list) {
                 if (ass_list.hasOwnProperty(ai)){
                     var newassistantEl = createIconEl(ass_list[ai], 'ass');
-                    $("#assistantlist").append(newassistantEl);
+                    $.when($("#assistantlist").append(newassistantEl)).done(function(){
+                        // console.log($("button#btn-link-"+ass_list[ai]));
+                        $("button#btn-link-"+ass_list[ai]).on('click', function(){
+                            var newLinkStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click link off");
+                                newLinkStatus = "0";
+                                updateLinkStatus("ass", ass_list[ai], newLinkStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Link on");
+                                newLinkStatus = "2";
+                                updateLinkStatus("ass", ass_list[ai], newLinkStatus);
+                            }
+                        });
+                        $("button#btn-video-"+ass_list[ai]).on('click', function(){
+                            var newVideoStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click video off");
+                                newVideoStatus = "0";
+                                updateVideoStatus("ass", ass_list[ai], newVideoStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click video on");
+                                newVideoStatus = "2";
+                                updateVideoStatus("ass", ass_list[ai], newVideoStatus);
+                            }
+                        });
+                        $("button#btn-sound-"+ass_list[ai]).on('click', function(){
+                            var newSoundStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click Sound off");
+                                newSoundStatus = "0";
+                                updateSoundStatus("ass", ass_list[ai], newSoundStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Sound on");
+                                newSoundStatus = "2";
+                                updateSoundStatus("ass", ass_list[ai], newSoundStatus);
+                            }
+                        });
+                    });
                 }
             }
 
@@ -420,22 +360,113 @@ $(document).ready(function() {
             for (var si in stu_list) {
                 if (stu_list.hasOwnProperty(si)){
                     var newstudentEl = createIconEl(stu_list[si], 'stu');
-                    $("#studentlist").append(newstudentEl);
+                    $.when($("#studentlist").append(newstudentEl)).done(function(){
+                        // console.log($("button#btn-link-"+stu_list[si]));
+                        $("button#btn-link-"+stu_list[si]).on('click', function(){
+                            var newLinkStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click link off");
+                                newLinkStatus = "0";
+                                updateLinkStatus("stu", stu_list[si], newLinkStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Link on");
+                                newLinkStatus = "2";
+                                updateLinkStatus("stu", stu_list[si], newLinkStatus);
+                            }
+                        });
+                        $("button#btn-video-"+stu_list[si]).on('click', function(){
+                            var newVideoStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click video off");
+                                newVideoStatus = "0";
+                                updateVideoStatus("stu", stu_list[si], newVideoStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click video on");
+                                newVideoStatus = "2";
+                                updateVideoStatus("stu", stu_list[si], newVideoStatus);
+                            }
+                        });
+                        $("button#btn-sound-"+stu_list[si]).on('click', function(){
+                            var newSoundStatus;
+                            if ($(this).hasClass("active")){
+                                $(this).button('reset');
+                                console.log("click Sound off");
+                                newSoundStatus = "0";
+                                updateSoundStatus("stu", stu_list[si], newSoundStatus);
+                            }else{
+                                $(this).button('loading');
+                                console.log("click Sound on");
+                                newSoundStatus = "2";
+                                updateSoundStatus("stu", stu_list[si], newSoundStatus);
+                            }
+                        });
+                    });
                 }
             }
 
-            setButtonDisabledEl("", "link");
-            setButtonDisabledEl("", "video");
-            setButtonDisabledEl("", "sound");
+            $("button#btn-begin-class").click(function(){
+                var newLinkStatus;
+                if ($(this).hasClass("active")){
+                    $(this).button('reset');
+                    $(this).removeClass("active");
+                    console.log("click Class off");
+                    newLinkStatus = "0";
+                    updateLinkStatus("tea", username, newLinkStatus);
+                }else{
+                    $(this).button('loading');
+                    console.log("click Class on");
+                    newLinkStatus = "2";
+                    updateLinkStatus("tea", username, newLinkStatus);
+                }
 
-            setButtonEnabledEl(username,"link");
-
+            });
         });
+
+         $.getJSON('/ppt/', function(data) {
+            var pptlist = data.filelist;
+            var pptname;
+            for (var pi in pptlist) {
+                if (pptlist.hasOwnProperty(pi)){
+                    pptname = pptlist[pi];
+                    createPPTEl(pptname);
+                }
+            }
+            $("div#pptlist").click(function(event){
+                event.stopPropagation();
+                event.preventDefault();
+                postPPTInfo(event);
+            });
+
+         });
         // $(function () { $('#collapseOne').collapse('show')});
         // $(function () { $('#collapseTwo').collapse('')});
         // $(function () { $('#collapseThree').collapse('toggle')});
-    });
 });
+
+
+function postPPTInfo(event){
+    console.log(event);
+    if (event.target.localName === "h4") {
+        var pptname = event.target.innerText;
+        $.post("/ppt/", {pptinfo:pptname});
+    }
+    if (event.target.localName === "i") {
+
+        var pptname = event.target.nextSibling.innerText;
+        $.post("/ppt/", {pptinfo:pptname});
+    }
+    if (event.target.localName === "div") {
+        var pptname = event.target.children[1].innerText;
+        $.post("/ppt/", {pptinfo:pptname.toString()});
+    }
+}
+
+
+
 
 
 // var stu_list;

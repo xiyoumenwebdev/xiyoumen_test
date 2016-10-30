@@ -70,9 +70,10 @@ div#media-area {height: 90%; text-align: center; border:1px solid #cececc;}
 div#button-area {height:100%; padding-top: 50%;}
 div#local-media {height:40%; }
 div#remote-media {height: 40%; border-top:1px solid #cececc;}
-video {max-width: 100%; max-height: 100%}
+video {width: 100%; max-height: 100%}
 
 button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
+
 /*h4#memo-text {padding-top: 40%}*/
 /*input.switch {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}*/
 
@@ -80,7 +81,7 @@ button#btn-begin-class {border-top-left-radius:30px; border-bottom-left-radius: 
 .front-carousel {height: 100%; }
 div#slide-area {height: 100%; }
 div#slide-area iframe {height: 100%; border-style: none; overflow-x: hidden; overflow-y: hidden;}*/
-iframe#ppt-area {height: 550px; width: 100%; border-style: none; padding: 0px;}
+iframe#ppt-area {height: 600px; width: 100%; border-style: none; padding: 0px;}
 div#upload-area {height:100%; padding-top: 30%;}
 button#btn-upload {border-top-left-radius:30px; border-bottom-left-radius: 30px;border-top-right-radius:30px; border-bottom-right-radius: 30px;}
 /*
@@ -99,7 +100,7 @@ div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padd
 div.icon-media > i {padding-top:40px;height:100%;}
 
 .service-box-tea {text-align: center; background: #fff; border:1px solid #cececc}
-.service-box-tea h4 {color: #8A6D3B;}
+.service-box-tea h4 {color: #8A6D3B; word-wrap:break-word; word-break:normal;}
 .service-box-tea i {color: #8A6D3B;}
 /*.service-box-tea span {font-size: 11px}*/
 .service-box-tea:hover {background: #D73D04}
@@ -110,7 +111,7 @@ div.icon-media > i {padding-top:40px;height:100%;}
 }
 
 .service-box-ass {text-align: center; background: #fff; border:1px solid #cececc}
-.service-box-ass h4 {color: #31708F;}
+.service-box-ass h4 {color: #31708F; word-wrap:break-word; word-break:normal;}
 .service-box-ass i {color: #31708F;}
 /*.service-box-tea span {font-size: 11px}*/
 .service-box-ass:hover {background: #D73D04}
@@ -121,7 +122,7 @@ div.icon-media > i {padding-top:40px;height:100%;}
 }
 
 .service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
-.service-box-stu h4 {color: #3E773F;}
+.service-box-stu h4 {color: #3E773F; word-wrap:break-word; word-break:normal;}
 .service-box-stu i {color: #3E773F;}
 /*.service-box-stu span {font-size: 11px}*/
 .service-box-stu:hover {background: #D73D04}
@@ -131,6 +132,17 @@ div.icon-media > i {padding-top:40px;height:100%;}
   color: #fff;
 }
 
+.service-box-ppt {text-align: center; background: #fff; font-size: 50px; border:1px solid #cececc}
+.service-box-ppt h4 {color: #3E773F; word-wrap:break-word; word-break:normal;}
+.service-box-ppt i {color: #3E773F;}
+.service-box-ppt:hover {background: #D73D04}
+.service-box-ppt:hover i,
+.service-box-ppt:hover p,
+.service-box-ppt:hover h4 {
+  color: #fff;
+}
+/*.ppt-item {height: 50px; border:1px solid #cececc;}
+.ppt-item h4 {word-wrap:break-word; word-break:normal;}*/
 /*
 .service-box-v1:visited {
   background: #d73d04;
@@ -143,15 +155,19 @@ div.icon-media > i {padding-top:40px;height:100%;}
 */
 .remote-media {max-height:100%; max-width: 100%; height:70px}
 
-div#chatbox {height: 560px; }
-div#chat-room  {height: 560px;  padding-left: 10px;padding-right: 10px}
-div#chat-message-list {height: 380px;}
+div#chatbox {height: 100%; }
+div#chat-room  {height: 100%;  padding-left: 10px;padding-right: 10px}
+div#chat-message-list {height: 100%;}
 div#chat-content {height: 100%;border:1px solid #cececc}
 .portlet {margin-bottom: 5px;}
 /*.popover {max-width: 100%;width: 400px}*/
 /*div#chat-button-group {display: table; width: auto; margin-left: auto; margin-right: auto}*/
 
-
+#fine-uploader-s3 .preview-link {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
 
 #messages {
   background-color:#232323;

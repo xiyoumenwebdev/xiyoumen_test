@@ -56,19 +56,20 @@ $(document).ready(function() {
     "use strict";
     $.getJSON("/chatlist/", function (data) {
         var listmessage = data.chatcontent;
-        var listoldmessage = $("#chat-message-list").children();
-        var num_chatolditem = listoldmessage.length;
+        // var listoldmessage = $("#chat-message-list").children();
+        // var num_chatolditem = listoldmessage.length;
+        console.log(listmessage);
         for (var item in listmessage) {
             if ( listmessage.hasOwnProperty(item)){
                 //console.log(item);
-                if (num_chatolditem <= item){
-                    var chat_item = listmessage[item];
-                    chatname = chat_item.username;
-                    var chattime = chat_item.createtime;
-                    var chatmessage = chat_item.question;
-                    chatrole = chat_item.rolename;
-                    insertmessage(chatname, chattime, chatmessage, chatrole);
-                }
+                // if (num_chatolditem <= item){
+                var chat_item = listmessage[item];
+                chatname = chat_item.username;
+                chatrole = chat_item.rolename;
+                var chattime = chat_item.createtime;
+                var chatmessage = chat_item.question;
+                insertmessage(chatname, chattime, chatmessage, chatrole);
+                // }
             }
         }
     });
@@ -82,7 +83,7 @@ $(function(){
     "use strict";
     $('.general-item-list').slimScroll({
         width: '100%',
-        height: '380px',
+        height: '230px',
         size: '5px',
         position: 'right',
         color: '#cececc',

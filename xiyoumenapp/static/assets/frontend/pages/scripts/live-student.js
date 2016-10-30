@@ -10,7 +10,7 @@ var tealinkstatus_dict;
 var identity;
 var token;
 
-var tealink_source = new EventSource("/stream?channel=changed.tealink");
+var status_source = new EventSource("/stream?channel=changed.status");
 
 var classstr;
 
@@ -72,8 +72,9 @@ $(document).ready(function () {
         // Create a Conversations Client and connect to Twilio
         conversationsClient = new Twilio.Conversations.Client(accessManager);
         conversationsClient.listen().then(clientConnected, function (error) {
-	        log('Could not connect to Twilio: ' + error.message);
-            console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
+            log('Could not connect to Twilio: ' + error.message);
+	        console.log('Could not connect to Twilio: ' + error);
+            // console.log("Listening for incoming Invites as '" + conversationsClient.identity + "'");
             var newlinkstatus = "0";
             $.post("/info/", {stulinkstatus:newlinkstatus});
             setButtonDisabledEl();
