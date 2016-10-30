@@ -33,21 +33,24 @@ $.getJSON("/info/", function (data) {
     $.getJSON("/ppt/", function(data){
         pptname = data.pptinfo;
     });
-    if (!pptname) {
+
+    if (pptname){
+        console.log("pptname is " + pptname);
+        $("iframe#ppt-area").removeClass("hidden");
+        $("div#button-area").addClass("hidden");
+        addPPT(classid, pptname);
+    }else{
         var ppteventtype = "pptinfo" + classstr;
         ppt_source.addEventListener(ppteventtype, function(event){
             var data = JSON.parse(event.data);
             pptname = data.pptinfo;
-            if (pptname){
-                $("iframe#ppt-area").removeClass("hidden");
-                $("div#button-area").addClass("hidden");
-                addPPT(classid, pptname);
-            }else{
-                $("iframe#ppt-area").addClass("hidden");
-                $("div#button-area").removeClass("hidden");
-            }
+            console.log("pptname is " + pptname);
+            $("iframe#ppt-area").removeClass("hidden");
+            $("div#button-area").addClass("hidden");
+            addPPT(classid, pptname);
         });
     }
+
     getPPTPosition();
 });
 
