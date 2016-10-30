@@ -1,6 +1,7 @@
 // BEGIN PPT CODE
 
 var pptposition;
+var pptname;
 var ppt_source = new EventSource("/stream?channel=changed.ppt");
 
 
@@ -11,6 +12,7 @@ function addPPT(classid, pptname){
 }
 
 function getPPTPosition(){
+    "use strict";
     var myeventtype = "newposition"+classstr;
     console.log(myeventtype);
     ppt_source.addEventListener("newposition"+classstr,function(event){
@@ -21,11 +23,6 @@ function getPPTPosition(){
     }, false);
 }
 
-// Inintial all chatmessage from endpoint /chatlist/
-$(document).ready(function() {
-    "use strict";
-
-});
 
 $.getJSON("/info/", function (data) {
     "use strict";
