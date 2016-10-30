@@ -1,7 +1,7 @@
 // BEGIN PPT CODE
 
 var pptposition;
-var ppt_source = new EventSource("/stream?channel=changed.ppt");
+var status_source = new EventSource("/stream?channel=changed.status");
 
 
 function addPPT(classid, pptname){
@@ -13,7 +13,7 @@ function addPPT(classid, pptname){
 function getPPTPosition(){
     var myeventtype = "newposition"+classstr;
     console.log(myeventtype);
-    ppt_source.addEventListener("newposition"+classstr,function(event){
+    status_source.addEventListener("newposition"+classstr,function(event){
         var data = JSON.parse(event.data);
         pptposition = data.pptposition;
         $("iframe#ppt-area").contents().find("div#page-container").scrollTop(pptposition);
@@ -31,7 +31,7 @@ $(document).ready(function() {
     }).then(function(){
         "use strict";
         var ppteventtype = "pptinfo" + classstr;
-        ppt_source.addEventListener(ppteventtype, function(event){
+        status_source.addEventListener(ppteventtype, function(event){
             var data = JSON.parse(event.data);
             pptname = data.pptinfo;
             if (pptname){
