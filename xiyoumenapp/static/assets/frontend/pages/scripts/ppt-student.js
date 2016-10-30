@@ -33,22 +33,25 @@ $.getJSON("/info/", function (data) {
     classid = data.classid;
 }).then(function(){
     "use strict";
-    var ppteventtype = "pptinfo" + classstr;
-    ppt_source.addEventListener(ppteventtype, function(event){
-        var data = JSON.parse(event.data);
+    $.getJSON("/ppt/", function(data){
         pptname = data.pptinfo;
-        if (pptname){
-            $("iframe#ppt-area").removeClass("hidden");
-            $("div#button-area").addClass("hidden");
-            addPPT(classid, pptname);
-            $.when(addPPT(classid, pptname)).done(function(){
-                getPPTPosition();
-            });
-        }else{
-            $("iframe#ppt-area").addClass("hidden");
-            $("div#button-area").removeClass("hidden");
-        }
     });
+    if (!pptname) {
+        var ppteventtype = "pptinfo" + classstr;
+        ppt_source.addEventListener(ppteventtype, function(event){
+            var data = JSON.parse(event.data);
+            pptname = data.pptinfo;
+            if (pptname){
+                $("iframe#ppt-area").removeClass("hidden");
+                $("div#button-area").addClass("hidden");
+                addPPT(classid, pptname);
+            }else{
+                $("iframe#ppt-area").addClass("hidden");
+                $("div#button-area").removeClass("hidden");
+            }
+        });
+    }
+    getPPTPosition();
 });
 
 

@@ -229,7 +229,7 @@ class PPT(Resource):
                 dir_ppt = safe_join(dir_ppt, "ppt")
                 print("PPT directory is " + dir_ppt)
                 filelist = os.listdir(dir_ppt)
-                ppt_info["filelist"] = filelist
+                ppt_info["pptinfo"] = filelist
                 return ppt_info
             else:
                 return "You have no right to do this"
