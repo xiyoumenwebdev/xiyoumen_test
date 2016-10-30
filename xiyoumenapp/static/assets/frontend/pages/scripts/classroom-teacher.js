@@ -427,7 +427,7 @@ $(document).ready(function() {
         });
 
          $.getJSON('/ppt/', function(data) {
-            var pptlist = data.filelist;
+            var pptlist = data.pptlist;
             var pptname;
             for (var pi in pptlist) {
                 if (pptlist.hasOwnProperty(pi)){

@@ -221,6 +221,7 @@ class PPT(Resource):
         """
         try:
             if ('classid' in session) and ('userid' in session):
+                classid = session['classid']
                 ppt_info = {}
                 dir_file = os.path.dirname(os.path.abspath(__file__))
                 dir_ppt = safe_join(dir_file, "static")
@@ -229,7 +230,9 @@ class PPT(Resource):
                 dir_ppt = safe_join(dir_ppt, "ppt")
                 print("PPT directory is " + dir_ppt)
                 filelist = os.listdir(dir_ppt)
-                ppt_info["pptinfo"] = filelist
+                ppt_info["pptlist"] = filelist
+                if (redis_store.exists("ppt:"+classid)):
+                    ppt_info["pptinfo"] = redis_store.get("ppt:" + classid)
                 return ppt_info
             else:
                 return "You have no right to do this"
@@ -263,6 +266,7 @@ class PPT(Resource):
                         sse.publish({"pptinfo":pptinfo},
                                     type="pptinfo"+classstr,
                                     channel="changed.ppt" )
+                        redis_store.set('ppt:'+classid, pptinfo)
         except Exception as err:
             print("Fail to get info")
             print(err)
