@@ -100,7 +100,7 @@ div#stu-control-row {padding-bottom: 5px; border-bottom: 1px solid #cececc; padd
 div.icon-media > i {padding-top:40px;height:100%;}
 
 .service-box-tea {text-align: center; background: #fff; border:1px solid #cececc}
-.service-box-tea h4 {color: #8A6D3B; word-wrap:break-word; word-break:normal;}
+.service-box-tea h4 {color: #8A6D3B; word-wrap:break-word; word-break:normal; height: 30px;}
 .service-box-tea i {color: #8A6D3B;}
 /*.service-box-tea span {font-size: 11px}*/
 .service-box-tea:hover {background: #D73D04}
@@ -110,16 +110,16 @@ div.icon-media > i {padding-top:40px;height:100%;}
   color: #fff;
 }
 
-.service-box-ass {text-align: center; background: #fff; border:1px solid #cececc}
+/*.service-box-ass {text-align: center; background: #fff; border:1px solid #cececc}
 .service-box-ass h4 {color: #31708F; word-wrap:break-word; word-break:normal;}
 .service-box-ass i {color: #31708F;}
-/*.service-box-tea span {font-size: 11px}*/
+.service-box-tea span {font-size: 11px}
 .service-box-ass:hover {background: #D73D04}
 .service-box-ass:hover i,
 .service-box-ass:hover p,
 .service-box-ass:hover h4 {
   color: #fff;
-}
+}*/
 
 .service-box-stu {text-align: center; background: #fff; font-size: 45px; border:1px solid #cececc}
 .service-box-stu h4 {color: #3E773F; word-wrap:break-word; word-break:normal;}

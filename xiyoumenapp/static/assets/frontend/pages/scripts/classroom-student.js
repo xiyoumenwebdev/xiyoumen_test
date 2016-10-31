@@ -5,6 +5,7 @@ var userid;
 var classstr;
 var classname;
 var username;
+var tea_list;
 var tealinkstatus_dict;
 
 var roleid = 'stu';
@@ -53,6 +54,17 @@ function createIconEl(user_info, roleid) {
     return iconContainerEl;
 }
 
+// Update link status to status_val;
+function updateLinkStatus(roleid, username, status_val){
+    "use strict";
+    if (roleid==='tea') {
+        $.post("/info/", {teaname:username, tealinkstatus:status_val});
+    }
+    if (roleid==='stu') {
+        $.post("/info/", {stuname:username, stulinkstatus:status_val});
+    }
+}
+
 $(document).ready(function () {
 	"use strict";
 	$.post("/info/", {stulinkstatus:'0'}).then(function () {
@@ -62,7 +74,8 @@ $(document).ready(function () {
 			classstr = data.classstr;
 			classname = data.classname;
 			username = data.username;
-            tealinkstatus_dict = data.tealinkstatuslist;
+			tea_list = data.teacher;
+	        tealinkstatus_dict = data.tealinkstatuslist;
 
 		    console.log(classname);
 			$("title").text(classname);
@@ -71,24 +84,35 @@ $(document).ready(function () {
 
 			$("div#livelist").append(createIconEl(username, "stu"));
 
-			if (tealinkstatus_dict["2"]) {
-				$("button#btn-begin-class").attr("diabled","");
-				var linkstatuslist = tealinkstatus_dict["2"];
-				for (var item in linkstatuslist) {
-			        if (linkstatuslist.hasOwnProperty(item)){
-						$("div#livelist").append(createIconEl(linkstatuslist[item], "tea"));
-			        }
-			    }
-			}
+			for (var ti in tea_list) {
+                if (tea_list.hasOwnProperty(ti)){
+                    var newteacherEl = createIconEl(tea_list[ti], 'tea');
+                    $("div#livelist").append(newteacherEl);
+                }
+            }
+
 		});
 
 	});
+	// $(function () { $('#collapseOne').collapse('toggle')});
+	$(function () { $('#collapseFour').collapse('')});
 });
+
+
+
 
 //PAGE VIEW CODE END
 
 
-
+			// if (tealinkstatus_dict["2"]) {
+			// 	$("button#btn-begin-class").attr("diabled","");
+			// 	var linkstatuslist = tealinkstatus_dict["2"];
+			// 	for (var item in linkstatuslist) {
+			//         if (linkstatuslist.hasOwnProperty(item)){
+			// 			$("div#livelist").append(createIconEl(linkstatuslist[item], "tea"));
+			//         }
+			//     }
+			// }
 
 
 

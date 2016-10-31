@@ -4,6 +4,7 @@
 
 var activeRoom;
 var myLocalMedia;
+var myClient;
 var roomName;
 
 var identity;
@@ -22,9 +23,6 @@ $(document).ready(function () {
             identity = data.identity;
             token = data.token;
             roomName = classid;
-
-            var newlinkstatus = "0";
-            updateLinkStatus(roleid, username, newlinkstatus);
         }),
         $.getJSON("/info/", function (data) {
             console.log("Ready to get info");
@@ -33,103 +31,36 @@ $(document).ready(function () {
         })
     ).then(function(){
 
-        var myeventlinktea = "newtealinkstatus"+classstr;
-        var myeventvideotea = "newteavideostatus"+classstr;
-        var myeventsoundtea = "newteasoundstatus"+classstr;
+        var newlinkstatus = "0";
+        updateLinkStatus(roleid, username, newlinkstatus);
 
-        var myeventlinkass = "newasslinkstatus"+classstr;
-        var myeventvideoass = "newassvideostatus"+classstr;
-        var myeventsoundass = "newasssoundstatus"+classstr;
+        var myeventlinktea = "newtealinkstatus"+classstr;
 
         var myeventlinkstu = "newstulinkstatus"+classstr;
-        var myeventvideostu = "newstuvideostatus"+classstr;
-        var myeventsoundstu = "newstusoundstatus"+classstr;
 
         status_source.addEventListener(myeventlinktea,function(event){
             // "use strict";
             var data = JSON.parse(event.data);
             tealinkstatus_dict = data.tealinkstatus;
 
-            var tealinkstatus_list0 = tealinkstatus_dict[0];
-            for (var ti in tealinkstatus_list0) {
-                if (tealinkstatus_list0.hasOwnProperty(ti)){
+            // var tealinkstatus_list0 = tealinkstatus_dict[0];
+            // for (var ti in tealinkstatus_list0) {
+            //     if (tealinkstatus_list0.hasOwnProperty(ti)){
+            //         $.when(myDisconneted(activeRoom)).then(function(){
 
-                    $.when(myDisconneted(activeRoom)).then(function(){
-                        $("button#btn-link-" + tealinkstatus_list0[ti]).button('reset');
-                        $("button#btn-link-" + tealinkstatus_list0[ti]).removeClass("active");
-                        $("button#btn-begin-class").button('reset');
-                        $("button#btn-begin-class").removeClass("active");
-                        $("div#local-media").empty();
-                        $("div#remote-media").empty();
-                        $("div[id^=media-] >i").removeClass("hidden");
-                        $("button[id^='btn-link-]").addClass("hidden");
-                        $("button[id^='btn-video-]").addClass("hidden");
-                        $("button[id^='btn-sound-]").addClass("hidden");
-                    });
-                }
-            }
+            //         });
+            //     }
+            // }
 
-            var tealinkstatus_list2 = tealinkstatus_dict[2];
-            for (var ti in tealinkstatus_list2) {
-                if (tealinkstatus_list2.hasOwnProperty(ti)){
-                    $.when(myConnected(token, roomName)).then(function(){
-                        $("button[id^='btn-link-']").removeClass("hidden");
-                        $("button[id^='btn-video-']").removeClass("hidden");
-                        $("button[id^='btn-sound-']").removeClass("hidden");
-                        $("button#btn-link-" + tealinkstatus_list2[ti]).button('complete');
-                        $("button#btn-link-" + tealinkstatus_list2[ti]).addClass("active");
-                        $("button#btn-begin-class").button('complete');
-                        $("button#btn-begin-class").addClass("active");
-                    });
-                }
-            }
+            // var tealinkstatus_list2 = tealinkstatus_dict[2];
+            // for (var ti in tealinkstatus_list2) {
+            //     if (tealinkstatus_list2.hasOwnProperty(ti)){
+            //         $.when(myConnected(token, roomName)).then(function(){
+
+            //         });
+            //     }
+            // }
             console.log(tealinkstatus_dict);
-        }, false);
-
-        status_source.addEventListener(myeventvideotea,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            teavideostatus_dict = data.teavideostatus;
-            var teavideostatus_list0 = teavideostatus_dict[0];
-            for (var ti in teavideostatus_list0) {
-                if (teavideostatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-video-" + teavideostatus_list0[ti]).button('reset');
-                    $("button#btn-video-" + teavideostatus_list0[ti]).removeClass("active");
-                    closeLocalMedia();
-                }
-            }
-            var teavideostatus_list2 = teavideostatus_dict[2];
-            for (var ti in teavideostatus_list2) {
-                if (teavideostatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-video-" + teavideostatus_list2[ti]).button('complete');
-                    $("button#btn-video-" + teavideostatus_list2[ti]).addClass("active");
-                    showLocalMedia();
-                }
-            }
-            console.log(teavideostatus_dict);
-        }, false);
-
-        status_source.addEventListener(myeventsoundtea,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            teasoundstatus_dict = data.teasoundstatus;
-
-            var teasoundstatus_list0 = teasoundstatus_dict[0];
-            for (var ti in teasoundstatus_list0) {
-                if (teasoundstatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + teasoundstatus_list0[ti]).button('reset');
-                    $("button#btn-sound-" + teasoundstatus_list0[ti]).removeClass('active');
-                }
-            }
-
-            var teasoundstatus_list2 = teasoundstatus_dict[2];
-            for (var ti in teasoundstatus_list2) {
-                if (teasoundstatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + teasoundstatus_list2[ti]).button('complete');
-                    $("button#btn-sound-" + teasoundstatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(teasoundstatus_dict);
         }, false);
 
 
@@ -137,144 +68,40 @@ $(document).ready(function () {
             // "use strict";
             var data = JSON.parse(event.data);
             stulinkstatus_dict = data.stulinkstatus;
-            var stulinkstatus_list0 = stulinkstatus_dict[0];
-            for (var ti in stulinkstatus_list0) {
-                if (stulinkstatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-link-" + stulinkstatus_list0[ti]).removeClass("hidden");
-                    $("button#btn-video-" + stulinkstatus_list0[ti]).addClass("hidden");
-                    $("button#btn-sound-" + stulinkstatus_list0[ti]).addClass("hidden");
-                    $("button#btn-link-" + stulinkstatus_list0[ti]).button('reset');
-                    $("button#btn-link-" + stulinkstatus_list0[ti]).removeClass('active');
-                }
-            }
+            // var stulinkstatus_list0 = stulinkstatus_dict[0];
+            // for (var ti in stulinkstatus_list0) {
+            //     if (stulinkstatus_list0.hasOwnProperty(ti)){
 
-            var stulinkstatus_list2 = stulinkstatus_dict[2];
-            for (var ti in stulinkstatus_list2) {
-                if (stulinkstatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-link-" + stulinkstatus_list2[ti]).removeClass("hidden");
-                    $("button#btn-video-" + stulinkstatus_list2[ti]).removeClass("hidden");
-                    $("button#btn-sound-" + stulinkstatus_list2[ti]).removeClass("hidden");
-                    $("button#btn-link-" + stulinkstatus_list2[ti]).button('complete');
-                    $("button#btn-link-" + stulinkstatus_list2[ti]).addClass('active');
-                }
-            }
+            //     }
+            // }
+
+            // var stulinkstatus_list2 = stulinkstatus_dict[2];
+            // for (var ti in stulinkstatus_list2) {
+            //     if (stulinkstatus_list2.hasOwnProperty(ti)){
+
+            //     }
+            // }
             console.log(stulinkstatus_dict);
         }, false);
 
-        status_source.addEventListener(myeventvideostu,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            stuvideostatus_dict = data.stuvideostatus;
-            var stuvideostatus_list0 = stuvideostatus_dict[0];
-            for (var ti in stuvideostatus_list0) {
-                if (stuvideostatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-video-" + stuvideostatus_list0[ti]).button('reset');
-                    $("button#btn-video-" + stuvideostatus_list0[ti]).removeClass('active');
-                }
+        $("button#btn-begin-class").click(function(){
+            var newLinkStatus;
+            if ($(this).hasClass("active")){
+                $(this).button('reset');
+                $(this).removeClass("active");
+                console.log("click Class off");
+                myDisconneted(activeRoom);
+                // newLinkStatus = "0";
+                // updateLinkStatus("tea", username, newLinkStatus);
+            }else{
+                $(this).button('loading');
+                console.log("click Class on");
+                // newLinkStatus = "2";
+                // updateLinkStatus("tea", username, newLinkStatus);
+                myConnected(token, roomName);
             }
 
-            var stuvideostatus_list2 = stuvideostatus_dict[2];
-            for (var ti in stuvideostatus_list2) {
-                if (stuvideostatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-video-" + stuvideostatus_list2[ti]).button('complete');
-                    $("button#btn-video-" + stuvideostatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(stuvideostatus_dict);
-        }, false);
-
-        status_source.addEventListener(myeventsoundstu,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            stusoundstatus_dict = data.stusoundstatus;
-            // $("#studentlist").trigger(e_stusound);
-            var stusoundstatus_list0 = stusoundstatus_dict[0];
-            for (var ti in stusoundstatus_list0) {
-                if (stusoundstatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + stusoundstatus_list0[ti]).button('reset');
-                    $("button#btn-sound-" + stusoundstatus_list0[ti]).removeClass('active');
-                }
-            }
-
-            var stusoundstatus_list2 = stusoundstatus_dict[2];
-            for (var ti in stusoundstatus_list2) {
-                if (stusoundstatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + stusoundstatus_list2[ti]).button('complete');
-                    $("button#btn-sound-" + stusoundstatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(stusoundstatus_dict);
-        }, false);
-
-
-        status_source.addEventListener(myeventlinkass,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            asslinkstatus_dict = data.asslinkstatus;
-            // $("#assistantlist").trigger(e_asslink);
-            var asslinkstatus_list0 = asslinkstatus_dict[0];
-            for (var ti in asslinkstatus_list0) {
-                if (asslinkstatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-link-" + asslinkstatus_list0[ti]).button('reset');
-                    $("button#btn-link-" + asslinkstatus_list0[ti]).removeClass('active');
-                }
-            }
-
-            var asslinkstatus_list2 = asslinkstatus_dict[2];
-            for (var ti in asslinkstatus_list2) {
-                if (asslinkstatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-link-" + asslinkstatus_list2[ti]).button('complete');
-                    $("button#btn-link-" + asslinkstatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(asslinkstatus_dict);
-        }, false);
-
-        status_source.addEventListener(myeventvideoass,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            assvideostatus_dict = data.assvideostatus;
-            // $("#assistantlist").trigger(e_assvideo);
-            var assvideostatus_list0 = assvideostatus_dict[0];
-            for (var ti in assvideostatus_list0) {
-                if (assvideostatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-video-" + assvideostatus_list0[ti]).button('reset');
-                    $("button#btn-video-" + assvideostatus_list0[ti]).removeClass('active');
-                }
-            }
-
-            var assvideostatus_list2 = assvideostatus_dict[2];
-            for (var ti in assvideostatus_list2) {
-                if (assvideostatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-video-" + assvideostatus_list2[ti]).button('complete');
-                    $("button#btn-video-" + assvideostatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(assvideostatus_dict);
-        }, false);
-
-        status_source.addEventListener(myeventsoundass,function(event){
-            // "use strict";
-            var data = JSON.parse(event.data);
-            asssoundstatus_dict = data.asssoundstatus;
-            // $("#assistantlist").trigger(e_asssound);
-            var asssoundstatus_list0 = asssoundstatus_dict[0];
-            for (var ti in asssoundstatus_list0) {
-                if (asssoundstatus_list0.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + asssoundstatus_list0[ti]).button('reset');
-                    $("button#btn-sound-" + asssoundstatus_list0[ti]).removeClass('active');
-                }
-            }
-
-            var asssoundstatus_list2 = asssoundstatus_dict[2];
-            for (var ti in asssoundstatus_list2) {
-                if (asssoundstatus_list2.hasOwnProperty(ti)){
-                    $("button#btn-sound-" + asssoundstatus_list2[ti]).button('complete');
-                    $("button#btn-sound-" + asssoundstatus_list2[ti]).addClass('active');
-                }
-            }
-            console.log(asssoundstatus_dict);
-        }, false);
+        });
 
     });
 
@@ -290,16 +117,6 @@ $(document).ready(function () {
 // }
 
 
-function myDisconneted(activeRoom){
-    if (activeRoom) {
-        activeRoom.localParticipant.media.detach();
-        activeRoom.localParticipant.media.stop();
-        activeRoom = null;
-    }else{
-        console.log("activeRoom is null");
-    }
-}
-
 function myConnected(token, roomName){
     console.log("Start to connect to room");
     console.log(token);
@@ -309,7 +126,23 @@ function myConnected(token, roomName){
             console.log('Could not connect to Twilio: ' + error.message);
             var newlinkstatus = "0";
             updateLinkStatus(roleid, username, newlinkstatus);
+            $("button#btn-begin-class").button('reset');
+            $("button#btn-begin-class").removeClass('active');
     });
+}
+
+function myDisconneted(activeRoom){
+    if (activeRoom) {
+        activeRoom.localParticipant.media.detach();
+        activeRoom.localParticipant.media.stop();
+        activeRoom = null;
+    }else{
+        console.log("activeRoom is null");
+        var newlinkstatus = "0";
+        updateLinkStatus(roleid, username, newlinkstatus);
+        $("button#btn-begin-class").button('reset');
+        $("button#btn-begin-class").removeClass('active');
+    }
 }
 
 
@@ -328,7 +161,7 @@ function showLocalMedia(){
     console.log("Start to preview Local Media");
     var room = activeRoom;
     if (room) {
-        room.localParticipant.media.attach('#local-media');
+        // room.localParticipant.media.attach('#local-media');
         // myLocalMedia = room.localParticipant.media;
         // myLocalMedia.attach('div#local-media');
         $("div#media-" + username + " >i").addClass("hidden");
@@ -352,48 +185,18 @@ function showLocalMedia(){
 }
 
 
-
-
-function roomParConnected(participant){
-    if (participant.identity!=="???") {
-        participantMedia(participant);
-
-        participant.on('disconnected', function (participant) {
-            roomParDisconnected(participant);
-        });
-    }
-}
-
-function roomParDisconnected(participant){
-    var newlinkstatus = "0";
-    // var roleid = 'stu';
-    // var username = participant.identity;
-    updateLinkStatus('stu', participant.identity, newlinkstatus);
-}
-
-
-
-
-
-function participantMedia(participant){
-    $('div#media-' + participant.identity + ' >i').addClass("hidden");
-    participant.media.attach('div#media-' + participant.identity);
-    $('div#media-' + participant.identity).click(function(){
-        $('div#remote-media').empty();
-        participant.media.attach('div#remote-media');
-    });
-    var newlinkstatus = "2";
-    // var roleid = 'stu';
-    // var username = participant.identity;
-    updateLinkStatus('stu', participant.identity, newlinkstatus);
-}
-
-
 function roomJoined(room) {
     "use strict";
     activeRoom = room;
 
     console.log("Joined as '" + identity + "'");
+
+    var newlinkstatus = "2";
+    updateLinkStatus(roleid, username, newlinkstatus);
+    $("button#btn-begin-class").button('complete');
+    $("button#btn-begin-class").addClass('active');
+
+    showLocalMedia();
 
     room.participants.forEach(function(participant) {
         if (participant.identity!=="???"){
@@ -422,106 +225,29 @@ function roomJoined(room) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Set Icon Ready status of teacher or student
-function setIconReadyEl(userinfo) {
-    "use strict";
-    ($("#media-" + userinfo).parent()).css("background", "#d73d04");
-    $("#media-" + userinfo + " i").css("color", "#fff");
-    $("#media-" + userinfo + " p").css("color", "#fff");
-    ($("#media-" + userinfo).next()).css("color", "#fff");
+function participantMedia(participant){
+    $('div#media-' + participant.identity + ' >i').addClass("hidden");
+    participant.media.attach('div#media-' + participant.identity);
+    $('div#media-' + participant.identity).click(function(){
+        // $('div#remote-media').empty();
+        // participant.media.attach('div#remote-media');
+    });
 }
 
 
-// Set Icon Connected Status of Teacher.
-function setIconConnectedEl(userinfo, roleid) {
-    "use strict";
-    var rolecolor;
-    if (roleid === "tea") {rolecolor = rolecolor_tea;}
-    if (roleid === "ass") {rolecolor = rolecolor_ass;}
-    if (roleid === "stu") {rolecolor = rolecolor_stu;}
-    ($("#media-" + userinfo).parent()).css("background", rolecolor);
-    $("#media-" + userinfo + " i").css("color", "#fff");
-    $("#media-" + userinfo + " p").css("color", "#fff");
-    ($("#media-" + userinfo).next()).css("color", "#fff");
-}
+function roomParConnected(participant){
+    if (participant.identity!=="???") {
+        participantMedia(participant);
 
-// Set Icon Disconnected status of teacher
-function setIconDisconnectedEl(userinfo, roleid) {
-    "use strict";
-    var rolecolor;
-    if (roleid === "tea") {rolecolor = rolecolor_tea;}
-    if (roleid === "ass") {rolecolor = rolecolor_ass;}
-    if (roleid === "stu") {rolecolor = rolecolor_stu;}
-    ($("#media-" + userinfo).parent()).css("background", "#fff");
-    $("#media-" + userinfo + " i").css("color", rolecolor);
-    $("#media-" + userinfo + " p").css("color", rolecolor);
-    ($("#media-" + userinfo).next()).css("color", rolecolor);
-}
-
-
-
-// Set button disabled status of student
-function setButtonDisabledEl(id_name, btntype) {
-    "use strict";
-    var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    $(id_btn).attr("disabled", "disabled");
-    $(id_btn).addClass("btn-default");
-    $(id_btn).removeClass("btn-primary");
-    $(id_btn).removeClass("btn-success");
-    $(id_btn).removeClass("btn-info");
-}
-
-// Set button disabled status of student
-function setButtonEnabledEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).removeAttr("disabled");
-    $(id_btn).removeClass("btn-default");
-    if (btntype === "link") {
-        $(id_btn).addClass("btn-primary");
-    }
-    if (btntype === "video") {
-        $(id_btn).addClass("btn-success");
-    }
-    if (btntype === "sound") {
-        $(id_btn).addClass("btn-info");
+        participant.on('disconnected', function (participant) {
+            roomParDisconnected(participant);
+        });
     }
 }
 
-// Set button active status of student
-function setButtonOffEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).removeClass("active");
-    console.log($(id_btn).hasClass("active"));
-}
-
-// Set button ready status of student
-function setButtonOnEl(id_name, btntype) {
-    "use strict";
-    // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
-    var id_btn = "#btn-"+btntype+"-"+id_name;
-    $(id_btn).addClass("active");
-    console.log($(id_btn).hasClass("active"));
+function roomParDisconnected(participant){
+    var newlinkstatus = "0";
+    updateLinkStatus('stu', participant.identity, newlinkstatus);
 }
 
 
@@ -531,6 +257,269 @@ function setButtonOnEl(id_name, btntype) {
 
 
 
+
+
+
+
+
+// END LIVE CODE
+
+
+
+
+
+
+
+
+
+// // Set Icon Ready status of teacher or student
+// function setIconReadyEl(userinfo) {
+//     "use strict";
+//     ($("#media-" + userinfo).parent()).css("background", "#d73d04");
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+// }
+
+
+// // Set Icon Connected Status of Teacher.
+// function setIconConnectedEl(userinfo, roleid) {
+//     "use strict";
+//     var rolecolor;
+//     if (roleid === "tea") {rolecolor = rolecolor_tea;}
+//     if (roleid === "ass") {rolecolor = rolecolor_ass;}
+//     if (roleid === "stu") {rolecolor = rolecolor_stu;}
+//     ($("#media-" + userinfo).parent()).css("background", rolecolor);
+//     $("#media-" + userinfo + " i").css("color", "#fff");
+//     $("#media-" + userinfo + " p").css("color", "#fff");
+//     ($("#media-" + userinfo).next()).css("color", "#fff");
+// }
+
+// // Set Icon Disconnected status of teacher
+// function setIconDisconnectedEl(userinfo, roleid) {
+//     "use strict";
+//     var rolecolor;
+//     if (roleid === "tea") {rolecolor = rolecolor_tea;}
+//     if (roleid === "ass") {rolecolor = rolecolor_ass;}
+//     if (roleid === "stu") {rolecolor = rolecolor_stu;}
+//     ($("#media-" + userinfo).parent()).css("background", "#fff");
+//     $("#media-" + userinfo + " i").css("color", rolecolor);
+//     $("#media-" + userinfo + " p").css("color", rolecolor);
+//     ($("#media-" + userinfo).next()).css("color", rolecolor);
+// }
+
+
+
+// // Set button disabled status of student
+// function setButtonDisabledEl(id_name, btntype) {
+//     "use strict";
+//     var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+//     $(id_btn).attr("disabled", "disabled");
+//     $(id_btn).addClass("btn-default");
+//     $(id_btn).removeClass("btn-primary");
+//     $(id_btn).removeClass("btn-success");
+//     $(id_btn).removeClass("btn-info");
+// }
+
+// // Set button disabled status of student
+// function setButtonEnabledEl(id_name, btntype) {
+//     "use strict";
+//     // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+//     var id_btn = "#btn-"+btntype+"-"+id_name;
+//     $(id_btn).removeAttr("disabled");
+//     $(id_btn).removeClass("btn-default");
+//     if (btntype === "link") {
+//         $(id_btn).addClass("btn-primary");
+//     }
+//     if (btntype === "video") {
+//         $(id_btn).addClass("btn-success");
+//     }
+//     if (btntype === "sound") {
+//         $(id_btn).addClass("btn-info");
+//     }
+// }
+
+// // Set button active status of student
+// function setButtonOffEl(id_name, btntype) {
+//     "use strict";
+//     // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+//     var id_btn = "#btn-"+btntype+"-"+id_name;
+//     $(id_btn).removeClass("active");
+//     console.log($(id_btn).hasClass("active"));
+// }
+
+// // Set button ready status of student
+// function setButtonOnEl(id_name, btntype) {
+//     "use strict";
+//     // var id_btn = "button[id^='btn-"+btntype+"-"+id_name+"']";
+//     var id_btn = "#btn-"+btntype+"-"+id_name;
+//     $(id_btn).addClass("active");
+//     console.log($(id_btn).hasClass("active"));
+// }
+
+
+
+        // status_source.addEventListener(myeventvideostu,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     stuvideostatus_dict = data.stuvideostatus;
+        //     var stuvideostatus_list0 = stuvideostatus_dict[0];
+        //     for (var ti in stuvideostatus_list0) {
+        //         if (stuvideostatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + stuvideostatus_list0[ti]).button('reset');
+        //             $("button#btn-video-" + stuvideostatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var stuvideostatus_list2 = stuvideostatus_dict[2];
+        //     for (var ti in stuvideostatus_list2) {
+        //         if (stuvideostatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + stuvideostatus_list2[ti]).button('complete');
+        //             $("button#btn-video-" + stuvideostatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(stuvideostatus_dict);
+        // }, false);
+
+        // status_source.addEventListener(myeventsoundstu,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     stusoundstatus_dict = data.stusoundstatus;
+        //     // $("#studentlist").trigger(e_stusound);
+        //     var stusoundstatus_list0 = stusoundstatus_dict[0];
+        //     for (var ti in stusoundstatus_list0) {
+        //         if (stusoundstatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + stusoundstatus_list0[ti]).button('reset');
+        //             $("button#btn-sound-" + stusoundstatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var stusoundstatus_list2 = stusoundstatus_dict[2];
+        //     for (var ti in stusoundstatus_list2) {
+        //         if (stusoundstatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + stusoundstatus_list2[ti]).button('complete');
+        //             $("button#btn-sound-" + stusoundstatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(stusoundstatus_dict);
+        // }, false);
+
+
+        // status_source.addEventListener(myeventlinkass,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     asslinkstatus_dict = data.asslinkstatus;
+        //     // $("#assistantlist").trigger(e_asslink);
+        //     var asslinkstatus_list0 = asslinkstatus_dict[0];
+        //     for (var ti in asslinkstatus_list0) {
+        //         if (asslinkstatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-link-" + asslinkstatus_list0[ti]).button('reset');
+        //             $("button#btn-link-" + asslinkstatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var asslinkstatus_list2 = asslinkstatus_dict[2];
+        //     for (var ti in asslinkstatus_list2) {
+        //         if (asslinkstatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-link-" + asslinkstatus_list2[ti]).button('complete');
+        //             $("button#btn-link-" + asslinkstatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(asslinkstatus_dict);
+        // }, false);
+
+        // status_source.addEventListener(myeventvideoass,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     assvideostatus_dict = data.assvideostatus;
+        //     // $("#assistantlist").trigger(e_assvideo);
+        //     var assvideostatus_list0 = assvideostatus_dict[0];
+        //     for (var ti in assvideostatus_list0) {
+        //         if (assvideostatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + assvideostatus_list0[ti]).button('reset');
+        //             $("button#btn-video-" + assvideostatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var assvideostatus_list2 = assvideostatus_dict[2];
+        //     for (var ti in assvideostatus_list2) {
+        //         if (assvideostatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + assvideostatus_list2[ti]).button('complete');
+        //             $("button#btn-video-" + assvideostatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(assvideostatus_dict);
+        // }, false);
+
+        // status_source.addEventListener(myeventsoundass,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     asssoundstatus_dict = data.asssoundstatus;
+        //     // $("#assistantlist").trigger(e_asssound);
+        //     var asssoundstatus_list0 = asssoundstatus_dict[0];
+        //     for (var ti in asssoundstatus_list0) {
+        //         if (asssoundstatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + asssoundstatus_list0[ti]).button('reset');
+        //             $("button#btn-sound-" + asssoundstatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var asssoundstatus_list2 = asssoundstatus_dict[2];
+        //     for (var ti in asssoundstatus_list2) {
+        //         if (asssoundstatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + asssoundstatus_list2[ti]).button('complete');
+        //             $("button#btn-sound-" + asssoundstatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(asssoundstatus_dict);
+        // }, false);
+
+
+        // status_source.addEventListener(myeventvideotea,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     teavideostatus_dict = data.teavideostatus;
+        //     var teavideostatus_list0 = teavideostatus_dict[0];
+        //     for (var ti in teavideostatus_list0) {
+        //         if (teavideostatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + teavideostatus_list0[ti]).button('reset');
+        //             $("button#btn-video-" + teavideostatus_list0[ti]).removeClass("active");
+        //             closeLocalMedia();
+        //         }
+        //     }
+        //     var teavideostatus_list2 = teavideostatus_dict[2];
+        //     for (var ti in teavideostatus_list2) {
+        //         if (teavideostatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-video-" + teavideostatus_list2[ti]).button('complete');
+        //             $("button#btn-video-" + teavideostatus_list2[ti]).addClass("active");
+        //             showLocalMedia();
+        //         }
+        //     }
+        //     console.log(teavideostatus_dict);
+        // }, false);
+
+        // status_source.addEventListener(myeventsoundtea,function(event){
+        //     // "use strict";
+        //     var data = JSON.parse(event.data);
+        //     teasoundstatus_dict = data.teasoundstatus;
+
+        //     var teasoundstatus_list0 = teasoundstatus_dict[0];
+        //     for (var ti in teasoundstatus_list0) {
+        //         if (teasoundstatus_list0.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + teasoundstatus_list0[ti]).button('reset');
+        //             $("button#btn-sound-" + teasoundstatus_list0[ti]).removeClass('active');
+        //         }
+        //     }
+
+        //     var teasoundstatus_list2 = teasoundstatus_dict[2];
+        //     for (var ti in teasoundstatus_list2) {
+        //         if (teasoundstatus_list2.hasOwnProperty(ti)){
+        //             $("button#btn-sound-" + teasoundstatus_list2[ti]).button('complete');
+        //             $("button#btn-sound-" + teasoundstatus_list2[ti]).addClass('active');
+        //         }
+        //     }
+        //     console.log(teasoundstatus_dict);
+        // }, false);
 
 
 
@@ -1515,4 +1504,3 @@ function setButtonOnEl(id_name, btntype) {
 
 
 
-// END LIVE CODE
