@@ -157,10 +157,14 @@ class Token(Resource):
                 userid = session['userid']
                 ins_conference = Conference(classid, userid)
                 tmptoken = ins_conference.get_accesstoken()
-                tmptoken = jsonify(identity=tmptoken.identity,
-                                   token=tmptoken.to_jwt())
+                # tmptoken = jsonify(identity=tmptoken.identity,
+                #                    token=tmptoken.to_jwt())
+                mytoken = dict(identity=tmptoken.identity,
+                               token=tmptoken.to_jwt())
+
                 print('Success to create token')
-                return tmptoken
+                print(mytoken)
+                return mytoken
             else:
                 # return redirect(fields.url_for('login_ep'))
                 return "There are some problme about token"

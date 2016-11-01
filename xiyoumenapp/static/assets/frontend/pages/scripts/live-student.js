@@ -113,8 +113,8 @@ function roomJoined(room) {
 
     showLocalMedia();
 
-    console.log(room.participants);
     room.participants.forEach(function(participant) {
+        console.log("participant is " + participant);
         if (participant.identity!=="???"){
             console.log("Already in Room: '" + participant.identity + "'");
             participantMedia(participant);
@@ -184,6 +184,8 @@ function roomParDisconnected(participant){
     $("button#btn-begin-class").removeClass('active');
     $('div#media-' + participant.identity + ' >i').removeClass("hidden");
     participant.media.detach();
+    participant.media.stop();
+    participant.media = null;
 }
 
 function closeLocalMedia(){
@@ -191,6 +193,8 @@ function closeLocalMedia(){
     console.log("Stop Local Media");
     room = activeRoom;
     room.localParticipant.media.detach();
+    room.localParticipant.media.stop();
+    room.localParticipant.media = null;
     // if (myLocalMedia) {
     //     myLocalMedia.detach();
     //     myLocalMedia.stop();

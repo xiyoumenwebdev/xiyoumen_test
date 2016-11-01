@@ -200,6 +200,7 @@ function roomJoined(room) {
     showLocalMedia();
 
     room.participants.forEach(function(participant) {
+        console.log("participant is " + participant);
         if (participant.identity!=="???"){
             console.log("Already in Room: '" + participant.identity + "'");
             participantMedia(participant);
