@@ -155,13 +155,13 @@ class Token(Resource):
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 userid = session['userid']
+                username = redis_store.get('username:'+userid)
                 ins_conference = Conference(classid, userid)
                 tmptoken = ins_conference.get_accesstoken()
                 # tmptoken = jsonify(identity=tmptoken.identity,
                 #                    token=tmptoken.to_jwt())
-                mytoken = dict(identity=tmptoken.identity,
+                mytoken = dict(identity=username,
                                token=tmptoken.to_jwt())
-
                 print('Success to create token')
                 print(mytoken)
                 return mytoken
