@@ -2,7 +2,7 @@
 
 // predefine the variables.
 var activeRoom;
-var myLocalMedia;
+// var myLocalMedia;
 var myClient;
 var tea_list;
 var roomName;
@@ -58,7 +58,7 @@ $(document).ready(function () {
         var myeventtype = "newtealinkstatus"+classstr;
         console.log(myeventtype);
         status_source.addEventListener(myeventtype,function(event){
-            "use strict";
+            // "use strict";
             var data = JSON.parse(event.data);
             tealinkstatus_dict = data.tealinkstatus;
             console.log(tealinkstatus_dict);
@@ -114,6 +114,9 @@ function roomJoined(room) {
     room.participants.forEach(function(participant) {
         for (var ti in tea_list) {
             if (tea_list.hasOwnProperty(ti)){
+                console.log(tea_list[ti]);
+                console.log(participant);
+                console.log(participant.identity);
                 if (participant.identity === tea_list[ti]){
                     console.log("Already in Room: '" + participant.identity + "'");
                     participantMedia(participant);
@@ -170,9 +173,12 @@ function roomParDisconnected(participant){
     updateLinkStatus(roleid, username, newlinkstatus);
     $("button#btn-begin-class").button('reset');
     $("button#btn-begin-class").removeClass('active');
+    $('div#media-' + participant.identity + ' >i').removeClass("hidden");
+    participant.media.detach();
 }
 
 function closeLocalMedia(){
+    "use strict";
     console.log("Stop Local Media");
     room = activeRoom;
     room.localParticipant.media.detach();

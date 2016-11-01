@@ -42,7 +42,7 @@ $(document).ready(function () {
             // "use strict";
             var data = JSON.parse(event.data);
             tealinkstatus_dict = data.tealinkstatus;
-
+            SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
             // var tealinkstatus_list0 = tealinkstatus_dict[0];
             // for (var ti in tealinkstatus_list0) {
             //     if (tealinkstatus_list0.hasOwnProperty(ti)){
@@ -68,6 +68,7 @@ $(document).ready(function () {
             // "use strict";
             var data = JSON.parse(event.data);
             stulinkstatus_dict = data.stulinkstatus;
+            SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
             // var stulinkstatus_list0 = stulinkstatus_dict[0];
             // for (var ti in stulinkstatus_list0) {
             //     if (stulinkstatus_list0.hasOwnProperty(ti)){
@@ -248,6 +249,8 @@ function roomParConnected(participant){
 function roomParDisconnected(participant){
     var newlinkstatus = "0";
     updateLinkStatus('stu', participant.identity, newlinkstatus);
+    $('div#media-' + participant.identity + ' >i').removeClass("hidden");
+    participant.media.detach();
 }
 
 
