@@ -86,6 +86,7 @@ function myConnected(token, roomName){
 function myDisconneted(activeRoom){
     "use strict";
     if (activeRoom) {
+        console.log(activeRoom.localParticipant);
         activeRoom.localParticipant.media.detach();
         activeRoom.localParticipant.media.stop();
         activeRoom = null;
@@ -96,6 +97,7 @@ function myDisconneted(activeRoom){
     updateLinkStatus(roleid, username, newlinkstatus);
     $("button#btn-begin-class").button('reset');
     $("button#btn-begin-class").removeClass('active');
+
 }
 
 function roomJoined(room) {
@@ -111,19 +113,26 @@ function roomJoined(room) {
 
     showLocalMedia();
 
+    console.log(room.participants);
     room.participants.forEach(function(participant) {
-        for (var ti in tea_list) {
-            if (tea_list.hasOwnProperty(ti)){
-                console.log(tea_list[ti]);
-                console.log(participant);
-                console.log(participant.identity);
-                if (participant.identity === tea_list[ti]){
-                    console.log("Already in Room: '" + participant.identity + "'");
-                    participantMedia(participant);
-                }
-            }
+        if (participant.identity!=="???"){
+            console.log("Already in Room: '" + participant.identity + "'");
+            participantMedia(participant);
         }
     });
+    // room.participants.forEach(function(participant) {
+    //     for (var ti in tea_list) {
+    //         if (tea_list.hasOwnProperty(ti)){
+    //             console.log(tea_list[ti]);
+    //             console.log(participant);
+    //             console.log(participant.identity);
+    //             if (participant.identity === tea_list[ti]){
+    //                 console.log("Already in Room: '" + participant.identity + "'");
+    //                 participantMedia(participant);
+    //             }
+    //         }
+    //     }
+    // });
 
     // When a participant joins, draw their video on screen
     room.on('participantConnected', function (participant) {
