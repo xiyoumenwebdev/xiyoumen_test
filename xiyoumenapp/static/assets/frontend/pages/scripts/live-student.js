@@ -2,7 +2,7 @@
 
 // predefine the variables.
 var activeRoom;
-// var myLocalMedia;
+var myLocalMedia;
 var myClient;
 var tea_list;
 var roomName;
@@ -110,8 +110,10 @@ function myDisconneted(activeRoom){
     "use strict";
     if (activeRoom) {
         console.log(activeRoom.localParticipant);
+        activeRoom.disconnect();
         activeRoom.localParticipant.media.detach();
-        activeRoom.localParticipant.media.stop();
+        $('div#media-' + activeRoom.localParticipant.identity + ' >i').removeClass("hidden");
+        // activeRoom.localParticipant.media.stop();
         activeRoom = null;
     }else{
         console.log("activeRoom is null");
@@ -134,20 +136,31 @@ function roomJoined(room) {
     $("button#btn-begin-class").button('complete');
     $("button#btn-begin-class").addClass('active');
 
-    // showLocalMedia();
+    if (!myLocalMedia) {
+        myLocalMedia = showLocalMedia();
+    }
+
+    $('div#media-' + activeRoom.localParticipant.identity).click(function(){
+        console.log(activeRoom.localParticipant.media);
+        $("div#media-dialog").empty();
+        $("div#media-dialog").removeClass("hidden");
+        activeRoom.localParticipant.media.unmute();
+        activeRoom.localParticipant.media.attach("div#media-dialog");
+        $("div#media-dialog").show();
+    });
 
     // room.participants.forEach(function(participant) {
-    //     console.log("participant is " + participant);
+    //     console.log("participant is " + participant.media);
     //     if (participant.identity!=="???"){
     //         console.log("Already in Room: '" + participant.identity + "'");
     //         participantMedia(participant);
     //     }
     // });
     room.participants.forEach(function(participant) {
+        console.log(participant);
         for (var ti in tea_list) {
             if (tea_list.hasOwnProperty(ti)){
                 console.log(tea_list[ti]);
-                console.log(participant);
                 console.log(participant.identity);
                 if (participant.identity === tea_list[ti]){
                     console.log("Already in Room: '" + participant.identity + "'");
@@ -182,10 +195,14 @@ function participantMedia(participant){
     "use strict";
     $('div#media-' + participant.identity + ' >i').addClass("hidden");
     participant.media.attach('div#media-' + participant.identity);
+    participant.media.mute();
     $('div#media-' + participant.identity).click(function(){
+        console.log(participant.media);
         $("div#media-dialog").empty();
         $("div#media-dialog").removeClass("hidden");
+        participant.media.unmute();
         participant.media.attach("div#media-dialog");
+        $("div#media-dialog").show();
     });
 
 }
@@ -205,12 +222,12 @@ function roomParDisconnected(participant){
     "use strict";
     var newlinkstatus = "0";
     updateLinkStatus(roleid, username, newlinkstatus);
-    $("button#btn-begin-class").button('reset');
-    $("button#btn-begin-class").removeClass('active');
+    // $("button#btn-begin-class").button('reset');
+    // $("button#btn-begin-class").removeClass('active');
     $('div#media-' + participant.identity + ' >i').removeClass("hidden");
     participant.media.detach();
-    participant.media.stop();
-    participant.media = null;
+    // participant.media.stop();
+    participant = null;
 }
 
 function closeLocalMedia(){
@@ -218,8 +235,7 @@ function closeLocalMedia(){
     console.log("Stop Local Media");
     room = activeRoom;
     room.localParticipant.media.detach();
-    room.localParticipant.media.stop();
-    room.localParticipant.media = null;
+    // room.localParticipant.media.stop();
     // if (myLocalMedia) {
     //     myLocalMedia.detach();
     //     myLocalMedia.stop();
@@ -232,6 +248,7 @@ function showLocalMedia(){
     var room = activeRoom;
     if (room) {
         $("div#media-" + username + " >i").addClass("hidden");
+        room.localParticipant.media.unmute();
         room.localParticipant.media.attach("div#media-"+username);
     }
 

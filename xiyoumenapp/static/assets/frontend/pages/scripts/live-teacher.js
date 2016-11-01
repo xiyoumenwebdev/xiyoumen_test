@@ -14,28 +14,20 @@ var roleid = 'tea';
 var status_source = new EventSource("/stream?channel=changed.status");
 
 
+
 // Initial live conversation.
 $(document).ready(function () {
     "use strict";
-    $.when(
-        $.getJSON('/token/', function(data) {
-            identity = data.identity;
-            token = data.token;
-            roomName = classid;
-            console.log("Ready to get token " + token);
-        }),
-        $.getJSON("/info/", function (data) {
-            console.log("Ready to get info");
-            classstr = data.classstr;
-            username = data.username;
-        })
-    ).then(function(){
+    $.getJSON("/info/", function (data) {
+        console.log("Ready to get info");
+        classstr = data.classstr;
+        username = data.username;
+    }).then(function(){
 
         var newlinkstatus = "0";
         updateLinkStatus(roleid, username, newlinkstatus);
 
         var myeventlinktea = "newtealinkstatus"+classstr;
-
         var myeventlinkstu = "newstulinkstatus"+classstr;
 
         status_source.addEventListener(myeventlinktea,function(event){
@@ -43,23 +35,7 @@ $(document).ready(function () {
             var data = JSON.parse(event.data);
             tealinkstatus_dict = data.tealinkstatus;
             SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
-            // var tealinkstatus_list0 = tealinkstatus_dict[0];
-            // for (var ti in tealinkstatus_list0) {
-            //     if (tealinkstatus_list0.hasOwnProperty(ti)){
-            //         $.when(myDisconneted(activeRoom)).then(function(){
 
-            //         });
-            //     }
-            // }
-
-            // var tealinkstatus_list2 = tealinkstatus_dict[2];
-            // for (var ti in tealinkstatus_list2) {
-            //     if (tealinkstatus_list2.hasOwnProperty(ti)){
-            //         $.when(myConnected(token, roomName)).then(function(){
-
-            //         });
-            //     }
-            // }
             console.log(tealinkstatus_dict);
         }, false);
 
@@ -69,22 +45,18 @@ $(document).ready(function () {
             var data = JSON.parse(event.data);
             stulinkstatus_dict = data.stulinkstatus;
             SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
-            // var stulinkstatus_list0 = stulinkstatus_dict[0];
-            // for (var ti in stulinkstatus_list0) {
-            //     if (stulinkstatus_list0.hasOwnProperty(ti)){
 
-            //     }
-            // }
-
-            // var stulinkstatus_list2 = stulinkstatus_dict[2];
-            // for (var ti in stulinkstatus_list2) {
-            //     if (stulinkstatus_list2.hasOwnProperty(ti)){
-
-            //     }
-            // }
             console.log(stulinkstatus_dict);
         }, false);
 
+    });
+
+    $.getJSON('/token/', function(data) {
+        identity = data.identity;
+        token = data.token;
+        roomName = classid;
+        console.log("Ready to get token " + token);
+    }).then(function(){
         $("button#btn-begin-class").click(function(){
             var newLinkStatus;
             if ($(this).hasClass("active")){
@@ -105,8 +77,6 @@ $(document).ready(function () {
         });
 
     });
-
-
 
 });
 
@@ -134,9 +104,15 @@ function myConnected(token, roomName){
 
 function myDisconneted(activeRoom){
     if (activeRoom) {
+        console.log(activeRoom.localParticipant);
+        activeRoom.disconnect();
         activeRoom.localParticipant.media.detach();
-        activeRoom.localParticipant.media.stop();
+        $('div#media-' + activeRoom.localParticipant.identity + ' >i').removeClass("hidden");
+        // activeRoom.localParticipant.media.stop();
         activeRoom = null;
+        // activeRoom.localParticipant.media.detach();
+        // // activeRoom.localParticipant.media.stop();
+        // activeRoom = null;
     }else{
         console.log("activeRoom is null");
         var newlinkstatus = "0";
@@ -158,7 +134,18 @@ function roomJoined(room) {
     $("button#btn-begin-class").button('complete');
     $("button#btn-begin-class").addClass('active');
 
-    // showLocalMedia();
+    if (!myLocalMedia) {
+        myLocalMedia = showLocalMedia();
+    }
+
+    $('div#media-' + activeRoom.localParticipant.identity).click(function(){
+        console.log(activeRoom.localParticipant.media);
+        $("div#media-dialog").empty();
+        $("div#media-dialog").removeClass("hidden");
+        activeRoom.localParticipant.media.unmute();
+        activeRoom.localParticipant.media.attach("div#media-dialog");
+        $("div#media-dialog").show();
+    });
 
     room.participants.forEach(function(participant) {
         console.log("participant is " + participant);
@@ -189,18 +176,23 @@ function roomJoined(room) {
 
 
 function participantMedia(participant){
+    "use strict";
     console.log(participant.media);
     $('div#media-' + participant.identity + ' >i').addClass("hidden");
     participant.media.attach('div#media-' + participant.identity);
+    participant.media.mute();
     $('div#media-' + participant.identity).click(function(){
         $("div#media-dialog").empty();
         $("div#media-dialog").removeClass("hidden");
+        participant.media.unmute();
         participant.media.attach("div#media-dialog");
+        $("div#media-dialog").show();
     });
 }
 
 
 function roomParConnected(participant){
+    "use strict";
     if (participant.identity!=="???") {
         participantMedia(participant);
 
@@ -211,17 +203,19 @@ function roomParConnected(participant){
 }
 
 function roomParDisconnected(participant){
+    "use strict";
     var newlinkstatus = "0";
     updateLinkStatus('stu', participant.identity, newlinkstatus);
     $('div#media-' + participant.identity + ' >i').removeClass("hidden");
     participant.media.detach();
-    participant.media.stop();
-    participant.media = null;
+    // participant.media.stop();
+    participant = null;
 }
 
 
 
 function closeLocalMedia(){
+    "use strict";
     console.log("Stop Local Media");
     room = activeRoom;
     room.localParticipant.media.detach();
@@ -240,6 +234,7 @@ function showLocalMedia(){
         // myLocalMedia = room.localParticipant.media;
         // myLocalMedia.attach('div#local-media');
         $("div#media-" + username + " >i").addClass("hidden");
+        room.localParticipant.media.unmute();
         room.localParticipant.media.attach("div#media-"+username);
         // myLocalMedia.attach("div#media-"+username);
     }
