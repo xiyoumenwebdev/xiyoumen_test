@@ -37,7 +37,7 @@ $.getJSON("/info/", function (data) {
     if (pptname){
         console.log("pptname is " + pptname);
         $("iframe#ppt-area").removeClass("hidden");
-        $("div#button-area").addClass("hidden");
+        $("div#ppt-notice").addClass("hidden");
         addPPT(classid, pptname);
     }else{
         var ppteventtype = "pptinfo" + classstr;
@@ -46,7 +46,7 @@ $.getJSON("/info/", function (data) {
             pptname = data.pptinfo;
             console.log("pptname is " + pptname);
             $("iframe#ppt-area").removeClass("hidden");
-            $("div#button-area").addClass("hidden");
+            $("div#ppt-notice").addClass("hidden");
             addPPT(classid, pptname);
         });
     }
