@@ -20,10 +20,10 @@ $(document).ready(function () {
     "use strict";
     $.when(
         $.getJSON('/token/', function(data) {
-            console.log("Ready to get token");
             identity = data.identity;
             token = data.token;
             roomName = classid;
+            console.log("Ready to get token " + token);
         }),
         $.getJSON("/info/", function (data) {
             console.log("Ready to get info");
@@ -65,8 +65,31 @@ $(document).ready(function () {
         }, false);
     });
 
+    $("div#livelist").click(function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        showMediaPannel(event);
+    });
 
 });
+
+function showMediaPannel(event){
+    "use strict";
+    console.log(event);
+    // if (event.target.localName === "media-"+username) {
+    //     var pptname = event.target.innerText;
+    //     $.post("/ppt/", {pptinfo:pptname});
+    // }
+    // if (event.target.localName === "i") {
+
+    //     var pptname = event.target.nextSibling.innerText;
+    //     $.post("/ppt/", {pptinfo:pptname});
+    // }
+    // if (event.target.localName === "div") {
+    //     var pptname = event.target.children[1].innerText;
+    //     $.post("/ppt/", {pptinfo:pptname.toString()});
+    // }
+}
 
 function myConnected(token, roomName){
     "use strict";
@@ -111,28 +134,29 @@ function roomJoined(room) {
     $("button#btn-begin-class").button('complete');
     $("button#btn-begin-class").addClass('active');
 
-    showLocalMedia();
+    // showLocalMedia();
 
-    room.participants.forEach(function(participant) {
-        console.log("participant is " + participant);
-        if (participant.identity!=="???"){
-            console.log("Already in Room: '" + participant.identity + "'");
-            participantMedia(participant);
-        }
-    });
     // room.participants.forEach(function(participant) {
-    //     for (var ti in tea_list) {
-    //         if (tea_list.hasOwnProperty(ti)){
-    //             console.log(tea_list[ti]);
-    //             console.log(participant);
-    //             console.log(participant.identity);
-    //             if (participant.identity === tea_list[ti]){
-    //                 console.log("Already in Room: '" + participant.identity + "'");
-    //                 participantMedia(participant);
-    //             }
-    //         }
+    //     console.log("participant is " + participant);
+    //     if (participant.identity!=="???"){
+    //         console.log("Already in Room: '" + participant.identity + "'");
+    //         participantMedia(participant);
     //     }
     // });
+    room.participants.forEach(function(participant) {
+        for (var ti in tea_list) {
+            if (tea_list.hasOwnProperty(ti)){
+                console.log(tea_list[ti]);
+                console.log(participant);
+                console.log(participant.identity);
+                if (participant.identity === tea_list[ti]){
+                    console.log("Already in Room: '" + participant.identity + "'");
+                    participantMedia(participant);
+                }
+            }
+        }
+    });
+
 
     // When a participant joins, draw their video on screen
     room.on('participantConnected', function (participant) {
@@ -159,8 +183,9 @@ function participantMedia(participant){
     $('div#media-' + participant.identity + ' >i').addClass("hidden");
     participant.media.attach('div#media-' + participant.identity);
     $('div#media-' + participant.identity).click(function(){
-        // $('div#remote-media').empty();
-        // participant.media.attach('div#remote-media');
+        $("div#media-dialog").empty();
+        $("div#media-dialog").removeClass("hidden");
+        participant.media.attach("div#media-dialog");
     });
 
 }

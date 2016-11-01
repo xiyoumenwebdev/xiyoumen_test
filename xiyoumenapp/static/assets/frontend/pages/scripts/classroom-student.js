@@ -65,6 +65,8 @@ function updateLinkStatus(roleid, username, status_val){
     }
 }
 
+$("div#media-dialog").dialog();
+
 $(document).ready(function () {
 	"use strict";
 	$.post("/info/", {stulinkstatus:'0'}).then(function () {
@@ -95,13 +97,16 @@ $(document).ready(function () {
 
 	});
 	// $(function () { $('#collapseOne').collapse('toggle')});
-	$(function () { $('#collapseFour').collapse('')});
+	$(function () { $('#collapseFour').collapse('');});
 });
 
 
 
 
 //PAGE VIEW CODE END
+
+
+
 
 
 			// if (tealinkstatus_dict["2"]) {

@@ -19,10 +19,10 @@ $(document).ready(function () {
     "use strict";
     $.when(
         $.getJSON('/token/', function(data) {
-            console.log("Ready to get token");
             identity = data.identity;
             token = data.token;
             roomName = classid;
+            console.log("Ready to get token " + token);
         }),
         $.getJSON("/info/", function (data) {
             console.log("Ready to get info");
@@ -147,6 +147,80 @@ function myDisconneted(activeRoom){
 }
 
 
+function roomJoined(room) {
+    "use strict";
+    activeRoom = room;
+
+    console.log("Joined as '" + identity + "'");
+
+    var newlinkstatus = "2";
+    updateLinkStatus(roleid, username, newlinkstatus);
+    $("button#btn-begin-class").button('complete');
+    $("button#btn-begin-class").addClass('active');
+
+    // showLocalMedia();
+
+    room.participants.forEach(function(participant) {
+        console.log("participant is " + participant);
+        if (participant.identity!=="???"){
+            console.log("Already in Room: '" + participant.identity + "'");
+            participantMedia(participant);
+        }
+    });
+
+    // When a participant joins, draw their video on screen
+    room.on('participantConnected', function (participant) {
+        console.log("Joining: '" + participant.identity + "'");
+        roomParConnected(participant);
+    });
+
+    // When a participant disconnects, note in log
+    room.on('participantDisconnected', function (participant) {
+        console.log("Participant '" + participant.identity + "' left the room");
+        roomParDisconnected(participant);
+    });
+
+    // When the conversation ends, stop capturing local video
+    room.on('disconnected', function () {
+        console.log('Left');
+        myDisconneted(room);
+    });
+}
+
+
+function participantMedia(participant){
+    console.log(participant.media);
+    $('div#media-' + participant.identity + ' >i').addClass("hidden");
+    participant.media.attach('div#media-' + participant.identity);
+    $('div#media-' + participant.identity).click(function(){
+        $("div#media-dialog").empty();
+        $("div#media-dialog").removeClass("hidden");
+        participant.media.attach("div#media-dialog");
+    });
+}
+
+
+function roomParConnected(participant){
+    if (participant.identity!=="???") {
+        participantMedia(participant);
+
+        participant.on('disconnected', function (participant) {
+            roomParDisconnected(participant);
+        });
+    }
+}
+
+function roomParDisconnected(participant){
+    var newlinkstatus = "0";
+    updateLinkStatus('stu', participant.identity, newlinkstatus);
+    $('div#media-' + participant.identity + ' >i').removeClass("hidden");
+    participant.media.detach();
+    participant.media.stop();
+    participant.media = null;
+}
+
+
+
 function closeLocalMedia(){
     console.log("Stop Local Media");
     room = activeRoom;
@@ -184,78 +258,6 @@ function showLocalMedia(){
     //         });
     // }
 }
-
-
-function roomJoined(room) {
-    "use strict";
-    activeRoom = room;
-
-    console.log("Joined as '" + identity + "'");
-
-    var newlinkstatus = "2";
-    updateLinkStatus(roleid, username, newlinkstatus);
-    $("button#btn-begin-class").button('complete');
-    $("button#btn-begin-class").addClass('active');
-
-    showLocalMedia();
-
-    room.participants.forEach(function(participant) {
-        console.log("participant is " + participant);
-        if (participant.identity!=="???"){
-            console.log("Already in Room: '" + participant.identity + "'");
-            participantMedia(participant);
-        }
-    });
-
-    // When a participant joins, draw their video on screen
-    room.on('participantConnected', function (participant) {
-        console.log("Joining: '" + participant.identity + "'");
-        roomParConnected(participant);
-    });
-
-    // When a participant disconnects, note in log
-    room.on('participantDisconnected', function (participant) {
-        console.log("Participant '" + participant.identity + "' left the room");
-        roomParDisconnected(participant);
-    });
-
-    // When the conversation ends, stop capturing local video
-    room.on('disconnected', function () {
-        console.log('Left');
-        myDisconneted(room);
-    });
-}
-
-
-function participantMedia(participant){
-    $('div#media-' + participant.identity + ' >i').addClass("hidden");
-    participant.media.attach('div#media-' + participant.identity);
-    $('div#media-' + participant.identity).click(function(){
-        // $('div#remote-media').empty();
-        // participant.media.attach('div#remote-media');
-    });
-}
-
-
-function roomParConnected(participant){
-    if (participant.identity!=="???") {
-        participantMedia(participant);
-
-        participant.on('disconnected', function (participant) {
-            roomParDisconnected(participant);
-        });
-    }
-}
-
-function roomParDisconnected(participant){
-    var newlinkstatus = "0";
-    updateLinkStatus('stu', participant.identity, newlinkstatus);
-    $('div#media-' + participant.identity + ' >i').removeClass("hidden");
-    participant.media.detach();
-}
-
-
-
 
 
 

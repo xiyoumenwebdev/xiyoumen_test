@@ -6,24 +6,13 @@ var classname;
 var username;
 
 var stu_list;
-// var ass_list;
 var tea_list;
 
 var tealinkstatus_dict;
-// var teavideostatus_dict;
-// var teasoundstatus_dict;
-
-// var asslinkstatus_dict;
-// var assvideostatus_dict;
-// var asssoundstatus_dict;
-
 var stulinkstatus_dict;
-// var stuvideostatus_dict;
-// var stusoundstatus_dict;
 
 var roleid = 'tea';
 var rolecolor_tea = "#8A6D3B";
-// var rolecolor_ass = "#31708F";
 var rolecolor_stu = "#3E773F";
 
 
@@ -154,6 +143,9 @@ function createPPTEl(pptname){
     $("div#pptlist").append(containerEl);
 }
 
+$("div#media-dialog").dialog();
+
+
 // Initial webpage
 $(document).ready(function() {
     "use strict";
@@ -164,27 +156,18 @@ $(document).ready(function() {
             classstr = data.classstr;
             classname = data.classname;
             username = data.username;
+
             stu_list = data.student;
-            // ass_list = data.assistant;
             tea_list = data.teacher;
+
             tealinkstatus_dict = data.tealinkstatuslist;
-            // asslinkstatus_dict = data.asslinkstatuslist;
             stulinkstatus_dict = data.stulinkstatuslist;
-
-            // teavideostatus_dict = data.teavideostatuslist;
-            // assvideostatus_dict = data.assvideostatuslist;
-            // stuvideostatus_dict = data.stuvideostatuslist;
-
-            // teasoundstatus_dict = data.teasoundstatuslist;
-            // asssoundstatus_dict = data.asssoundstatuslist;
-            // stusoundstatus_dict = data.stusoundstatuslist;
 
             $("title").text(classname);
             $("span#classname").text(classname);
             $("span#username").text(username);
 
             SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
-            // SetStatusBadgeEl("span#num_assinfo", asslinkstatus_dict);
             SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
 
 
@@ -362,6 +345,7 @@ $(document).ready(function() {
             });
 
          });
+
         // $(function () { $('#collapseOne').collapse('')});
         // $(function () { $('#collapseTwo').collapse('')});
         // $(function () { $('#collapseThree').collapse('')});
