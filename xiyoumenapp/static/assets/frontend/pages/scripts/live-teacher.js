@@ -144,7 +144,7 @@ function roomJoined(room) {
         console.log(activeRoom.localParticipant.media);
         // $("div#media-dialog").empty();
         // $("div#media-dialog").removeClass("hidden");
-        activeRoom.localParticipant.media.unmute();
+        // activeRoom.localParticipant.media.unmute();
         activeRoom.localParticipant.media.attach("div#media-dialog");
         $("div#media-dialog").dialog("open");
     });
@@ -182,13 +182,13 @@ function participantMedia(participant){
     console.log(participant.media);
     $('div#media-' + participant.identity + ' >i').addClass("hidden");
     participant.media.attach('div#media-' + participant.identity);
-    participant.media.mute();
+    // participant.media.mute();
     $('div#media-' + participant.identity).click(function(){
-        $("div#media-dialog").empty();
-        $("div#media-dialog").removeClass("hidden");
-        participant.media.unmute();
+        // $("div#media-dialog").empty();
+        // $("div#media-dialog").removeClass("hidden");
+        // participant.media.unmute();
         participant.media.attach("div#media-dialog");
-        $("div#media-dialog").show();
+        $("div#media-dialog").dialog("open");
     });
 }
 
@@ -236,7 +236,7 @@ function showLocalMedia(){
         // myLocalMedia = room.localParticipant.media;
         // myLocalMedia.attach('div#local-media');
         $("div#media-" + username + " >i").addClass("hidden");
-        room.localParticipant.media.unmute();
+        // room.localParticipant.media.unmute();
         room.localParticipant.media.attach("div#media-"+username);
         // myLocalMedia.attach("div#media-"+username);
     }
