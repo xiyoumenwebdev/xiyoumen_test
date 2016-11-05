@@ -89,6 +89,7 @@ $(document).ready(function () {
 
 
 function myConnected(token, roomName){
+    "use strict";
     console.log("Start to connect to room");
     console.log(token);
     myClient = new Twilio.Video.Client(token);
@@ -103,6 +104,7 @@ function myConnected(token, roomName){
 }
 
 function myDisconneted(activeRoom){
+    "use strict";
     if (activeRoom) {
         console.log(activeRoom.localParticipant);
         activeRoom.disconnect();
@@ -140,11 +142,11 @@ function roomJoined(room) {
 
     $('div#media-' + activeRoom.localParticipant.identity).click(function(){
         console.log(activeRoom.localParticipant.media);
-        $("div#media-dialog").empty();
-        $("div#media-dialog").removeClass("hidden");
+        // $("div#media-dialog").empty();
+        // $("div#media-dialog").removeClass("hidden");
         activeRoom.localParticipant.media.unmute();
         activeRoom.localParticipant.media.attach("div#media-dialog");
-        $("div#media-dialog").show();
+        $("div#media-dialog").dialog("open");
     });
 
     room.participants.forEach(function(participant) {

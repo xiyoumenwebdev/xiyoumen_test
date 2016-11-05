@@ -29,19 +29,19 @@ page_student = safe_join(page_path, filename_student)
 parser = reqparse.RequestParser()
 parser.add_argument('txt')
 parser.add_argument('teaname')
-parser.add_argument('assname')
+# parser.add_argument('assname')
 parser.add_argument('stuname')
 parser.add_argument('tealinkstatus')
-parser.add_argument('asslinkstatus')
+# parser.add_argument('asslinkstatus')
 parser.add_argument('stulinkstatus')
-parser.add_argument('teavideostatus')
-parser.add_argument('assvideostatus')
-parser.add_argument('stuvideostatus')
-parser.add_argument('teasoundstatus')
-parser.add_argument('asssoundstatus')
-parser.add_argument('stusoundstatus')
-parser.add_argument('whiteboardstatus')
-parser.add_argument('drawing')
+# parser.add_argument('teavideostatus')
+# parser.add_argument('assvideostatus')
+# parser.add_argument('stuvideostatus')
+# parser.add_argument('teasoundstatus')
+# parser.add_argument('asssoundstatus')
+# parser.add_argument('stusoundstatus')
+parser.add_argument('whiteboard')
+# parser.add_argument('whiteboard')
 parser.add_argument('pptposition')
 parser.add_argument('pptinfo')
 
@@ -92,29 +92,13 @@ class Login(Resource):
                 session['userid'] = userid
                 tempclassstr = classid.split("-")
                 session['classstr'] = ''.join(tempclassstr)
+                session['roleid'] = roleid
                 print(session['classstr'])
                 redis_store.set('classname:'+classid, classname)
                 redis_store.set('username:'+userid, username)
                 redis_store.set('roleid:'+userid, roleid)
 
-                if roleid == 1:
-                    redis_store.delete('tea_list:' + classid)
-                    # redis_store.delete('ass_list:' + classid)
-                    redis_store.delete('stu_list:' + classid)
-                    redis_store.delete('tealinkstatus_dict:' + classid)
-                    # redis_store.delete('asslinkstatus_dict:' + classid)
-                    redis_store.delete('stulinkstatus_dict:' + classid)
-                    # redis_store.delete('teavideostatus_dict:' + classid)
-                    # redis_store.delete('assvideostatus_dict:' + classid)
-                    # redis_store.delete('stuvideostatus_dict:' + classid)
-                    # redis_store.delete('teasoundstatus_dict:' + classid)
-                    # redis_store.delete('asssoundstatus_dict:' + classid)
-                    # redis_store.delete('stusoundstatus_dict:' + classid)
-                    redis_store.delete('chatcontent:' + classid)
-                    redis_store.delete('whiteboard:' + classid)
-                    redis_store.delete('ppt:' + classid)
-
-                    # print(session) 
+                # print(session) 
                 return redirect(fields.url_for('classapi.class_ep'))
         except Exception as err:
             print(err)
@@ -130,9 +114,26 @@ class ClassRoom(Resource):
         """
         try:
             if ('classid' in session) and ('userid' in session):
+                classid =session['classid']
                 userid = session['userid']
                 roleid = int(redis_store.get("roleid:"+userid))
                 if roleid == 1:
+                    redis_store.delete('tea_list:' + classid)
+                    redis_store.delete('stu_list:' + classid)
+                    redis_store.delete('tealinkstatus_dict:' + classid)
+                    redis_store.delete('stulinkstatus_dict:' + classid)
+                    # redis_store.delete('ass_list:' + classid)
+                    # redis_store.delete('asslinkstatus_dict:' + classid)
+                    # redis_store.delete('teavideostatus_dict:' + classid)
+                    # redis_store.delete('assvideostatus_dict:' + classid)
+                    # redis_store.delete('stuvideostatus_dict:' + classid)
+                    # redis_store.delete('teasoundstatus_dict:' + classid)
+                    # redis_store.delete('asssoundstatus_dict:' + classid)
+                    # redis_store.delete('stusoundstatus_dict:' + classid)
+                    redis_store.delete('chatcontent:' + classid)
+                    redis_store.delete('whiteboard:' + classid)
+                    redis_store.delete('ppt:' + classid)
+
                     return webapp.send_static_file(page_teacher)
                 elif roleid == 2:
                     return webapp.send_static_file(page_student)
@@ -184,8 +185,8 @@ class Whiteboard(Resource):
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
                 mydrawing = redis_store.hgetall('whiteboard:' + classid)
-                # print("Start to get drawing object json {0}".format(mydrawing))
-                print('Success to get drawing')
+                # print("Start to get whiteboard object json {0}".format(mydrawing))
+                print('Success to get whiteboard')
                 return mydrawing
             else:
                 # return redirect(fields.url_for('login_ep'))
@@ -196,18 +197,18 @@ class Whiteboard(Resource):
     def post(self):
 
         """
-        # function post response http POST drawing
+        # function post response http POST whiteboard
         """
         try:
             print("ready to receive post message")
             args = parser.parse_args()
             if ('classid' in session) and ('userid' in session):
                 classid = session['classid']
-                drawing = args['drawing']
-                print("Start to parse drawing object json {0}".format(drawing))
-                drawing_dict = json.loads(drawing)
+                whiteboard = args['whiteboard']
+                print("Start to parse whiteboard object json {0}".format(whiteboard))
+                drawing_dict = json.loads(whiteboard)
                 redis_store.hmset("whiteboard:" + classid, drawing_dict)
-                return "Success to add new drawing"
+                return "Success to add new whiteboard"
             else:
                 return "You have no right to do this"
         except Exception as err:
@@ -302,6 +303,7 @@ class Info(Resource):
                 roleid = userinfo["roleid"]
 
                 if ( not redis_store.exists("stu_list:"+classid) and roleid == 1 ):
+                    print("first time load redis store")
                     print(session)
                     uc = Users_Classroom.query.filter_by(classid=classid).all()
                     tid_list = [ti.userid for ti in uc]
@@ -539,8 +541,8 @@ class Info(Resource):
 
                     stuname = args['stuname']
                     stulinkstatus = args['stulinkstatus']
-                    stuvideostatus = args['stuvideostatus']
-                    stusoundstatus = args['stusoundstatus']
+                    # stuvideostatus = args['stuvideostatus']
+                    # stusoundstatus = args['stusoundstatus']
 
                     if stulinkstatus is not None:
                         print("Student status changes to {0}".format(str(stulinkstatus)))

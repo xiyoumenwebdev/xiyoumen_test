@@ -11,21 +11,35 @@ var chat_source = new EventSource("/stream?channel=changed.chatroom");
 function insertmessage(chatname, chattime, chatmessage, chatrole){
     "use strict";
     var roleicon;
+    var itembackgroundcolor;
+    var chatheight;
     if (chatrole==="teacher"){
         //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
         roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_tea+'"';
+        itembackgroundcolor = '#FCEC97';
     }
-    if (chatrole==="assistant"){
-        //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
-        roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_ass+'"';
-    }
+    // if (chatrole==="assistant"){
+    //     //roleicon = 'style="text-shadow: black 5px;color:#d9edf7"';
+    //     roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_ass+'"';
+    // }
     if (chatrole==="student") {
         //roleicon = 'style="text-shadow: black 5px;color:#dff0d8"';
         roleicon = 'style="text-shadow: black 5px;color:'+rolecolor_stu+'"';
+        itembackgroundcolor = '#94D6F7';
     }
-    var inserthtml = '<div class="item"><div class="item-head"><div class="item-details" ><i class="fa fa-user" ' + roleicon + '> </i> <a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label"> ' + chattime + '</span></div></div><div class="item-body">'+ chatmessage +'</div></div>';
-    //console.log(inserthtml);
-    $("div#chat-message-list").prepend(inserthtml);
+    var inserthtml = '<div class="item" style="background-color:'+itembackgroundcolor+'"><div class="item-head"><div class="item-details" ><i class="fa fa-user" ' + roleicon + '> </i> <a href="" class="item-name primary-link"> ' + chatname + '</a><span class="item-label" style="color:#666666"> ' + chattime + '</span></div></div><div class="item-body" style="color:#666666">'+ chatmessage +'</div></div>';
+    // $(inserthtml).css("background-color",itembackgroundcolor);#FFFFFF
+    console.log(inserthtml);
+    // $("div#chat-message-list").prepend(inserthtml);
+    $("div#chat-message-list").append(inserthtml);
+    console.log($("div#chat-message-list").scrollTop());
+    console.log($("div#chat-message-list .item:first").position().top);
+    console.log($("div#chat-message-list .item:last").position().top);
+    chatheight = $("div#chat-message-list .item:last").position().top - $("div#chat-message-list .item:first").position().top;
+    console.log(chatheight);
+    $("div#chat-message-list").scrollTop(chatheight);
+    // console.log($("div#chat-message-list").scrollHeight);
+    // $("div#chat-message-list").scrollTop($("div#chat-message-list").scrollHeight);
 }
 
 var classstr;
@@ -90,7 +104,7 @@ $(function(){
         opacity: 0.3,
         alwaysVisible: false,
         distance: '0px',
-        start: 'top',
+        start: 'bottom',
         railVisible: false,
         //railColor: '#222',
         //railOpacity: 0.3,
@@ -116,7 +130,7 @@ $("button#chat-submit").click(function(){
 // Send message of chat content.
 $("input#chat-text").keydown(function(event){
     "use strict";
-    console.log(event.which);
+    // console.log(event.which);
     if (event.which == 13) {
         var chattext = $("input#chat-text").val();
         //console.log(chattext);

@@ -1,10 +1,10 @@
 status: 200
-content-type: application/json;charset=UTF-8
-date: Tue, 01 Nov 2016 17:54:29 GMT
-access-control-allow-origin: *
+date: Sat, 05 Nov 2016 05:47:26 GMT
 content-location: http://www.xiyoumen.com/templates/frontend/getClassesInfo.action
+connection: keep-alive
+content-type: application/json;charset=UTF-8
 server: nginx/1.6.3
 content-disposition: inline;filename=f.txt
-connection: keep-alive
+access-control-allow-origin: *
 
-[{"students":[{"id":"086c7cbd-41a1-44af-aba3-bdda4ec50e15","name":"student1","createtime":"2016-04-12 07:11:35","comment":null,"slevel":0,"glevel":0,"vip":0}],"class":{"id":"3935c05b-7380-475f-bfc7-b731b57d9bd3","name":"速成西班牙语_2016_1","createtime":"2016-11-02 00:00:35","comment":null,"firstDate":"2016-11-02","lastDate":"2017-07-01","classStatus":1,"startTime":"9:30 AM","endTime":"11:20 AM","weekDay":3,"courseId":"17185d97-d177-440c-a640-fee4a7f2e52c","maxCount":10,"minCount":1,"teacherID":"d75ef293-c7e0-4a3a-aec8-84d4221367cd","courseName":"速成西班牙语","teacherName":"marisa"}}]
+[{"students":[{"id":"17fc5933-7218-4886-b63b-c87e3f095af4","name":"cya1996","createtime":"2016-08-29 19:46:59","comment":null,"slevel":0,"glevel":0,"vip":0},{"id":"0b4e99cc-31c7-42fe-b2af-64e62bec5eef","name":"student6","createtime":"2016-11-02 07:19:33","comment":null,"slevel":0,"glevel":0,"vip":0},{"id":"086c7cbd-41a1-44af-aba3-bdda4ec50e15","name":"student1","createtime":"2016-04-12 07:11:35","comment":null,"slevel":0,"glevel":0,"vip":0},{"id":"7b8ebc77-2414-4ea9-807e-6af1dcc6a58e","name":"student7","createtime":"2016-11-04 19:32:20","comment":null,"slevel":0,"glevel":0,"vip":0}],"class":{"id":"3935c05b-7380-475f-bfc7-b731b57d9bd3","name":"速成西班牙语_2016_1","createtime":"2016-11-02 00:00:35","comment":null,"firstDate":"2016-11-02","lastDate":"2017-07-01","classStatus":1,"startTime":"9:30 AM","endTime":"11:20 AM","weekDay":3,"courseId":"17185d97-d177-440c-a640-fee4a7f2e52c","maxCount":10,"minCount":1,"teacherID":"d75ef293-c7e0-4a3a-aec8-84d4221367cd","courseName":"速成西班牙语","teacherName":"marisa"}}]

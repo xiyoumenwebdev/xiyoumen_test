@@ -142,11 +142,11 @@ function roomJoined(room) {
 
     $('div#media-' + activeRoom.localParticipant.identity).click(function(){
         console.log(activeRoom.localParticipant.media);
-        $("div#media-dialog").empty();
-        $("div#media-dialog").removeClass("hidden");
+        // $("div#media-dialog").empty();
+        // $("div#media-dialog").removeClass("hidden");
         activeRoom.localParticipant.media.unmute();
         activeRoom.localParticipant.media.attach("div#media-dialog");
-        $("div#media-dialog").show();
+        $("div#media-dialog").dialog("open");
     });
 
     // room.participants.forEach(function(participant) {
@@ -198,11 +198,11 @@ function participantMedia(participant){
     participant.media.mute();
     $('div#media-' + participant.identity).click(function(){
         console.log(participant.media);
-        $("div#media-dialog").empty();
-        $("div#media-dialog").removeClass("hidden");
+        // $("div#media-dialog").empty();
+        // $("div#media-dialog").removeClass("hidden");
         participant.media.unmute();
         participant.media.attach("div#media-dialog");
-        $("div#media-dialog").show();
+        $("div#media-dialog").dialog("open");
     });
 
 }

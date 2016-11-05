@@ -65,7 +65,17 @@ function updateLinkStatus(roleid, username, status_val){
     }
 }
 
-$("div#media-dialog").dialog();
+$("div#media-dialog").dialog({
+	autoOpen: false,
+	show:{
+		effect:"blind",
+		duration: 1000
+	},
+	hide:{
+		effect:"blind",
+		duration: 1000
+	}
+});
 
 $(document).ready(function () {
 	"use strict";

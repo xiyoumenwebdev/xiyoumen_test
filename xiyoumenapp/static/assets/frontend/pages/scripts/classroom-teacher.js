@@ -112,7 +112,8 @@ function SetStatusBadgeEl(id_badge, linkstatus_dict) {
     }
     var num_ready = linkstatus_dict["0"].length;
     var num_online = linkstatus_dict["2"].length;
-    $(id_badge).text(num_ready + " / " + num_online + " / " + num_all);
+    // $(id_badge).text(num_ready + " / " + num_online + " / " + num_all);
+    $(id_badge).text(num_online + " / " + num_all);
 }
 
 
@@ -122,9 +123,7 @@ function updateLinkStatus(roleid, username, status_val){
     if (roleid==='tea') {
         $.post("/info/", {teaname:username, tealinkstatus:status_val});
     }
-    // if (roleid==='ass') {
-    //     $.post("/info/", {assname:username, asslinkstatus:status_val});
-    // }
+
     if (roleid==='stu') {
         $.post("/info/", {stuname:username, stulinkstatus:status_val});
     }
@@ -143,208 +142,82 @@ function createPPTEl(pptname){
     $("div#pptlist").append(containerEl);
 }
 
-$("div#media-dialog").dialog();
+$("div#media-dialog").dialog({
+    autoOpen: false,
+    show:{
+        effect:"blind",
+        duration: 1000
+    },
+    hide:{
+        effect:"blind",
+        duration: 1000
+    }
+});
 
 
 // Initial webpage
 $(document).ready(function() {
     "use strict";
-    // $.post("/info/", {tealinkstatus: '0'}).then(function() {
-        $.getJSON('/info/', function(data) {
-            classid = data.classid;
-            userid = data.userid;
-            classstr = data.classstr;
-            classname = data.classname;
-            username = data.username;
+    $.getJSON('/info/', function(data) {
+        classid = data.classid;
+        userid = data.userid;
+        classstr = data.classstr;
+        classname = data.classname;
+        username = data.username;
 
-            stu_list = data.student;
-            tea_list = data.teacher;
+        stu_list = data.student;
+        tea_list = data.teacher;
 
-            tealinkstatus_dict = data.tealinkstatuslist;
-            stulinkstatus_dict = data.stulinkstatuslist;
+        tealinkstatus_dict = data.tealinkstatuslist;
+        stulinkstatus_dict = data.stulinkstatuslist;
 
-            $("title").text(classname);
-            $("span#classname").text(classname);
-            $("span#username").text(username);
+        $("title").text(classname);
+        $("span#classname").text(classname);
+        $("span#username").text(username);
 
-            SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
-            SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
+        SetStatusBadgeEl("span#num_teainfo", tealinkstatus_dict);
+        SetStatusBadgeEl("span#num_stuinfo", stulinkstatus_dict);
 
 
-            for (var ti in tea_list) {
-                if (tea_list.hasOwnProperty(ti)){
-                    var newteacherEl = createIconEl(tea_list[ti], 'tea');
-                    // Click teacher list link button #btn-link-**** to link or unlink.
-                    $.when($("#teacherlist").append(newteacherEl)).done(function(){
-                        // console.log($("#btn-link-"+tea_list[ti]));
-                        // $("button#btn-link-"+tea_list[ti]).on('click', function(){
-                        //     var newLinkStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click link off");
-                        //         newLinkStatus = "0";
-                        //         updateLinkStatus("tea", tea_list[ti], newLinkStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click Link on");
-                        //         newLinkStatus = "2";
-                        //         updateLinkStatus("tea", tea_list[ti], newLinkStatus);
-                        //     }
-                        // });
-                        // $("button#btn-video-"+tea_list[ti]).on('click', function(){
-                        //     var newVideoStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click video off");
-                        //         newVideoStatus = "0";
-                        //         updateVideoStatus("tea", tea_list[ti], newVideoStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click video on");
-                        //         newVideoStatus = "2";
-                        //         updateVideoStatus("tea", tea_list[ti], newVideoStatus);
-                        //     }
-                        // });
-                        // $("button#btn-sound-"+tea_list[ti]).on('click', function(){
-                        //     var newSoundStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click Sound off");
-                        //         newSoundStatus = "0";
-                        //         updateSoundStatus("tea", tea_list[ti], newSoundStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click Sound on");
-                        //         newSoundStatus = "2";
-                        //         updateSoundStatus("tea", tea_list[ti], newSoundStatus);
-                        //     }
-                        // });
-                    });
-                }
+        for (var ti in tea_list) {
+            if (tea_list.hasOwnProperty(ti)){
+                var newteacherEl = createIconEl(tea_list[ti], 'tea');
+                // Click teacher list link button #btn-link-**** to link or unlink.
+                $.when($("#teacherlist").append(newteacherEl)).done(function(){
+
+                });
             }
-
-            // for (var ai in ass_list) {
-            //     if (ass_list.hasOwnProperty(ai)){
-            //         var newassistantEl = createIconEl(ass_list[ai], 'ass');
-            //         $.when($("#assistantlist").append(newassistantEl)).done(function(){
-            //             // console.log($("button#btn-link-"+ass_list[ai]));
-            //             $("button#btn-link-"+ass_list[ai]).on('click', function(){
-            //                 var newLinkStatus;
-            //                 if ($(this).hasClass("active")){
-            //                     $(this).button('reset');
-            //                     console.log("click link off");
-            //                     newLinkStatus = "0";
-            //                     updateLinkStatus("ass", ass_list[ai], newLinkStatus);
-            //                 }else{
-            //                     $(this).button('loading');
-            //                     console.log("click Link on");
-            //                     newLinkStatus = "2";
-            //                     updateLinkStatus("ass", ass_list[ai], newLinkStatus);
-            //                 }
-            //             });
-            //             $("button#btn-video-"+ass_list[ai]).on('click', function(){
-            //                 var newVideoStatus;
-            //                 if ($(this).hasClass("active")){
-            //                     $(this).button('reset');
-            //                     console.log("click video off");
-            //                     newVideoStatus = "0";
-            //                     updateVideoStatus("ass", ass_list[ai], newVideoStatus);
-            //                 }else{
-            //                     $(this).button('loading');
-            //                     console.log("click video on");
-            //                     newVideoStatus = "2";
-            //                     updateVideoStatus("ass", ass_list[ai], newVideoStatus);
-            //                 }
-            //             });
-            //             $("button#btn-sound-"+ass_list[ai]).on('click', function(){
-            //                 var newSoundStatus;
-            //                 if ($(this).hasClass("active")){
-            //                     $(this).button('reset');
-            //                     console.log("click Sound off");
-            //                     newSoundStatus = "0";
-            //                     updateSoundStatus("ass", ass_list[ai], newSoundStatus);
-            //                 }else{
-            //                     $(this).button('loading');
-            //                     console.log("click Sound on");
-            //                     newSoundStatus = "2";
-            //                     updateSoundStatus("ass", ass_list[ai], newSoundStatus);
-            //                 }
-            //             });
-            //         });
-            //     }
-            // }
+        }
 
 
-            for (var si in stu_list) {
-                if (stu_list.hasOwnProperty(si)){
-                    var newstudentEl = createIconEl(stu_list[si], 'stu');
-                    $.when($("#studentlist").append(newstudentEl)).done(function(){
-                        // console.log($("button#btn-link-"+stu_list[si]));
-                        // $("button#btn-link-"+stu_list[si]).on('click', function(){
-                        //     var newLinkStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click link off");
-                        //         newLinkStatus = "0";
-                        //         updateLinkStatus("stu", stu_list[si], newLinkStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click Link on");
-                        //         newLinkStatus = "2";
-                        //         updateLinkStatus("stu", stu_list[si], newLinkStatus);
-                        //     }
-                        // });
-                        // $("button#btn-video-"+stu_list[si]).on('click', function(){
-                        //     var newVideoStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click video off");
-                        //         newVideoStatus = "0";
-                        //         updateVideoStatus("stu", stu_list[si], newVideoStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click video on");
-                        //         newVideoStatus = "2";
-                        //         updateVideoStatus("stu", stu_list[si], newVideoStatus);
-                        //     }
-                        // });
-                        // $("button#btn-sound-"+stu_list[si]).on('click', function(){
-                        //     var newSoundStatus;
-                        //     if ($(this).hasClass("active")){
-                        //         $(this).button('reset');
-                        //         console.log("click Sound off");
-                        //         newSoundStatus = "0";
-                        //         updateSoundStatus("stu", stu_list[si], newSoundStatus);
-                        //     }else{
-                        //         $(this).button('loading');
-                        //         console.log("click Sound on");
-                        //         newSoundStatus = "2";
-                        //         updateSoundStatus("stu", stu_list[si], newSoundStatus);
-                        //     }
-                        // });
-                    });
-                }
+        for (var si in stu_list) {
+            if (stu_list.hasOwnProperty(si)){
+                var newstudentEl = createIconEl(stu_list[si], 'stu');
+                $.when($("#studentlist").append(newstudentEl)).done(function(){
+
+                });
             }
+        }
 
 
-        });
+    });
 
-         $.getJSON('/ppt/', function(data) {
-            var pptlist = data.pptlist;
-            var pptname;
-            for (var pi in pptlist) {
-                if (pptlist.hasOwnProperty(pi)){
-                    pptname = pptlist[pi];
-                    createPPTEl(pptname);
-                }
-            }
-            $("div#pptlist").click(function(event){
-                event.stopPropagation();
-                event.preventDefault();
-                postPPTInfo(event);
-            });
+    $.getJSON('/ppt/', function(data) {
+       var pptlist = data.pptlist;
+       var pptname;
+       for (var pi in pptlist) {
+           if (pptlist.hasOwnProperty(pi)){
+               pptname = pptlist[pi];
+               createPPTEl(pptname);
+           }
+       }
+       $("div#pptlist").click(function(event){
+           event.stopPropagation();
+           event.preventDefault();
+           postPPTInfo(event);
+       });
 
-         });
+    });
 
         // $(function () { $('#collapseOne').collapse('')});
         // $(function () { $('#collapseTwo').collapse('')});
@@ -374,6 +247,168 @@ function postPPTInfo(event){
 
 
 // PAGE VIEWS CODES END
+
+
+
+
+
+
+
+            //         $.when($("#teacherlist").append(newteacherEl)).done(function(){
+            //             // console.log($("#btn-link-"+tea_list[ti]));
+            //             // $("button#btn-link-"+tea_list[ti]).on('click', function(){
+            //             //     var newLinkStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click link off");
+            //             //         newLinkStatus = "0";
+            //             //         updateLinkStatus("tea", tea_list[ti], newLinkStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click Link on");
+            //             //         newLinkStatus = "2";
+            //             //         updateLinkStatus("tea", tea_list[ti], newLinkStatus);
+            //             //     }
+            //             // });
+            //             // $("button#btn-video-"+tea_list[ti]).on('click', function(){
+            //             //     var newVideoStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click video off");
+            //             //         newVideoStatus = "0";
+            //             //         updateVideoStatus("tea", tea_list[ti], newVideoStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click video on");
+            //             //         newVideoStatus = "2";
+            //             //         updateVideoStatus("tea", tea_list[ti], newVideoStatus);
+            //             //     }
+            //             // });
+            //             // $("button#btn-sound-"+tea_list[ti]).on('click', function(){
+            //             //     var newSoundStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click Sound off");
+            //             //         newSoundStatus = "0";
+            //             //         updateSoundStatus("tea", tea_list[ti], newSoundStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click Sound on");
+            //             //         newSoundStatus = "2";
+            //             //         updateSoundStatus("tea", tea_list[ti], newSoundStatus);
+            //             //     }
+            //             // });
+            //         });
+            //     }
+            // }
+
+            // // for (var ai in ass_list) {
+            // //     if (ass_list.hasOwnProperty(ai)){
+            // //         var newassistantEl = createIconEl(ass_list[ai], 'ass');
+            // //         $.when($("#assistantlist").append(newassistantEl)).done(function(){
+            // //             // console.log($("button#btn-link-"+ass_list[ai]));
+            // //             $("button#btn-link-"+ass_list[ai]).on('click', function(){
+            // //                 var newLinkStatus;
+            // //                 if ($(this).hasClass("active")){
+            // //                     $(this).button('reset');
+            // //                     console.log("click link off");
+            // //                     newLinkStatus = "0";
+            // //                     updateLinkStatus("ass", ass_list[ai], newLinkStatus);
+            // //                 }else{
+            // //                     $(this).button('loading');
+            // //                     console.log("click Link on");
+            // //                     newLinkStatus = "2";
+            // //                     updateLinkStatus("ass", ass_list[ai], newLinkStatus);
+            // //                 }
+            // //             });
+            // //             $("button#btn-video-"+ass_list[ai]).on('click', function(){
+            // //                 var newVideoStatus;
+            // //                 if ($(this).hasClass("active")){
+            // //                     $(this).button('reset');
+            // //                     console.log("click video off");
+            // //                     newVideoStatus = "0";
+            // //                     updateVideoStatus("ass", ass_list[ai], newVideoStatus);
+            // //                 }else{
+            // //                     $(this).button('loading');
+            // //                     console.log("click video on");
+            // //                     newVideoStatus = "2";
+            // //                     updateVideoStatus("ass", ass_list[ai], newVideoStatus);
+            // //                 }
+            // //             });
+            // //             $("button#btn-sound-"+ass_list[ai]).on('click', function(){
+            // //                 var newSoundStatus;
+            // //                 if ($(this).hasClass("active")){
+            // //                     $(this).button('reset');
+            // //                     console.log("click Sound off");
+            // //                     newSoundStatus = "0";
+            // //                     updateSoundStatus("ass", ass_list[ai], newSoundStatus);
+            // //                 }else{
+            // //                     $(this).button('loading');
+            // //                     console.log("click Sound on");
+            // //                     newSoundStatus = "2";
+            // //                     updateSoundStatus("ass", ass_list[ai], newSoundStatus);
+            // //                 }
+            // //             });
+            // //         });
+            // //     }
+            // // }
+
+
+            // for (var si in stu_list) {
+            //     if (stu_list.hasOwnProperty(si)){
+            //         var newstudentEl = createIconEl(stu_list[si], 'stu');
+            //         $.when($("#studentlist").append(newstudentEl)).done(function(){
+            //             // console.log($("button#btn-link-"+stu_list[si]));
+            //             // $("button#btn-link-"+stu_list[si]).on('click', function(){
+            //             //     var newLinkStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click link off");
+            //             //         newLinkStatus = "0";
+            //             //         updateLinkStatus("stu", stu_list[si], newLinkStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click Link on");
+            //             //         newLinkStatus = "2";
+            //             //         updateLinkStatus("stu", stu_list[si], newLinkStatus);
+            //             //     }
+            //             // });
+            //             // $("button#btn-video-"+stu_list[si]).on('click', function(){
+            //             //     var newVideoStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click video off");
+            //             //         newVideoStatus = "0";
+            //             //         updateVideoStatus("stu", stu_list[si], newVideoStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click video on");
+            //             //         newVideoStatus = "2";
+            //             //         updateVideoStatus("stu", stu_list[si], newVideoStatus);
+            //             //     }
+            //             // });
+            //             // $("button#btn-sound-"+stu_list[si]).on('click', function(){
+            //             //     var newSoundStatus;
+            //             //     if ($(this).hasClass("active")){
+            //             //         $(this).button('reset');
+            //             //         console.log("click Sound off");
+            //             //         newSoundStatus = "0";
+            //             //         updateSoundStatus("stu", stu_list[si], newSoundStatus);
+            //             //     }else{
+            //             //         $(this).button('loading');
+            //             //         console.log("click Sound on");
+            //             //         newSoundStatus = "2";
+            //             //         updateSoundStatus("stu", stu_list[si], newSoundStatus);
+            //             //     }
+            //             // });
+            //         });
+            //     }
+            // }
+
+
+
+
+
 
 
 // // Update video status to status_val;
