@@ -6,7 +6,7 @@ var classstr;
 var classname;
 var username;
 var tea_list;
-var tealinkstatus_dict;
+// var tealinkstatus_dict;
 
 var roleid = 'stu';
 var rolecolor_tea = "#8A6D3B";
@@ -79,15 +79,15 @@ $("div#media-dialog").dialog({
 
 $(document).ready(function () {
 	"use strict";
-	$.post("/info/", {stulinkstatus:'0'}).then(function () {
-		$.getJSON('/info/',function(data){
+	$.post("/info/", {stulinkstatus:'0'}, function (data, status) {
+		if (status === "success") {
 			classid = data.classid;
 			userid = data.userid;
 			classstr = data.classstr;
 			classname = data.classname;
 			username = data.username;
 			tea_list = data.teacher;
-	        tealinkstatus_dict = data.tealinkstatuslist;
+	        // tealinkstatus_dict = data.tealinkstatuslist;
 
 		    console.log(classname);
 			$("title").text(classname);
@@ -103,9 +103,11 @@ $(document).ready(function () {
                 }
             }
 
-		});
+		}
 
 	});
+
+
 	// $(function () { $('#collapseOne').collapse('toggle')});
 	$(function () { $('#collapseFour').collapse('');});
 });
@@ -114,6 +116,38 @@ $(document).ready(function () {
 
 
 //PAGE VIEW CODE END
+
+
+
+
+	// $.post("/info/", {stulinkstatus:'0'}).then(function () {
+	// 	$.getJSON('/info/',function(data){
+	// 		classid = data.classid;
+	// 		userid = data.userid;
+	// 		classstr = data.classstr;
+	// 		classname = data.classname;
+	// 		username = data.username;
+	// 		tea_list = data.teacher;
+	//         tealinkstatus_dict = data.tealinkstatuslist;
+
+	// 	    console.log(classname);
+	// 		$("title").text(classname);
+	// 		$("span#classname").text(classname);
+	// 		$("span#username").text(username);
+
+	// 		$("div#livelist").append(createIconEl(username, "stu"));
+
+	// 		for (var ti in tea_list) {
+ //                if (tea_list.hasOwnProperty(ti)){
+ //                    var newteacherEl = createIconEl(tea_list[ti], 'tea');
+ //                    $("div#livelist").append(newteacherEl);
+ //                }
+ //            }
+
+	// 	});
+
+	// });
+
 
 
 

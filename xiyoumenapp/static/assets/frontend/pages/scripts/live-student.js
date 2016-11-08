@@ -73,23 +73,6 @@ $(document).ready(function () {
 
 });
 
-function showMediaPannel(event){
-    "use strict";
-    console.log(event);
-    // if (event.target.localName === "media-"+username) {
-    //     var pptname = event.target.innerText;
-    //     $.post("/ppt/", {pptinfo:pptname});
-    // }
-    // if (event.target.localName === "i") {
-
-    //     var pptname = event.target.nextSibling.innerText;
-    //     $.post("/ppt/", {pptinfo:pptname});
-    // }
-    // if (event.target.localName === "div") {
-    //     var pptname = event.target.children[1].innerText;
-    //     $.post("/ppt/", {pptinfo:pptname.toString()});
-    // }
-}
 
 function myConnected(token, roomName){
     "use strict";

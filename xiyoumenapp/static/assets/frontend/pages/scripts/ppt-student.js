@@ -23,36 +23,39 @@ function getPPTPosition(){
     }, false);
 }
 
-
-$.getJSON("/info/", function (data) {
+$(document).ready(function(){
     "use strict";
-    classstr = data.classstr;
-    classid = data.classid;
-}).then(function(){
-    "use strict";
-    $.getJSON("/ppt/", function(data){
-        pptname = data.pptinfo;
-    });
-
-    if (pptname){
-        console.log("pptname is " + pptname);
-        $("iframe#ppt-area").removeClass("hidden");
-        $("div#ppt-notice").addClass("hidden");
-        addPPT(classid, pptname);
-    }else{
-        var ppteventtype = "pptinfo" + classstr;
-        ppt_source.addEventListener(ppteventtype, function(event){
-            var data = JSON.parse(event.data);
+    $.getJSON("/info/", function (data) {
+        // "use strict";
+        classstr = data.classstr;
+        classid = data.classid;
+    }).then(function(){
+        // "use strict";
+        $.getJSON("/ppt/", function(data){
             pptname = data.pptinfo;
+        });
+
+        if (pptname){
             console.log("pptname is " + pptname);
             $("iframe#ppt-area").removeClass("hidden");
             $("div#ppt-notice").addClass("hidden");
             addPPT(classid, pptname);
-        });
-    }
+        }else{
+            var ppteventtype = "pptinfo" + classstr;
+            ppt_source.addEventListener(ppteventtype, function(event){
+                var data = JSON.parse(event.data);
+                pptname = data.pptinfo;
+                console.log("pptname is " + pptname);
+                $("iframe#ppt-area").removeClass("hidden");
+                $("div#ppt-notice").addClass("hidden");
+                addPPT(classid, pptname);
+            });
+        }
 
-    getPPTPosition();
+        getPPTPosition();
+    });
 });
+
 
 
 
